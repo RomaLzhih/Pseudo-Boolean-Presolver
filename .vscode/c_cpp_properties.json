@@ -1,0 +1,17 @@
+{
+    "configurations": [
+        {
+            "name": "Ubuntu",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/include/**",
+                "${workspaceFolder}/papilo/**",
+                // "${workspaceFolder}/papilo/src/papilo",
+                // "${workspaceFolder}/papilo/src/papilo/core",
+                // "${workspaceFolder}/papilo/src/papilo/misc",
+                "/usr/include/boost"
+            ]
+        }
+    ],
+    "version": 4
+}
