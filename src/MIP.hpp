@@ -39,7 +39,6 @@ public:
 	std::string writeConstraint(const papilo::SparseVectorView<T>& row,
 	                            const papilo::Vec<std::string>& varnames,
 	                            int flip, std::string op, T deg);
-
 private:
 // PaPILO
 	papilo::ProblemBuilder<T> builder;
