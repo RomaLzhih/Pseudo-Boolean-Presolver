@@ -1,7 +1,8 @@
 #include "buildMIPProblem.hpp"
 #include "runRoundingSat.hpp"
-#include "headFiles.hpp"
-#include "utils.hpp"
+
+#include <cstring>
+#include <iostream>
 
 /*
 FLOW CHART
@@ -26,9 +27,10 @@ int main(int argc, char *argv[]) {
     mSolver.runPresolve();
     mSolver.printDetailedProblem();
 
+    std::string info = mSolver.collectResult();
+
     // run roundingSat
-    pre::runRoundingSat<double> rSat;
-    //rSat.run();
+    pre::runRoundingSat::run(info);
 
     return 0;
 }

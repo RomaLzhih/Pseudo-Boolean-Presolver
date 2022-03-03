@@ -1,6 +1,17 @@
 #pragma once
 
-#include "headFiles.hpp"
+#include "papilo/core/ConstraintMatrix.hpp"
+#include "papilo/core/postsolve/Postsolve.hpp"
+#include "papilo/core/Presolve.hpp"
+#include "papilo/core/Problem.hpp"
+#include "papilo/core/ProblemBuilder.hpp"
+#include "papilo/core/PresolveMethod.hpp"
+#include "papilo/io/MpsParser.hpp"
+#include "papilo/misc/MultiPrecision.hpp"
+#include "papilo/misc/Vec.hpp"
+#include "papilo/misc/Wrappers.hpp"
+#include "catch/catch.hpp"
+
 #include "utils.hpp"
 
 namespace pre {
@@ -73,7 +84,7 @@ public:
 			// std::cout << s << std::endl;
 			if (s.empty()) {
 				continue;
-			} else if (s[0] == '*') {
+			} else if (s[0] == '*') { // TODO: add zeroOrMoreSpace
 				std::getline(infile, line);
 			} else if (s == ">=") {
 				infile >> RHS;
@@ -88,10 +99,13 @@ public:
 				builder.setRowRhs(row, getCoeff(RHS));
 			} else if (s == ";") {
 				row++;
+				// std::cout << "row: " << row << std::endl;
 			} else {
 				infile >> varName;
+				if (getCoeff(s) != 0) { // papilo doesn't allow add zero entry
+					builder.addEntry(row, varMap[varName], getCoeff(s));
+				}
 				// std::cout << s << " " << varName << std::endl;
-				builder.addEntry(row, varMap[varName], getCoeff(s));
 			}
 		}
 
@@ -106,29 +120,62 @@ public:
 		// TODO: add information for already solving
 	}
 
-	void collectResult() {
-		std::string s = "";
+	std::string collectResult() {
+		std::string str = "";
 
 		const papilo::ConstraintMatrix<T>& consmatrix = problem.getConstraintMatrix();
 		const papilo::Vec<std::string>& varnames = problem.getVariableNames();
-		const papilo::Vec<T>& lhs = consmatrix.getLeftHandSides();
+		const papilo::Objective<T>& objective = problem.getObjective();
+		const papilo::Vec<papilo::ColFlags>& col_flags = problem.getColFlags();
 		const papilo::Vec<papilo::RowFlags>& row_flags = problem.getRowFlags();
+		const papilo::Vec<T>& lhs = consmatrix.getLeftHandSides();
 		const papilo::Vec<T>& rhs = consmatrix.getRightHandSides();
 
-		s += "* #variable= " + std::to_string(consmatrix.getNCols())
-		     + " #constraints= " + std::to_string(consmatrix.getNRows())
-		     + "\n";
+		int nCols = consmatrix.getNCols();
+		int nRows = consmatrix.getNRows();
+
+		str += "* #variable= " + std::to_string(nCols)
+		       + " #constraint= " + std::to_string(nRows)
+		       + "\n";
 
 		// print objective
-		s += "min: ";
-		const papilo::Objective<T>objective = problem.getObjective();
+		str += "min: ";
 		const papilo::Vec<T>objCoeff = objective.coefficients;
 		for (int i = 0; i < objCoeff.size(); i++) {
-			s += num2String(objCoeff[i]) + " " + varnames[i] + " ";
+			str += signNum2StrDown(objCoeff[i]) + " " + varnames[i] + " ";
 		}
-		s += ";\n";
+		str += ";\n";
 
 		// print constraint
+		for (int i = 0; i < nRows; i++) {
+			const papilo::SparseVectorView<T>& row = consmatrix.getRowCoefficients(i);
+
+			const bool L = row_flags[i].test( papilo::RowFlag::kLhsInf) ? 1 : 0;
+			const bool R = row_flags[i].test( papilo::RowFlag::kRhsInf) ? 1 : 0;
+
+			if (!L && R) { // a <= x
+				str += writeConstraint(row, varnames, 1, ">=", lhs[i]);
+			} else if (L && !R) {// x <= b
+				str += writeConstraint(row, varnames, -1, ">=", (T)(-1 * rhs[i]));
+			} else if (!L && !R) {
+				if (lhs[i] == rhs[i]) { // a = x = b
+					str += writeConstraint(row, varnames, 1, "=", lhs[i]);
+				} else { // a <= x <= b, a != b
+					str += writeConstraint(row, varnames, 1, ">=", lhs[i]);
+					str += writeConstraint(row, varnames, -1, ">=", (T)(-1 * rhs[i]));
+				}
+			} else {
+				throw std::invalid_argument( "Row " + std::to_string(i)
+				                             + " contains invalid constraint. LhsInf: "
+				                             + std::to_string(row_flags[i].test( papilo::RowFlag::kLhsInf))
+				                             + " RhsInf: "
+				                             + std::to_string(row_flags[i].test( papilo::RowFlag::kRhsInf)));
+			}
+		}
+
+		//std::cout << str << std::endl;
+
+		return str + "END_OF_PRESOLVE\n";
 	}
 
 private:
@@ -145,13 +192,37 @@ private:
 		return num;
 	}
 
-	std::string num2String(T num) {
+	std::string signNum2StrUp(T num) {
 		std::string s = "";
 		if (num < 0) {
-			s += "-" + std::to_string(num);
+			s = std::to_string((int)ceil(num));
 		} else {
-			s += "+" + std::to_string(num);
+			s = "+" + std::to_string((int)ceil(num));
 		}
+		return s;
+	}
+
+	std::string signNum2StrDown(T num) {
+		std::string s = "";
+		if (num < 0) {
+			s = std::to_string((int)floor(num));
+		} else {
+			s = "+" + std::to_string((int)floor(num));
+		}
+		return s;
+	}
+
+	std::string writeConstraint(const papilo::SparseVectorView<T> & row,
+	                            const papilo::Vec<std::string>& varnames,
+	                            int flip, std::string op, T deg) {
+		const T* rowVals = row.getValues();
+		const int* indices = row.getIndices();
+		const auto len = row.getLength();
+		std::string s = "";
+		for ( int j = 0; j < len; j++) {
+			s += signNum2StrDown((T)(flip * rowVals[j])) + " " + varnames[indices[j]] + " ";
+		}
+		s += op + " " + signNum2StrUp(deg) + " ;\n";
 		return s;
 	}
 

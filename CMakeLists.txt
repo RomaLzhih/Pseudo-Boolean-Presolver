@@ -6,11 +6,12 @@ get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 message(STATUS "languages: ${languages}")
 
 include_directories(
-    include
+    src
     papilo/src
     papilo/external
 )
 
+# Boost
 SET (BOOST_ROOT "/usr/local/Cellar/boost/1.75.0_2")
 SET (BOOST_INCLUDEDIR "/usr/local/Cellar/boost/include/1.75.0_2")
 SET (BOOST_LIBRARYDIR "/usr/local/Cellar/boost/lib/1.75.0_2")
@@ -27,8 +28,7 @@ else()
   link_directories(${Boost_LIBRARY_DIRS})
 endif (NOT Boost_FOUND)
 
-# find_package(Boost 1.67 REQUIRED)
-# include_directories(${Boost_INCLUDE_DIRS})
+
 
 # include_directories(${Boost_INCLUDE_DIR})
 # link_directories(${Boost_LIBRARY_DIRS})

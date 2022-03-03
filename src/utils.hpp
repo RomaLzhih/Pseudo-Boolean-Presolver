@@ -78,14 +78,18 @@ void printDetailedProblem(papilo::Problem<T> prob) {
         const int* indices = row.getIndices();
         const auto len = row.getLength();
 
+        std::cout << "row " + std::to_string(i)
+                  << "     LInf: " << row_flags[i].test(papilo::RowFlag::kLhsInf) << "    l: " << lhs[i]
+                  << "     RInf: " << row_flags[i].test(papilo::RowFlag::kRhsInf) << "    r: " << rhs[i]
+                  << std::endl;
+
         for (int j = 0; j < len; ++j) {
             std::cout << std::setw(7) << varnames[indices[j]] << ":" << int(rowVals[j]);
         }
 
-        std::string op = row_flags[i].test( papilo::RowFlag::kLhsInf) ? "<=" : ">=";
-        std::cout << "  " << op << "  " << lhs[i];
         std::cout << std::endl;
     }
+    std::cout << "-------------- END Print ------------- " << std::endl;
 }
 
 template <typename T>
