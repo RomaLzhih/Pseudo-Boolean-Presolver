@@ -15,7 +15,7 @@
 namespace pre {
 namespace runRoundingSat {
 
-int run(std::string& info);
+int run(std::string& preInfo, std::string& infile);
 
 }// namespace runRoundingSat
 }// namespace pre

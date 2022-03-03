@@ -1,4 +1,4 @@
-#include "buildMIPProblem.hpp"
+#include "MIP.hpp"
 #include "runRoundingSat.hpp"
 
 #include <cstring>
@@ -27,10 +27,10 @@ int main(int argc, char *argv[]) {
     mSolver.runPresolve();
     mSolver.printDetailedProblem();
 
-    std::string info = mSolver.collectResult();
+    std::string preInfo = mSolver.collectResult();
 
     // run roundingSat
-    pre::runRoundingSat::run(info);
+    pre::runRoundingSat::run(preInfo, infile);
 
     return 0;
 }

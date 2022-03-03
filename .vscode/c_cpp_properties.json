@@ -3,14 +3,11 @@
         {
             "name": "Ubuntu",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/include/**",
-                "${workspaceFolder}/papilo/**",
-                // "${workspaceFolder}/papilo/src/papilo",
-                // "${workspaceFolder}/papilo/src/papilo/core",
-                // "${workspaceFolder}/papilo/src/papilo/misc",
-                "/usr/include/boost"
-            ]
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/papilo",
+                "/usr/include/boost/"
+            ],
+            "configurationProvider": "ms-vscode.cmake-tools"
         }
     ],
     "version": 4
