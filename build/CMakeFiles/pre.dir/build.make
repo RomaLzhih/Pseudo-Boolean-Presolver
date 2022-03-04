@@ -143,6 +143,8 @@ pre: CMakeFiles/pre.dir/build.make
 pre: /usr/lib/x86_64-linux-gnu/libboost_serialization.so
 pre: /usr/lib/x86_64-linux-gnu/libboost_program_options.so
 pre: /usr/lib/x86_64-linux-gnu/libboost_iostreams.so
+pre: /usr/lib/x86_64-linux-gnu/libboost_system.so
+pre: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
 pre: /usr/lib/x86_64-linux-gnu/libboost_regex.so
 pre: /usr/lib/x86_64-linux-gnu/libtbb.so.2
 pre: /usr/lib/x86_64-linux-gnu/libgmp.so

@@ -17,7 +17,7 @@ SET (BOOST_INCLUDEDIR "/usr/local/Cellar/boost/include/1.75.0_2")
 SET (BOOST_LIBRARYDIR "/usr/local/Cellar/boost/lib/1.75.0_2")
 
 set (Boost_NO_BOOST_CMAKE ON)
-find_package(Boost ${BOOST_MIN_VERSION} REQUIRED serialization program_options iostreams)
+find_package(Boost ${BOOST_MIN_VERSION} REQUIRED serialization program_options iostreams system filesystem)
 if (NOT Boost_FOUND)
   message(FATAL_ERROR "Fatal error: Boost (version >= 1.55) required.")
 else()
@@ -27,11 +27,6 @@ else()
   include_directories(${Boost_INCLUDE_DIRS})
   link_directories(${Boost_LIBRARY_DIRS})
 endif (NOT Boost_FOUND)
-
-
-
-# include_directories(${Boost_INCLUDE_DIR})
-# link_directories(${Boost_LIBRARY_DIRS})
 
 # Papilo
 add_subdirectory(papilo)
@@ -51,21 +46,7 @@ set(source_files
   ${PROJECT_SOURCE_DIR}/src/runRoundingSat.hpp
   )
 
-# SET (PAPILO_DIR "/${CMAKE_CURRENT_SOURCE_DIR}/../papilo/build")
-# find_package(PAPILO REQUIRED PATHS ${PAPILO_DIR})
-# include_directories(${papilo_INCLUDE_DIRS})
-# link_directories(${papilo_LIBRARY_DIRS})
-
-# message(STATUS "Setting up papilo")
-# message(STATUS " Includes - ${PAPILO_INCLUDE_DIRECTORIES}")
-# message(STATUS " Library  - ${PAPILO_DIR}")
-
-# foreach(dir ${papilo_LIBRARY_DIRS})
-#     message("a")
-# endforeach()
-
-
 add_executable(pre ${source_files})
-# target_include_directories(pre PRIVATE ${PROJECT_SOURCE_DIR}/src/)
+# target_include_directories(pre PRIVATE ${PROJECT_SOURCE_DIR}/src/ )
 target_link_libraries(pre ${PAPILO_IMPORTED_TARGETS} ${Boost_LIBRARIES})
 # target_link_libraries(PresolveOpb PRIVATE Boost::serialization)

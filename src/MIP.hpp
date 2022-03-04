@@ -25,9 +25,11 @@ public:
 
 	void setPara();
 
-	void runPresolve();
+	int runPresolve();
 
 	std::string collectResult();
+
+	void postSolve(std::string& rsSol);
 
 	// helper function
 	T getCoeff(std::string s);
@@ -48,3 +50,4 @@ private:
 };
 
 }  // namespace pre
+

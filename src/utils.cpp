@@ -1,8 +1,9 @@
 #include "utils.hpp"
 
 namespace pre {
+namespace utils {
 template <typename T>
-void utils::printAbstractProblem(papilo::Problem<T> prob) {
+void printAbstractProblem(papilo::Problem<T> prob) {
 	const papilo::ConstraintMatrix<T>& consmatrix = prob.getConstraintMatrix();
 	const papilo::Vec<std::string>& consnames = prob.getConstraintNames();
 	const papilo::Vec<std::string>& varnames = prob.getVariableNames();
@@ -24,7 +25,7 @@ void utils::printAbstractProblem(papilo::Problem<T> prob) {
 }
 
 template <typename T>
-void utils::printDetailedProblem(papilo::Problem<T> prob) {
+void printDetailedProblem(papilo::Problem<T> prob) {
 	const papilo::ConstraintMatrix<T>& consmatrix = prob.getConstraintMatrix();
 	const papilo::Vec<std::string>& consnames = prob.getConstraintNames();
 	const papilo::Vec<std::string>& varnames = prob.getVariableNames();
@@ -85,12 +86,17 @@ void utils::printDetailedProblem(papilo::Problem<T> prob) {
 }
 
 template <typename T>
-void utils::printVector(papilo::Vec<T> const& input) {
+void printVector(papilo::Vec<T> const& input) {
 	std::cout << "Vector size is: " << input.size() << std::endl;
 	for (int i = 0; i < input.size(); i++) {
 		std::cout << input.at(i) << ' ';
 	}
 	std::cout << std::endl;
+}
+
+template void printAbstractProblem<double>(papilo::Problem<double> prob);
+template void printDetailedProblem<double>(papilo::Problem<double> prob);
+template void printVector<double>(papilo::Vec<double> const& input);
 
 }// namespace utils
 }// namespace pre

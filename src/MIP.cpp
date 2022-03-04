@@ -1,10 +1,15 @@
+
 #include "MIP.hpp"
+#include <boost/algorithm/string.hpp>
 
 namespace pre {
 
 // main functionality
 template <typename T>
 void MIPPreSolver<T>::buildProblem(std::string inFileName) {
+	std::cout << "hello world" << std::endl;
+	std::cout << "hello world" << std::endl;
+
 	std::ifstream infile(inFileName);
 	std::string line;
 	std::getline(infile, line);
@@ -111,12 +116,12 @@ void MIPPreSolver<T>::setPara() {
 }
 
 template <typename T>
-void MIPPreSolver<T>::runPresolve() {
+int MIPPreSolver<T>::runPresolve() {
 	presolve.addDefaultPresolvers();
 	setPara();
 	result = presolve.apply(problem);
 	std::cout << utils::as_integer(result.status) << std::endl;
-	// TODO: add information for already solving
+	return (int) utils::as_integer(result.status);
 }
 
 template <typename T>
@@ -173,6 +178,44 @@ std::string MIPPreSolver<T>::collectResult() {
 	return str;
 }
 
+template <typename T>
+void MIPPreSolver<T>::postSolve(std::string& rsSol) {
+	papilo::Vec<T> reducedsolvals;
+	std::vector<std::string> sols;
+	boost::split(sols, rsSol, boost::is_any_of(" "), boost::token_compress_on);
+	for (auto s : sols) {
+		if (s[0] == '+' || s[0] == 'x') reducedsolvals.push_back(1);
+		else if (s[0] == '-') reducedsolvals.push_back(0);
+		else throw std::invalid_argument("INVALID ROUNDINGSAT SOLUTION");
+	}
+	if (reducedsolvals.size() != problem.getConstraintMatrix().getNCols()) {
+		throw std::invalid_argument("UNMACHED SOLUTION, REQUIRE: "
+		                            + std::to_string(problem.getConstraintMatrix().getNCols())
+		                            + " OBTAIN: " + std::to_string(reducedsolvals.size()));
+	}
+
+	const papilo::Num<double> num{};
+	papilo::Message msg{};
+	papilo::Postsolve<T> postsolve{msg, num};
+	papilo::Solution<T> reducedsol(std::move(reducedsolvals));
+	papilo::Solution<T> origsol;
+	PostsolveStatus status = postsolve.undo(reducedsol, origsol, result.postsolve);
+
+	if (status == PostsolveStatus::kOk) {
+		std::string sign = "";
+		for (int i = 0; i < origsol.primal.size(); i++) {
+			if ((int)origsol.primal.at(i) == 0) sign = "-";
+			else if ((int)origsol.primal.at(i) == 1) sign = "+";
+			else throw std::invalid_argument("ILLEGAL ORIGINAL SOLUTION");
+
+			std::cout << sign + "x" + std::to_string(i + 1) << " ";
+		}
+	} else {
+		throw std::invalid_argument("PaPILO POSTSOLVE FAILED");
+	}
+	return;
+}
+
 // helper function
 template <typename T>
 T MIPPreSolver<T>::getCoeff(std::string s) {
@@ -211,8 +254,8 @@ std::string MIPPreSolver<T>::signNum2StrDown(T num) {
 
 template <typename T>
 std::string MIPPreSolver<T>::writeConstraint(const papilo::SparseVectorView<T>& row,
-        const papilo::Vec<std::string>& varnames,
-        int flip, std::string op, T deg) {
+                const papilo::Vec<std::string>& varnames,
+                int flip, std::string op, T deg) {
 	const T* rowVals = row.getValues();
 	const int* indices = row.getIndices();
 	const auto len = row.getLength();
@@ -223,5 +266,7 @@ std::string MIPPreSolver<T>::writeConstraint(const papilo::SparseVectorView<T>& 
 	s += op + " " + signNum2StrUp(deg) + " ;\n";
 	return s;
 }
+
+template class MIPPreSolver<double>;
 
 }  // namespace pre
