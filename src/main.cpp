@@ -30,7 +30,10 @@ int main(int argc, char *argv[]) {
     std::string preInfo = mSolver.collectResult();
 
     // run roundingSat
-    pre::runRoundingSat::run(preInfo, infile);
+    std::string rsSol = pre::runRoundingSat::run(preInfo, infile);
+
+    // postsolve
+    mSolver.postSolve(rsSol);
 
     return 0;
 }

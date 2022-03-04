@@ -1,6 +1,7 @@
 #pragma once
 
 #include "utils.hpp"
+#include <boost/algorithm/string.hpp>
 
 namespace pre {
 
@@ -25,8 +26,8 @@ public:
 		std::ifstream infile(inFileName);
 		std::string line;
 		std::getline(infile, line);
-		std::string colNumStr = line.substr(line.find_first_of("=") + 2);
-		std::string rowNumStr = line.substr(line.find_last_of("=") + 2);
+		std::string colNumStr = line.substr(line.find_first_of(" = ") + 2);
+		std::string rowNumStr = line.substr(line.find_last_of(" = ") + 2);
 		int colNum = std::stoi(colNumStr.substr(0, colNumStr.find_first_of(" ")));
 		int rowNum = std::stoi(rowNumStr);
 
@@ -60,7 +61,7 @@ public:
 
 		// build objective
 		while (infile >> s) {
-			if (s == ";") {
+			if (s == "; ") {
 				break;
 			}
 			infile >> varName;
@@ -77,18 +78,18 @@ public:
 				continue;
 			} else if (s[0] == '*') {  // TODO: add zeroOrMoreSpace
 				std::getline(infile, line);
-			} else if (s == ">=") {
+			} else if (s == " >= ") {
 				infile >> RHS;
 				builder.setRowLhsInf(row, false);
 				builder.setRowRhsInf(row, true);
 				builder.setRowLhs(row, getCoeff(RHS));
-			} else if (s == "=") {
+			} else if (s == " = ") {
 				infile >> RHS;
 				builder.setRowLhsInf(row, false);
 				builder.setRowRhsInf(row, false);
 				builder.setRowLhs(row, getCoeff(RHS));
 				builder.setRowRhs(row, getCoeff(RHS));
-			} else if (s == ";") {
+			} else if (s == "; ") {
 				row++;
 				// std::cout << "row: " << row << std::endl;
 			} else {
@@ -105,7 +106,7 @@ public:
 	}
 
 	void setPara() {
-		std::string paraPath = "../parameters.opb.txt";
+		std::string paraPath = ".. / parameters.opb.txt";
 		std::ifstream infile(paraPath);
 		std::cout << infile.is_open() << std::endl;
 
@@ -115,7 +116,7 @@ public:
 
 		while (std::getline(infile, line)) {
 			if (line.empty() || line[0] == '#') continue;
-			int pos = line.find_first_of("=");
+			int pos = line.find_first_of(" = ");
 			std::string para = line.substr(0, pos - 1);
 			std::string val = line.substr(pos + 2);
 			std::cout << para << " " << val << std::endl;
@@ -157,7 +158,7 @@ public:
 		for (int i = 0; i < objCoeff.size(); i++) {
 			str += signNum2StrDown(objCoeff[i]) + " " + varnames[i] + " ";
 		}
-		str += ";\n";
+		str += "; \n";
 
 		// print constraint
 		for (int i = 0; i < nRows; i++) {
@@ -167,15 +168,15 @@ public:
 			const bool R = row_flags[i].test(papilo::RowFlag::kRhsInf) ? 1 : 0;
 
 			if (!L && R) {  // a <= x
-				str += writeConstraint(row, varnames, 1, ">=", lhs[i]);
+				str += writeConstraint(row, varnames, 1, " >= ", lhs[i]);
 			} else if (L && !R) {  // x <= b
-				str += writeConstraint(row, varnames, -1, ">=", (T)(-1 * rhs[i]));
+				str += writeConstraint(row, varnames, -1, " >= ", (T)(-1 * rhs[i]));
 			} else if (!L && !R) {
 				if (lhs[i] == rhs[i]) {  // a = x = b
-					str += writeConstraint(row, varnames, 1, "=", lhs[i]);
+					str += writeConstraint(row, varnames, 1, " = ", lhs[i]);
 				} else {  // a <= x <= b, a != b
-					str += writeConstraint(row, varnames, 1, ">=", lhs[i]);
-					str += writeConstraint(row, varnames, -1, ">=", (T)(-1 * rhs[i]));
+					str += writeConstraint(row, varnames, 1, " >= ", lhs[i]);
+					str += writeConstraint(row, varnames, -1, " >= ", (T)(-1 * rhs[i]));
 				}
 			} else {
 				throw std::invalid_argument("Row " + std::to_string(i) + " contains invalid constraint. LhsInf: " + std::to_string(row_flags[i].test(papilo::RowFlag::kLhsInf)) + " RhsInf: " + std::to_string(row_flags[i].test(papilo::RowFlag::kRhsInf)));
@@ -187,6 +188,44 @@ public:
 		return str;
 	}
 
+	void postSolve(std::string& rsSol) {
+		papilo::Vec<T> reducedsolvals;
+		std::vector<std::string> sols;
+		boost::split(sols, rsSol, boost::is_any_of(" "), boost::token_compress_on);
+		for (auto s : sols) {
+			if (s[0] == '+' || s[0] == 'x') reducedsolvals.push_back(1);
+			else if (s[0] == '-') reducedsolvals.push_back(0);
+			else throw std::invalid_argument("INVALID ROUNDINGSAT SOLUTION");
+		}
+		if (reducedsolvals.size() != problem.getConstraintMatrix().getNCols()) {
+			throw std::invalid_argument("UNMACHED SOLUTION, REQUIRE: "
+			                            + std::to_string(problem.getConstraintMatrix().getNCols())
+			                            + " OBTAIN: " + std::to_string(reducedsolvals.size()));
+		}
+
+		const papilo::Num<double> num{};
+		papilo::Message msg{};
+		papilo::Postsolve<T> postsolve{msg, num};
+		papilo::Solution<T> reducedsol(std::move(reducedsolvals));
+		papilo::Solution<T> origsol;
+		PostsolveStatus status = postsolve.undo(reducedsol, origsol, result.postsolve);
+
+		if (status == PostsolveStatus::kOk) {
+			std::string sign = "";
+			for (int i = 0; i < origsol.primal.size(); i++) {
+				if ((int)origsol.primal.at(i) == 0) sign = "-";
+				else if ((int)origsol.primal.at(i) == 1) sign = "+";
+				else throw std::invalid_argument("ILLEGAL ORIGINAL SOLUTION");
+
+				std::cout << sign + "x" + std::to_string(i + 1) << " ";
+			}
+		} else {
+			throw std::invalid_argument("PaPILO POSTSOLVE FAILED");
+		}
+		return;
+	}
+
+private:
 	// helper function
 	T getCoeff(std::string s) {
 		T num;
@@ -205,7 +244,7 @@ public:
 		if (num < 0) {
 			s = std::to_string((int)ceil(num));
 		} else {
-			s = "+" + std::to_string((int)ceil(num));
+			s = " + " + std::to_string((int)ceil(num));
 		}
 		return s;
 	}
@@ -215,7 +254,7 @@ public:
 		if (num < 0) {
 			s = std::to_string((int)floor(num));
 		} else {
-			s = "+" + std::to_string((int)floor(num));
+			s = " + " + std::to_string((int)floor(num));
 		}
 		return s;
 	}
@@ -230,12 +269,11 @@ public:
 		for (int j = 0; j < len; j++) {
 			s += signNum2StrDown((T)(flip * rowVals[j])) + " " + varnames[indices[j]] + " ";
 		}
-		s += op + " " + signNum2StrUp(deg) + " ;\n";
+		s += op + " " + signNum2StrUp(deg) + " ; \n";
 		return s;
 	}
 
-private:
-// PaPILO
+	// PaPILO
 	papilo::ProblemBuilder<T> builder;
 	papilo::Problem<T> problem;
 	papilo::Presolve<T> presolve;

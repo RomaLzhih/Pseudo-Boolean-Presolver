@@ -2,15 +2,15 @@
 
 namespace pre {
 
-int runRoundingSat::run(std::string& preInfo, std::string& infile) {
-	std::cout << preInfo << std::endl;
+std::string runRoundingSat::run(std::string& preInfo, std::string& infile) {
+	// std::cout << preInfo << std::endl;
 
 	namespace bp = boost::process;
 
 	while (*infile.rbegin() != '.') infile.pop_back();
 	infile.pop_back();
 
-	std::cout << infile << std::endl;
+	// std::cout << infile << std::endl;
 
 	std::string newInsPath = infile + "_solved.opb";
 	std::string roundingSat = "/mnt/d/aMain/0-RoundingSat/roundingsat-master/build/roundingsat";
@@ -30,13 +30,19 @@ int runRoundingSat::run(std::string& preInfo, std::string& infile) {
 	pipin << preInfo;
 
 	std::string line;
+	std::string sol;
 
 	std::cout << "retrive information .. " << std::endl;
-	while (pipout && std::getline(pipout, line) && !line.empty())
+	while (pipout && std::getline(pipout, line) && !line.empty()) {
 		std::cout << line << std::endl;
+		if (line.empty() || line[0] == 'c' || line[0] == 's')  continue;
+		else if (line[0] == 'v') sol = line.substr(2);
+		else continue; // may print other information
+	}
 
 	c.wait();
-	return c.exit_code();
+	// return c.exit_code();
+	return sol;
 }
 
 } // namespace pre
