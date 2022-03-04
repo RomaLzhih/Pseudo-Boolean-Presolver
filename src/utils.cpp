@@ -1,5 +1,6 @@
 #include "utils.hpp"
 
+namespace pre {
 template <typename T>
 void utils::printAbstractProblem(papilo::Problem<T> prob) {
 	const papilo::ConstraintMatrix<T>& consmatrix = prob.getConstraintMatrix();
@@ -90,4 +91,6 @@ void utils::printVector(papilo::Vec<T> const& input) {
 		std::cout << input.at(i) << ' ';
 	}
 	std::cout << std::endl;
-}
+
+}// namespace utils
+}// namespace pre

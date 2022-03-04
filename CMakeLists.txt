@@ -42,13 +42,13 @@ find_package(PAPILO CONFIG)
 
 # file(GLOB SOURCES "src/*.cpp")
 set(source_files
-  src/main.cpp
+  src/utils.cpp
   src/MIP.cpp
   src/runRoundingSat.cpp
-  src/utils.cpp
+  src/main.cpp
+  ${PROJECT_SOURCE_DIR}/src/utils.hpp
   ${PROJECT_SOURCE_DIR}/src/MIP.hpp
   ${PROJECT_SOURCE_DIR}/src/runRoundingSat.hpp
-  ${PROJECT_SOURCE_DIR}/src/utils.hpp
   )
 
 # SET (PAPILO_DIR "/${CMAKE_CURRENT_SOURCE_DIR}/../papilo/build")

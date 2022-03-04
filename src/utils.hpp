@@ -19,6 +19,7 @@
 #include <unordered_map>
 #include <cmath>
 
+namespace pre {
 namespace utils {
 
 template <typename Enumeration>
@@ -37,3 +38,4 @@ template <typename T>
 void printVector(papilo::Vec<T> const& input);
 
 }  // namespace utils
+}  // namespace pre
