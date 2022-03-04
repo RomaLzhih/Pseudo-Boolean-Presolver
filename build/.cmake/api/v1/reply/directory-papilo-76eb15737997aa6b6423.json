@@ -1,0 +1,390 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install"
+		],
+		"files" : 
+		[
+			"papilo/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 247,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 252,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 256,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 278,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 288,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 295,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 303,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 329,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 349,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 365,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 369,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 375,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 391,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 394,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 399,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 402,
+				"parent" : 0
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 423,
+				"parent" : 0
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 1,
+			"component" : "Unspecified",
+			"destination" : "include/papilo",
+			"paths" : 
+			[
+				"build/papilo/papilo/CMakeConfig.hpp",
+				"papilo/src/papilo/Config.hpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 2,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/papilo",
+			"paths" : 
+			[
+				"build/papilo-config-version.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : "include/papilo/core",
+			"paths" : 
+			[
+				"papilo/src/papilo/core/Components.hpp",
+				"papilo/src/papilo/core/ConstraintMatrix.hpp",
+				"papilo/src/papilo/core/MatrixBuffer.hpp",
+				"papilo/src/papilo/core/Objective.hpp",
+				"papilo/src/papilo/core/Presolve.hpp",
+				"papilo/src/papilo/core/PresolveMethod.hpp",
+				"papilo/src/papilo/core/PresolveOptions.hpp",
+				"papilo/src/papilo/core/ProbingView.hpp",
+				"papilo/src/papilo/core/Problem.hpp",
+				"papilo/src/papilo/core/ProblemBuilder.hpp",
+				"papilo/src/papilo/core/ProblemUpdate.hpp",
+				"papilo/src/papilo/core/Reductions.hpp",
+				"papilo/src/papilo/core/RowFlags.hpp",
+				"papilo/src/papilo/core/SingleRow.hpp",
+				"papilo/src/papilo/core/Solution.hpp",
+				"papilo/src/papilo/core/SparseStorage.hpp",
+				"papilo/src/papilo/core/Statistics.hpp",
+				"papilo/src/papilo/core/VariableDomains.hpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 4,
+			"component" : "Unspecified",
+			"destination" : "include/papilo/core/postsolve",
+			"paths" : 
+			[
+				"papilo/src/papilo/core/postsolve/BoundStorage.hpp",
+				"papilo/src/papilo/core/postsolve/PostsolveStorage.hpp",
+				"papilo/src/papilo/core/postsolve/Postsolve.hpp",
+				"papilo/src/papilo/core/postsolve/PostsolveStatus.hpp",
+				"papilo/src/papilo/core/postsolve/PostsolveType.hpp",
+				"papilo/src/papilo/core/postsolve/ReductionType.hpp",
+				"papilo/src/papilo/core/postsolve/SavedRow.hpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 5,
+			"component" : "Unspecified",
+			"destination" : "include/papilo/interfaces",
+			"paths" : 
+			[
+				"papilo/src/papilo/interfaces/HighsInterface.hpp",
+				"papilo/src/papilo/interfaces/ScipInterface.hpp",
+				"papilo/src/papilo/interfaces/SolverInterface.hpp",
+				"papilo/src/papilo/interfaces/SoplexInterface.hpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 6,
+			"component" : "Unspecified",
+			"destination" : "include/papilo/io",
+			"paths" : 
+			[
+				"papilo/src/papilo/io/Message.hpp",
+				"papilo/src/papilo/io/MpsParser.hpp",
+				"papilo/src/papilo/io/MpsWriter.hpp",
+				"papilo/src/papilo/io/SolParser.hpp",
+				"papilo/src/papilo/io/SolWriter.hpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 7,
+			"component" : "Unspecified",
+			"destination" : "include/papilo/misc",
+			"paths" : 
+			[
+				"papilo/src/papilo/misc/Alloc.hpp",
+				"papilo/src/papilo/misc/Array.hpp",
+				"papilo/src/papilo/misc/compress_vector.hpp",
+				"papilo/src/papilo/misc/DependentRows.hpp",
+				"papilo/src/papilo/misc/Flags.hpp",
+				"papilo/src/papilo/misc/tbb.hpp",
+				"papilo/src/papilo/misc/fmt.hpp",
+				"papilo/src/papilo/misc/Hash.hpp",
+				"papilo/src/papilo/misc/MultiPrecision.hpp",
+				"papilo/src/papilo/misc/Num.hpp",
+				"papilo/src/papilo/misc/NumericalStatistics.hpp",
+				"papilo/src/papilo/misc/PrimalDualSolValidation.hpp",
+				"papilo/src/papilo/misc/OptionsParser.hpp",
+				"papilo/src/papilo/misc/VersionLogger.hpp",
+				"papilo/src/papilo/misc/ParameterSet.hpp",
+				"papilo/src/papilo/misc/Signature.hpp",
+				"papilo/src/papilo/misc/StableSum.hpp",
+				"papilo/src/papilo/misc/String.hpp",
+				"papilo/src/papilo/misc/Timer.hpp",
+				"papilo/src/papilo/misc/Validation.hpp",
+				"papilo/src/papilo/misc/Vec.hpp",
+				"papilo/src/papilo/misc/VectorUtils.hpp",
+				"papilo/src/papilo/misc/Wrappers.hpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 8,
+			"component" : "Unspecified",
+			"destination" : "include/papilo/presolvers",
+			"paths" : 
+			[
+				"papilo/src/papilo/presolvers/CoefficientStrengthening.hpp",
+				"papilo/src/papilo/presolvers/ConstraintPropagation.hpp",
+				"papilo/src/papilo/presolvers/DominatedCols.hpp",
+				"papilo/src/papilo/presolvers/DualFix.hpp",
+				"papilo/src/papilo/presolvers/DualInfer.hpp",
+				"papilo/src/papilo/presolvers/FixContinuous.hpp",
+				"papilo/src/papilo/presolvers/FreeVarSubstitution.hpp",
+				"papilo/src/papilo/presolvers/ImplIntDetection.hpp",
+				"papilo/src/papilo/presolvers/ParallelColDetection.hpp",
+				"papilo/src/papilo/presolvers/ParallelRowDetection.hpp",
+				"papilo/src/papilo/presolvers/Probing.hpp",
+				"papilo/src/papilo/presolvers/SimpleProbing.hpp",
+				"papilo/src/papilo/presolvers/SimpleSubstitution.hpp",
+				"papilo/src/papilo/presolvers/SimplifyInequalities.hpp",
+				"papilo/src/papilo/presolvers/SingletonCols.hpp",
+				"papilo/src/papilo/presolvers/SingletonStuffing.hpp",
+				"papilo/src/papilo/presolvers/Sparsify.hpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 9,
+			"component" : "Unspecified",
+			"destination" : "include/papilo-external/fmt",
+			"paths" : 
+			[
+				"papilo/external/fmt/chrono.h",
+				"papilo/external/fmt/color.h",
+				"papilo/external/fmt/compile.h",
+				"papilo/external/fmt/core.h",
+				"papilo/external/fmt/format.h",
+				"papilo/external/fmt/format-inl.h",
+				"papilo/external/fmt/locale.h",
+				"papilo/external/fmt/ostream.h",
+				"papilo/external/fmt/posix.h",
+				"papilo/external/fmt/printf.h",
+				"papilo/external/fmt/ranges.h",
+				"papilo/external/fmt/format.cc",
+				"papilo/external/fmt/posix.cc"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 10,
+			"component" : "Unspecified",
+			"destination" : "include/papilo-external/pdqsort",
+			"paths" : 
+			[
+				"papilo/external/pdqsort/pdqsort.h"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 11,
+			"component" : "Unspecified",
+			"destination" : "include/papilo-external/ska",
+			"paths" : 
+			[
+				"papilo/external/ska/bytell_hash_map.hpp",
+				"papilo/external/ska/flat_hash_map.hpp",
+				"papilo/external/ska/unordered_map.hpp"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 12,
+			"component" : "Unspecified",
+			"destination" : "include/papilo-external/lusol",
+			"paths" : 
+			[
+				"papilo/external/lusol/clusol.h"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 13,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/papilo",
+			"paths" : 
+			[
+				"build/papilo/CMakeFiles/papilo-config.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 14,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/papilo",
+			"paths" : 
+			[
+				"papilo/cmake/Modules/FindQuadmath.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 15,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/papilo",
+			"paths" : 
+			[
+				"build/papilo/CMakeFiles/papilo-config.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 16,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/papilo",
+			"paths" : 
+			[
+				"papilo/cmake/Modules/FindTBB.cmake"
+			],
+			"type" : "file"
+		},
+		{
+			"backtrace" : 17,
+			"component" : "Unspecified",
+			"destination" : "lib/cmake/papilo",
+			"exportName" : "papilo-targets",
+			"exportTargets" : 
+			[
+				{
+					"id" : "papilo::@9d6f751e4e7a8a8295d0",
+					"index" : 0
+				}
+			],
+			"paths" : 
+			[
+				"papilo/CMakeFiles/Export/lib/cmake/papilo/papilo-targets.cmake"
+			],
+			"type" : "export"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "papilo",
+		"source" : "papilo"
+	}
+}

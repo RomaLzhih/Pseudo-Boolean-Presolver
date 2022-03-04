@@ -1,0 +1,175 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"build" : "papilo",
+					"childIndexes" : 
+					[
+						2,
+						3
+					],
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-papilo-76eb15737997aa6b6423.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.11.0"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "papilo",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "papilo/binaries",
+					"jsonFile" : "directory-papilo.binaries-4008c57eda842ec27002.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.11.0"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "papilo/binaries",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						3
+					]
+				},
+				{
+					"build" : "papilo/test",
+					"jsonFile" : "directory-papilo.test-25ea560d021dbf8b885b.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.11.0"
+					},
+					"parentIndex" : 1,
+					"projectIndex" : 1,
+					"source" : "papilo/test",
+					"targetIndexes" : 
+					[
+						5
+					]
+				}
+			],
+			"name" : "",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "pre",
+					"targetIndexes" : 
+					[
+						4
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"name" : "papilo",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2,
+						3,
+						5
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 2,
+					"id" : "convMPS::@557f3d049829b24b98c8",
+					"jsonFile" : "target-convMPS-2cd3162ef66e27107328.json",
+					"name" : "convMPS",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "duplicates::@557f3d049829b24b98c8",
+					"jsonFile" : "target-duplicates-44300dcf9b41fcef5fa2.json",
+					"name" : "duplicates",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "papilo-core::@9d6f751e4e7a8a8295d0",
+					"jsonFile" : "target-papilo-core-62ab097b8c37b234ca54.json",
+					"name" : "papilo-core",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "papilo-executable::@557f3d049829b24b98c8",
+					"jsonFile" : "target-papilo-executable-7c461cd09ee84ae078e2.json",
+					"name" : "papilo-executable",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "pre::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-pre-49f99b0267de8b547bbb.json",
+					"name" : "pre",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 3,
+					"id" : "unit_test::@dcc4c4e241e7a2248707",
+					"jsonFile" : "target-unit_test-a5113ae3d4816df36208.json",
+					"name" : "unit_test",
+					"projectIndex" : 1
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/mnt/d/aMain/4-pre/pre/build",
+		"source" : "/mnt/d/aMain/4-pre/pre"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 3
+	}
+}

@@ -40,16 +40,16 @@ set(PAPILO_DIR ${CMAKE_BINARY_DIR})
 find_package(PAPILO CONFIG)
 
 
-# file(GLOB SOURCES "src/*.cpp")
-set(source_files
-  src/main.cpp
-  src/MIP.cpp
-  src/runRoundingSat.cpp
-  src/utils.cpp
-  ${PROJECT_SOURCE_DIR}/src/MIP.hpp
-  ${PROJECT_SOURCE_DIR}/src/runRoundingSat.hpp
-  ${PROJECT_SOURCE_DIR}/src/utils.hpp
-  )
+file(GLOB SOURCES "src/*.cpp")
+# set(source_files
+#   src/main.cpp
+#   src/MIP.cpp
+#   src/runRoundingSat.cpp
+#   src/utils.cpp
+#   ${PROJECT_SOURCE_DIR}/src/MIP.hpp
+#   ${PROJECT_SOURCE_DIR}/src/runRoundingSat.hpp
+#   ${PROJECT_SOURCE_DIR}/src/utils.hpp
+#   )
 
 # SET (PAPILO_DIR "/${CMAKE_CURRENT_SOURCE_DIR}/../papilo/build")
 # find_package(PAPILO REQUIRED PATHS ${PAPILO_DIR})
@@ -65,7 +65,7 @@ set(source_files
 # endforeach()
 
 
-add_executable(pre ${source_files})
-# target_include_directories(pre PRIVATE ${PROJECT_SOURCE_DIR}/src/)
+add_executable(pre ${SOURCES})
+target_include_directories(pre PRIVATE ${PROJECT_SOURCE_DIR}/src/)
 target_link_libraries(pre ${PAPILO_IMPORTED_TARGETS} ${Boost_LIBRARIES})
 # target_link_libraries(PresolveOpb PRIVATE Boost::serialization)
