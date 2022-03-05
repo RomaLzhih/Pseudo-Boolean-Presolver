@@ -7,10 +7,11 @@ namespace pre {
 // main functionality
 template <typename T>
 void MIPPreSolver<T>::buildProblem(std::string inFileName) {
-	std::cout << "hello world" << std::endl;
-	std::cout << "hello world" << std::endl;
-
 	std::ifstream infile(inFileName);
+	if (infile.fail()) {
+		throw std::invalid_argument("INVALID PROBLEM FILE NAME");
+	}
+
 	std::string line;
 	std::getline(infile, line);
 	std::string colNumStr = line.substr(line.find_first_of("=") + 2);
@@ -96,7 +97,9 @@ template <typename T>
 void MIPPreSolver<T>::setPara() {
 	std::string paraPath = "../parameters.opb.txt";
 	std::ifstream infile(paraPath);
-	std::cout << infile.is_open() << std::endl;
+	if (infile.fail()) {
+		throw std::invalid_argument("INVALID PARAMETER FILE");
+	}
 
 	std::string line;
 
@@ -107,7 +110,7 @@ void MIPPreSolver<T>::setPara() {
 		int pos = line.find_first_of("=");
 		std::string para = line.substr(0, pos - 1);
 		std::string val = line.substr(pos + 2);
-		std::cout << para << " " << val << std::endl;
+		//std::cout << para << " " << val << std::endl;
 		paramset.parseParameter(para.c_str(), val.c_str());
 	}
 
@@ -120,7 +123,6 @@ int MIPPreSolver<T>::runPresolve() {
 	presolve.addDefaultPresolvers();
 	setPara();
 	result = presolve.apply(problem);
-	std::cout << utils::as_integer(result.status) << std::endl;
 	return (int) utils::as_integer(result.status);
 }
 
@@ -201,18 +203,21 @@ void MIPPreSolver<T>::postSolve(std::string& rsSol) {
 	papilo::Solution<T> origsol;
 	PostsolveStatus status = postsolve.undo(reducedsol, origsol, result.postsolve);
 
+	std::cout << "Postsolve objective: " << problem.computeSolObjective(origsol.primal) << std::endl;
 	if (status == PostsolveStatus::kOk) {
 		std::string sign = "";
 		for (int i = 0; i < origsol.primal.size(); i++) {
 			if ((int)origsol.primal.at(i) == 0) sign = "-";
 			else if ((int)origsol.primal.at(i) == 1) sign = "+";
-			else throw std::invalid_argument("ILLEGAL ORIGINAL SOLUTION");
+			else throw std::invalid_argument("ILLEGAL ORIGINAL SOLUTION: NON-BOOLEAN");
 
 			std::cout << sign + "x" + std::to_string(i + 1) << " ";
 		}
 	} else {
 		throw std::invalid_argument("PaPILO POSTSOLVE FAILED");
 	}
+
+	std::cout << std::endl;
 	return;
 }
 

@@ -17,10 +17,8 @@ void printAbstractProblem(papilo::Problem<T> prob) {
 
 	std::cout << "n vars: " << consmatrix.getNCols() << std::endl;
 	std::cout << "m constraints: " << consmatrix.getNRows() << std::endl;
-	std::cout << "n integer vars: " << prob.getNumIntegralCols() << std::endl;
-	std::cout << "n continuous vars: " << prob.getNumIntegralCols() << std::endl;
-	std::cout << "Variable Names: " << std::endl;
-
+	// std::cout << "n integer vars: " << prob.getNumIntegralCols() << std::endl;
+	// std::cout << "n continuous vars: " << prob.getNumIntegralCols() << std::endl;
 	return;
 }
 

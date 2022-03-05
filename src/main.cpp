@@ -23,17 +23,19 @@ int main(int argc, char *argv[]) {
     pre::MIPPreSolver<double> mSolver;
     mSolver.buildProblem(infile);
     papilo::Problem<double> problem = mSolver.getOriginalProblem();
+    // mSolver.printAbstractProblem();
     int status = mSolver.runPresolve();
-    mSolver.printDetailedProblem();
 
     std::cout << "MIP Presolve status: " << status << std::endl;
     std::string preInfo = mSolver.collectResult();
 
     // run roundingSat
+    std::cout << "Running roundingSat .. " << std::endl;
     std::string rsSol = pre::runRoundingSat::run(preInfo, infile);
 
     // postsolve
-    // mSolver.postSolve(rsSol);
+    std::cout << "Start postsolve .. " << std::endl;
+    mSolver.postSolve(rsSol);
 
     return 0;
 }
