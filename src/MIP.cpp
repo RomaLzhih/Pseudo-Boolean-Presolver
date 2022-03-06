@@ -188,7 +188,7 @@ void MIPPreSolver<T>::postSolve(std::string& rsSol) {
 	for (auto s : sols) {
 		if (s[0] == '+' || s[0] == 'x') reducedsolvals.push_back(1);
 		else if (s[0] == '-') reducedsolvals.push_back(0);
-		else throw std::invalid_argument("INVALID ROUNDINGSAT SOLUTION");
+		else throw std::invalid_argument("INVALID ROUNDINGSAT SOLUTION: NON +/-/x");
 	}
 	if (reducedsolvals.size() != problem.getConstraintMatrix().getNCols()) {
 		throw std::invalid_argument("UNMACHED SOLUTION, REQUIRE: "
@@ -201,14 +201,15 @@ void MIPPreSolver<T>::postSolve(std::string& rsSol) {
 	papilo::Postsolve<T> postsolve{msg, num};
 	papilo::Solution<T> reducedsol(std::move(reducedsolvals));
 	papilo::Solution<T> origsol;
+	std::cout << "start undo" << std::endl;
 	PostsolveStatus status = postsolve.undo(reducedsol, origsol, result.postsolve);
 
-	std::cout << "Postsolve objective: " << problem.computeSolObjective(origsol.primal) << std::endl;
+	//std::cout << "Postsolve objective: " << problem.computeSolObjective(origsol.primal) << std::endl;
 	if (status == PostsolveStatus::kOk) {
-		std::string sign = "";
+		std::string sign;
 		for (int i = 0; i < origsol.primal.size(); i++) {
 			if ((int)origsol.primal.at(i) == 0) sign = "-";
-			else if ((int)origsol.primal.at(i) == 1) sign = "+";
+			else if ((int)origsol.primal.at(i) == 1) sign = "";
 			else throw std::invalid_argument("ILLEGAL ORIGINAL SOLUTION: NON-BOOLEAN");
 
 			std::cout << sign + "x" + std::to_string(i + 1) << " ";
