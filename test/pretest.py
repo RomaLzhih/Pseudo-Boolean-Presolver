@@ -48,7 +48,9 @@ hardIns = ["air02.opb", "air03.opb", "air04.opb",
 if __name__ == '__main__':
 	files = os.listdir(preInsLoc)
 	T = 3600
-	for file in hardIns:
+	for file in files:
+		f1 = open("../test/logger.txt", "a")
+  
 		if file[-8:] == '.pre.opb':
 			continue
 		print(file, ": ")
@@ -62,7 +64,8 @@ if __name__ == '__main__':
 		except subprocess.TimeoutExpired:
 			print("timeout")
 		end = timer()
-		print(end-start)
+		preTime = end-start
+		print(preTime)
 		lines = preOut.split('\n')
 		preStat, preObj, preSol = preParser(lines)
 
@@ -76,7 +79,8 @@ if __name__ == '__main__':
 		except subprocess.TimeoutExpired:
 			print("timeout")
 		end = timer()
-		print(end-start)
+		rsTime = end-start
+		print(rsTime)
 		lines = rsOut.split('\n')
 		rsStat, rsObj, rsSol = rsParser(lines)
 
@@ -89,3 +93,8 @@ if __name__ == '__main__':
 		else:
 			res = "fail: non-match optimum"
 		print(res)
+
+		out = file + ": \n" + "\t result: " + res + "\n" + \
+		    "pre: " + str(preTime) + "\trs: " + str(rsTime) + "\n"
+		f1.write(out)
+		f1.close()
