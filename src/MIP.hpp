@@ -47,6 +47,8 @@ private:
 	papilo::Problem<T> problem;
 	papilo::Presolve<T> presolve;
 	papilo::PresolveResult<T> result;
+
+	const double eps = 1e-6;
 };
 
 }  // namespace pre

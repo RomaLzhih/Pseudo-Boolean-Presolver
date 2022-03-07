@@ -102,9 +102,7 @@ void MIPPreSolver<T>::setPara() {
 	}
 
 	std::string line;
-
 	papilo::ParameterSet paramset = presolve.getParameters();
-
 	while (std::getline(infile, line)) {
 		if (line.empty() || line[0] == '#') continue;
 		int pos = line.find_first_of("=");
@@ -113,7 +111,6 @@ void MIPPreSolver<T>::setPara() {
 		//std::cout << para << " " << val << std::endl;
 		paramset.parseParameter(para.c_str(), val.c_str());
 	}
-
 	infile.close();
 	return;
 }
@@ -148,6 +145,7 @@ std::string MIPPreSolver<T>::collectResult() {
 	str += "min: ";
 	const papilo::Vec<T> objCoeff = objective.coefficients;
 	for (int i = 0; i < objCoeff.size(); i++) {
+		if (std::fabs(objCoeff[i]) < eps) continue;
 		str += signNum2StrDown(objCoeff[i]) + " " + varnames[i] + " ";
 	}
 	str += ";\n";
@@ -175,17 +173,15 @@ std::string MIPPreSolver<T>::collectResult() {
 		}
 	}
 
-	// std::cout << str << std::endl;
-
 	return str;
 }
 
 template <typename T>
 void MIPPreSolver<T>::postSolve(std::string& rsSol) {
 	papilo::Vec<T> reducedsolvals;
-	std::vector<std::string> sols;
-	boost::split(sols, rsSol, boost::is_any_of(" "), boost::token_compress_on);
-	for (auto s : sols) {
+	std::vector<std::string> splitSols;
+	boost::split(splitSols, rsSol, boost::is_any_of(" "), boost::token_compress_on);
+	for (auto s : splitSols) {
 		if (s[0] == '+' || s[0] == 'x') reducedsolvals.push_back(1);
 		else if (s[0] == '-') reducedsolvals.push_back(0);
 		else throw std::invalid_argument("INVALID ROUNDINGSAT SOLUTION: NON +/-/x");
@@ -201,10 +197,13 @@ void MIPPreSolver<T>::postSolve(std::string& rsSol) {
 	papilo::Postsolve<T> postsolve{msg, num};
 	papilo::Solution<T> reducedsol(std::move(reducedsolvals));
 	papilo::Solution<T> origsol;
-	std::cout << "start undo" << std::endl;
 	PostsolveStatus status = postsolve.undo(reducedsol, origsol, result.postsolve);
 
-	//std::cout << "Postsolve objective: " << problem.computeSolObjective(origsol.primal) << std::endl;
+	std::cout << std::fixed << "O "
+	          << result.postsolve.getOriginalProblem().computeSolObjective(origsol.primal)
+	          << std::endl;
+
+	std::string pSol = "V ";
 	if (status == PostsolveStatus::kOk) {
 		std::string sign;
 		for (int i = 0; i < origsol.primal.size(); i++) {
@@ -212,13 +211,13 @@ void MIPPreSolver<T>::postSolve(std::string& rsSol) {
 			else if ((int)origsol.primal.at(i) == 1) sign = "";
 			else throw std::invalid_argument("ILLEGAL ORIGINAL SOLUTION: NON-BOOLEAN");
 
-			std::cout << sign + "x" + std::to_string(i + 1) << " ";
+			pSol += sign + "x" + std::to_string(i + 1) + " ";
 		}
 	} else {
 		throw std::invalid_argument("PaPILO POSTSOLVE FAILED");
 	}
 
-	std::cout << std::endl;
+	std::cout << pSol << std::endl;
 	return;
 }
 
@@ -227,11 +226,11 @@ template <typename T>
 T MIPPreSolver<T>::getCoeff(std::string s) {
 	T num;
 	if (std::isdigit(s[0])) {  // unsigned integer
-		num = (T)std::stoi(s);
+		num = (T)std::stoll(s);
 	} else if (s[0] == '+') {
-		num = (T)std::stoi(s.substr(1));
+		num = (T)std::stoll(s.substr(1));
 	} else if (s[0] == '-') {
-		num = (T)(-1 * std::stoi(s.substr(1)));
+		num = (T)(-1.0 * std::stoll(s.substr(1)));
 	}
 	return num;
 }
@@ -240,9 +239,9 @@ template <typename T>
 std::string MIPPreSolver<T>::signNum2StrUp(T num) {
 	std::string s = "";
 	if (num < 0) {
-		s = std::to_string((int)ceil(num));
+		s = std::to_string((long long)ceil(num));
 	} else {
-		s = "+" + std::to_string((int)ceil(num));
+		s = "+" + std::to_string((long long)ceil(num));
 	}
 	return s;
 }
@@ -251,9 +250,9 @@ template <typename T>
 std::string MIPPreSolver<T>::signNum2StrDown(T num) {
 	std::string s = "";
 	if (num < 0) {
-		s = std::to_string((int)floor(num));
+		s = std::to_string((long long)floor(num));
 	} else {
-		s = "+" + std::to_string((int)floor(num));
+		s = "+" + std::to_string((long long)floor(num));
 	}
 	return s;
 }

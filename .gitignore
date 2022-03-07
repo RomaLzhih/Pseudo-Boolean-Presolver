@@ -12,9 +12,6 @@ _deps
 
 /build
 /papilo
-/test
-/testPre
-/testOptPre
-/testOpt
+/build/CMakeFiles
 .DS_Store
 .vscode/settings.json

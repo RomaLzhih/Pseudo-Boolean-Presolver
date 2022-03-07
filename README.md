@@ -11,3 +11,9 @@ cd build
 cmake ..
 make
 ```
+
+## Usage
+program + file_path, e.g.,
+```
+./pre ../test/opt/p0033.opb
+```

@@ -17,25 +17,28 @@ FLOW CHART
 
 int main(int argc, char *argv[]) {
     std::string infile = argv[1];
-    infile = "../" + infile;  // add prefix
 
     // run PaPILO
     pre::MIPPreSolver<double> mSolver;
     mSolver.buildProblem(infile);
     papilo::Problem<double> problem = mSolver.getOriginalProblem();
     // mSolver.printAbstractProblem();
+    std::cout << "---------------Start Running PaPILO--------------" << std::endl;;
     int status = mSolver.runPresolve();
+    std::cout << "---------------END Running PaPILO--------------" << std::endl;;
 
-    std::cout << "MIP Presolve status: " << status << std::endl;
-    std::string preInfo = mSolver.collectResult();
-
-    // run roundingSat
-    std::cout << "Running roundingSat .. " << std::endl;
-    std::string rsSol = pre::runRoundingSat::run(preInfo, infile);
-
-    // postsolve
-    std::cout << "Start postsolve .. " << std::endl;
-    mSolver.postSolve(rsSol);
+    std::cout << "S " << status << std::endl;
+    if (status <= 1) {
+        std::string preInfo = mSolver.collectResult();
+        // run roundingSat
+        std::cout << "C running roundingSat .. " << std::endl;
+        std::string rsSol = pre::runRoundingSat::run(preInfo, infile);
+        // postsolve
+        std::cout << "C start postsolve .. " << std::endl;
+        mSolver.postSolve(rsSol);
+    } else {
+        std::cout << "C PaPILO detec to be infeasible or unbounded .. " << std::endl;;
+    }
 
     return 0;
 }
