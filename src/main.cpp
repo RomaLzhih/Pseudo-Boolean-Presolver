@@ -1,8 +1,8 @@
-#include "MIP.hpp"
-#include "runRoundingSat.hpp"
-
 #include <cstring>
 #include <iostream>
+
+#include "MIP.hpp"
+#include "runRoundingSat.hpp"
 
 /*
 FLOW CHART
@@ -23,12 +23,14 @@ int main(int argc, char *argv[]) {
     mSolver.buildProblem(infile);
     papilo::Problem<double> problem = mSolver.getOriginalProblem();
     // mSolver.printAbstractProblem();
-    std::cout << "---------------Start Running PaPILO--------------" << std::endl;;
+    std::cout << "---------------Start Running PaPILO--------------" << std::endl;
     int status = mSolver.runPresolve();
-    std::cout << "---------------END Running PaPILO--------------" << std::endl;;
+    std::cout << "---------------END Running PaPILO--------------" << std::endl;
 
     std::cout << "S " << status << std::endl;
-    if (status <= 1) {
+    if (status == -1) {
+        mSolver.alreadySolve();
+    } else if (status == 0 || status == 1) {
         std::string preInfo = mSolver.collectResult();
         // run roundingSat
         std::cout << "C running roundingSat .. " << std::endl;
@@ -37,7 +39,8 @@ int main(int argc, char *argv[]) {
         std::cout << "C start postsolve .. " << std::endl;
         mSolver.postSolve(rsSol);
     } else {
-        std::cout << "C PaPILO detec to be infeasible or unbounded .. " << std::endl;;
+        std::cout << "C PaPILO detec to be infeasible or unbounded .. " << std::endl;
+        ;
     }
 
     return 0;

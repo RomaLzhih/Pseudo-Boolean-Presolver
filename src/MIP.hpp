@@ -27,6 +27,8 @@ public:
 
 	int runPresolve();
 
+	void alreadySolve();
+
 	std::string collectResult();
 
 	void postSolve(std::string& rsSol);

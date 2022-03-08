@@ -5,6 +5,11 @@ set(CMAKE_CXX_STANDARD 17)
 get_property(languages GLOBAL PROPERTY ENABLED_LANGUAGES)
 message(STATUS "languages: ${languages}")
 
+if (NOT CMAKE_BUILD_TYPE)
+    message(WARNING "Please use -DCMAKE_BUILD_TYPE=[build_type] where [build_type] is one of: Debug, Release, RelWithDebInfo and MinSizeRel")
+endif()
+
+
 include_directories(
     src
     papilo/src
