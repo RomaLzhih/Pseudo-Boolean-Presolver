@@ -3,8 +3,8 @@
         {
             "name": "Ubuntu",
             "includePath": [
-                "${workspaceFolder}/src",
-                "${workspaceFolder}/papilo",
+                "/src",
+                "/papilo",
                 "/usr/include/boost/"
             ],
             "configurationProvider": "ms-vscode.cmake-tools"

@@ -1,0 +1,12 @@
+normalized-single-obj-f24-DCTotalLoss.seq-A-2-1-irEDCBA.opb: 
+	 result: OK: optimum pass
+		 pre: 0.24659740000060992
+		 rs: 0.2787647000004654
+normalized-single-obj-f36-AC_Side2.seq-A-3-2-irabcde.opb: 
+	 result: OK: optimum pass
+		 pre: 0.2594991999976628
+		 rs: 0.28730930000165245
+normalized-single-obj-f29-DCdoubleLoss.seq-A-3-2-irEDCBA.opb: 
+	 result: OK: optimum pass
+		 pre: 0.19691949999833014
+		 rs: 0.20824540000103298

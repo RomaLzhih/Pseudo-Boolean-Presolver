@@ -13,6 +13,6 @@ _deps
 /build
 /papilo
 /build/CMakeFiles
-/test
+/test/lion9-single-obj-big
 .DS_Store
 .vscode/settings.json

@@ -6,52 +6,52 @@ namespace pre {
 
 template <typename T>
 class MIPPreSolver {
-public:
-	// export
-	papilo::Problem<T> getOriginalProblem() {
-		return problem;
-	}
+   public:
+    // export
+    papilo::Problem<T> getOriginalProblem() {
+        return problem;
+    }
 
-	void printAbstractProblem() {
-		utils::printAbstractProblem(problem);
-	}
+    void printAbstractProblem() {
+        utils::printAbstractProblem(problem);
+    }
 
-	void printDetailedProblem() {
-		utils::printDetailedProblem(problem);
-	}
+    void printDetailedProblem() {
+        utils::printDetailedProblem(problem);
+    }
 
-	// main functionality
-	void buildProblem(std::string inFileName);
+    // main functionality
+    void buildProblem(std::string inFileName);
 
-	void setPara();
+    void setPara();
 
-	int runPresolve();
+    int runPresolve();
 
-	void alreadySolve();
+    void alreadySolve();
 
-	std::string collectResult();
+    std::string collectResult();
 
-	void postSolve(std::string& rsSol);
+    void postSolve(std::string& rsSol);
 
-	// helper function
-	T getCoeff(std::string s);
+    // helper function
+    T getCoeff(std::string s);
 
-	std::string signNum2StrUp(T num);
+    std::string signNum2StrUp(T num);
 
-	std::string signNum2StrDown(T num);
+    std::string signNum2StrDown(T num);
 
-	std::string writeConstraint(const papilo::SparseVectorView<T>& row,
-	                            const papilo::Vec<std::string>& varnames,
-	                            int flip, std::string op, T deg);
-private:
-// PaPILO
-	papilo::ProblemBuilder<T> builder;
-	papilo::Problem<T> problem;
-	papilo::Presolve<T> presolve;
-	papilo::PresolveResult<T> result;
+    std::string writeConstraint(const papilo::SparseVectorView<T>& row,
+                                const papilo::Vec<std::string>& varnames,
+                                int flip, std::string op, T deg);
 
-	const double eps = 1e-6;
+   private:
+    // PaPILO
+    papilo::ProblemBuilder<T> builder;
+    papilo::Problem<T> problem;
+    papilo::Presolve<T> presolve;
+    papilo::PresolveResult<T> result;
+
+    const double eps = 1e-6;
 };
 
 }  // namespace pre
-
