@@ -17,9 +17,11 @@ FLOW CHART
 
 int main(int argc, char *argv[]) {
     std::string infile = argv[1];
+    int onlyPreSolve = std::stoi(argv[2]);
 
     // run PaPILO
-    pre::MIPPreSolver<double> mSolver;
+    pre::MIPPreSolver<double>
+        mSolver;
     mSolver.buildProblem(infile);
     papilo::Problem<double> problem = mSolver.getOriginalProblem();
     // mSolver.printAbstractProblem();
@@ -31,16 +33,16 @@ int main(int argc, char *argv[]) {
     if (status == -1) {
         mSolver.alreadySolve();
     } else if (status == 0 || status == 1) {
-        std::string preInfo = mSolver.collectResult();
-        // run roundingSat
-        std::cout << "C running roundingSat .. " << std::endl;
-        std::string rsSol = pre::runRoundingSat::run(preInfo, infile);
-        // postsolve
-        std::cout << "C start postsolve .. " << std::endl;
-        mSolver.postSolve(rsSol);
+        if (mSolver.PBCheck()) std::cout << "P 1 pass Pseudo-Boolean check" << std::endl;
+        if (onlyPreSolve == 0) {
+            std::string preInfo = mSolver.collectResult();
+            std::cout << "C running roundingSat .. " << std::endl;
+            std::string rsSol = pre::runRoundingSat::run(preInfo, infile);
+            std::cout << "C start postsolve .. " << std::endl;
+            mSolver.postSolve(rsSol);
+        }
     } else {
         std::cout << "C PaPILO detec to be infeasible or unbounded .. " << std::endl;
-        ;
     }
 
     return 0;

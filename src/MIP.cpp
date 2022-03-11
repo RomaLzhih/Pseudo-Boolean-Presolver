@@ -4,6 +4,21 @@
 #include <boost/algorithm/string.hpp>
 
 namespace pre {
+// export
+template <typename T>
+papilo::Problem<T> MIPPreSolver<T>::getOriginalProblem() {
+    return problem;
+}
+
+template <typename T>
+void MIPPreSolver<T>::printAbstractProblem() {
+    utils::printAbstractProblem(problem);
+}
+
+template <typename T>
+void MIPPreSolver<T>::printDetailedProblem() {
+    utils::printDetailedProblem(problem);
+}
 
 // main functionality
 template <typename T>
@@ -96,7 +111,7 @@ void MIPPreSolver<T>::buildProblem(std::string inFileName) {
 
 template <typename T>
 void MIPPreSolver<T>::setPara() {
-    std::string paraPath = "../parameters.opb.txt";
+    std::string paraPath = "../parameters.test.txt";
     std::ifstream infile(paraPath);
     if (infile.fail()) {
         throw std::invalid_argument("INVALID PARAMETER FILE");
@@ -141,6 +156,19 @@ void MIPPreSolver<T>::alreadySolve() {
     postsolve.undo(empty_sol, solution, result.postsolve);
     T origobj = result.postsolve.getOriginalProblem().computeSolObjective(solution.primal);
     std::cout << "O " << origobj << std::endl;
+}
+
+template <typename T>
+bool MIPPreSolver<T>::PBCheck() {
+    papilo::VariableDomains<T>& vars = problem.getVariableDomains();
+    // std::cout << problem.getNCols() << std::endl;
+    for (int i = 0; i < problem.getNCols(); i++) {
+        if (!vars.isBinary(i)) {
+            std::cout << "P 0" << std::endl;
+            throw std::invalid_argument("NON-BOOLEAN VARIABLE AFTER PRESOVE");
+        }
+    }
+    return true;
 }
 
 template <typename T>

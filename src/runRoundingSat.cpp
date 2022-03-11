@@ -12,7 +12,7 @@ std::string runRoundingSat::run(std::string& preInfo, std::string& infile) {
     // std::cout << infile << std::endl;
 
     std::string newInsPath = infile + "pre.opb";
-    std::string roundingSat = "/mnt/d/aMain/0-RoundingSat/roundingsat/build/roundingsat";
+    std::string roundingSat = "/home/mzy/thesis_project/roundingsat/build/roundingsat";
     std::string command = roundingSat + " --print-sol=1 --verbosity=0 " + newInsPath;
 
     std::ofstream out(newInsPath);

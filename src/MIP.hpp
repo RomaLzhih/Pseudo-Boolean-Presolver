@@ -8,38 +8,23 @@ template <typename T>
 class MIPPreSolver {
    public:
     // export
-    papilo::Problem<T> getOriginalProblem() {
-        return problem;
-    }
-
-    void printAbstractProblem() {
-        utils::printAbstractProblem(problem);
-    }
-
-    void printDetailedProblem() {
-        utils::printDetailedProblem(problem);
-    }
+    papilo::Problem<T> getOriginalProblem();
+    void printAbstractProblem();
+    void printDetailedProblem();
 
     // main functionality
     void buildProblem(std::string inFileName);
-
     void setPara();
-
     int runPresolve();
-
     void alreadySolve();
-
+    bool PBCheck();
     std::string collectResult();
-
     void postSolve(std::string& rsSol);
 
     // helper function
     T getCoeff(std::string s);
-
     std::string signNum2StrUp(T num);
-
     std::string signNum2StrDown(T num);
-
     std::string writeConstraint(const papilo::SparseVectorView<T>& row,
                                 const papilo::Vec<std::string>& varnames,
                                 int flip, std::string op, T deg);
