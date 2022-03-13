@@ -1,7 +1,6 @@
 {
     "configurations": [
         {
-            "name": "Ubuntu",
             "includePath": [
                 "/src",
                 "/papilo",

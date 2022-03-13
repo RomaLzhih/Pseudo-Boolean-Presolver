@@ -18,10 +18,13 @@ FLOW CHART
 int main(int argc, char *argv[]) {
     std::string infile = argv[1];
     int onlyPreSolve = std::stoi(argv[2]);
+    papilo::Rational a = 1;
+    pre::bigint b(a);
+    std::cout << b.str() << std::endl;
+    // return 0;
 
     // run PaPILO
-    pre::MIPPreSolver<double>
-        mSolver;
+    pre::MIPPreSolver<double> mSolver;
     mSolver.buildProblem(infile);
     papilo::Problem<double> problem = mSolver.getOriginalProblem();
     // mSolver.printAbstractProblem();

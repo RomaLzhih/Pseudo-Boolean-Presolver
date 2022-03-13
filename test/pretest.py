@@ -7,7 +7,7 @@ from unittest import case
 
 preLoc = "/home/mzy/thesis_project/pre/build/pre"
 rSLoc = "/home/mzy/thesis_project/roundingsat/build/roundingsat"
-InsLoc = "/home/mzy/thesis_project/pre/test/lion9-single-obj-big/"
+InsLoc = "/home/mzy/thesis_project/pre/test/opt/"
 
 checkTerm = sys.argv[1]
 

@@ -46,6 +46,7 @@ set(source_files
   src/MIP.cpp
   src/runRoundingSat.cpp
   src/main.cpp
+  ${PROJECT_SOURCE_DIR}/src/typedef.hpp
   ${PROJECT_SOURCE_DIR}/src/utils.hpp
   ${PROJECT_SOURCE_DIR}/src/MIP.hpp
   ${PROJECT_SOURCE_DIR}/src/runRoundingSat.hpp

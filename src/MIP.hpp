@@ -4,11 +4,11 @@
 
 namespace pre {
 
-template <typename T>
+template <typename REAL>
 class MIPPreSolver {
    public:
     // export
-    papilo::Problem<T> getOriginalProblem();
+    papilo::Problem<REAL> getOriginalProblem();
     void printAbstractProblem();
     void printDetailedProblem();
 
@@ -22,19 +22,18 @@ class MIPPreSolver {
     void postSolve(std::string& rsSol);
 
     // helper function
-    T getCoeff(std::string s);
-    std::string signNum2StrUp(T num);
-    std::string signNum2StrDown(T num);
-    std::string writeConstraint(const papilo::SparseVectorView<T>& row,
+    REAL getCoeff(const std::string& s);
+    std::string tos(const REAL& num);
+    std::string writeConstraint(const papilo::SparseVectorView<REAL>& row,
                                 const papilo::Vec<std::string>& varnames,
-                                int flip, std::string op, T deg);
+                                int flip, std::string op, REAL deg);
 
    private:
     // PaPILO
-    papilo::ProblemBuilder<T> builder;
-    papilo::Problem<T> problem;
-    papilo::Presolve<T> presolve;
-    papilo::PresolveResult<T> result;
+    papilo::ProblemBuilder<REAL> builder;
+    papilo::Problem<REAL> problem;
+    papilo::Presolve<REAL> presolve;
+    papilo::PresolveResult<REAL> result;
 
     const double eps = 1e-6;
 };

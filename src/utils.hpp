@@ -6,20 +6,20 @@
 #include "papilo/core/Problem.hpp"
 #include "papilo/core/ProblemBuilder.hpp"
 #include "papilo/core/postsolve/Postsolve.hpp"
+#include "papilo/misc/MultiPrecision.hpp"
+#include "papilo/misc/Num.hpp"
 
 // std
-#include <ctype.h>
-#include <stdio.h>
-
+#include <cassert>
 #include <cmath>
 #include <cstdio>
-#include <fstream>
+#include <cstring>
 #include <iostream>
-#include <iterator>
-#include <sstream>
-#include <string>
 #include <unordered_map>
 #include <vector>
+
+// pre
+#include "typedef.hpp"
 
 namespace pre {
 namespace utils {
@@ -30,14 +30,14 @@ auto as_integer(Enumeration const value)
     return static_cast<typename std::underlying_type<Enumeration>::type>(value);
 }
 
-template <typename T>
-void printAbstractProblem(papilo::Problem<T> prob);
+template <typename REAL>
+void printAbstractProblem(papilo::Problem<REAL> prob);
 
-template <typename T>
-void printDetailedProblem(papilo::Problem<T> prob);
+template <typename REAL>
+void printDetailedProblem(papilo::Problem<REAL> prob);
 
-template <typename T>
-void printVector(papilo::Vec<T> const& input);
+template <typename REAL>
+void printVector(papilo::Vec<REAL> const& input);
 
 }  // namespace utils
 }  // namespace pre

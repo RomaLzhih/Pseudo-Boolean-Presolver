@@ -48,7 +48,7 @@ numerics.hugeval = 100000000
 
 # is presolver parallelcols enabled  [Boolean: {0,1}]
 # ERROR: BREAK 0-1
-parallelcols.enabled = 0
+parallelcols.enabled = 1
 
 # is presolver parallelrows enabled  [Boolean: {0,1}]
 parallelrows.enabled = 1
@@ -69,7 +69,8 @@ presolve.compressfac = 0.84999999999999998
 presolve.detectlindep = 1
 
 # 0: disable dual reductions, 1: allow dual reductions that never cut off optimal solutions, 2: allow all dual reductions  [Integer: [0,2]]
-presolve.dualreds = 2
+# CHANGED
+presolve.dualreds = 0
 
 # abort factor of weighted number of reductions for presolving LPs  [Numerical: [0,1]]
 presolve.lpabortfac = 0.01
@@ -109,10 +110,12 @@ probing.minbadgesize = 10
 probing.mincontdomred = 0.29999999999999999
 
 # is presolver propagation enabled  [Boolean: {0,1}]
-propagation.enabled = 1
+# CHANGED
+propagation.enabled = 0
 
 # is the iteration over the rows in propagation parallelised? [Boolean: {0,1}]
-propagation.parallel = 1
+# CHANGED
+propagation.parallel = 0
 
 # is presolver simpleprobing enabled  [Boolean: {0,1}]
 simpleprobing.enabled = 1
@@ -152,7 +155,8 @@ substitution.maxfillin = 10
 substitution.maxshiftperrow = 10
 
 # should the basis be calculated during postsolve? Deactivates variable bound tightening due to computational overhead.
-calculate_basis_for_dual = 1
+# CHANGED
+calculate_basis_for_dual = 0
 
 # should the primal/dual solution be validated during after every postsolving step?
 validation_after_every_postsolving_step = 0
