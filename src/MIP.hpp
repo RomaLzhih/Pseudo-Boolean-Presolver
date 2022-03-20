@@ -22,11 +22,9 @@ class MIPPreSolver {
     void postSolve(std::string& rsSol);
 
     // helper function
-    REAL getCoeff(const std::string& s);
-    std::string tos(const REAL& num);
     std::string writeConstraint(const papilo::SparseVectorView<REAL>& row,
                                 const papilo::Vec<std::string>& varnames,
-                                int flip, std::string op, REAL deg);
+                                const int& flip, const std::string& op, const REAL& deg);
 
    private:
     // PaPILO

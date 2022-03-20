@@ -1,4 +1,5 @@
 # is presolver coefftightening enabled  [Boolean: {0,1}]
+# Integer only
 coefftightening.enabled = 1
 
 # is the iteration over the rows in coefftightening parallelised? [Boolean: {0,1}]
@@ -8,6 +9,7 @@ coefftightening.parallel = 1
 colsingleton.enabled = 1
 
 # is presolver domcol enabled  [Boolean: {0,1}]
+# kAll, P: 6.4
 domcol.enabled = 1
 
 # is presolver doubletoneq enabled  [Boolean: {0,1}]
@@ -17,18 +19,22 @@ doubletoneq.enabled = 1
 doubletoneq.parallel = 0
 
 # is presolver dualfix enabled  [Boolean: {0,1}]
+# kAll, P: 4.4
 dualfix.enabled = 1
 
 # is the iteration over the columns in dualfix parallelised? [Boolean: {0,1}]
 dualfix.parallel = 0
 
 # is presolver dualinfer enabled  [Boolean: {0,1}]
-dualinfer.enabled = 1
+# kContinuous, dual infer
+dualinfer.enabled = 0
 
 # is presolver fixcontinuous enabled  [Boolean: {0,1}]
+# kContinuous P: 4.3
 fixcontinuous.enabled = 1
 
 # is presolver implint enabled  [Boolean: {0,1}]
+# kMixedCols P: 7.6
 implint.enabled = 1
 
 # is the iteration over the rows in implied integer parallelised? [Boolean: {0,1}]
@@ -47,10 +53,11 @@ numerics.feastol = 9.9999999999999995e-07
 numerics.hugeval = 100000000
 
 # is presolver parallelcols enabled  [Boolean: {0,1}]
-# ERROR: BREAK 0-1
+# kAll, P: 6.3
 parallelcols.enabled = 1
 
 # is presolver parallelrows enabled  [Boolean: {0,1}]
+# kAll, P: 5.2
 parallelrows.enabled = 1
 
 # abort factor of weighted number of reductions for presolving  [Numerical: [0,1]]
@@ -98,6 +105,7 @@ presolve.tlim = 1.7976931348623157e+308
 presolve.weakenlpvarbounds = 0
 
 # is presolver probing enabled  [Boolean: {0,1}]
+# kIntegral, P: 
 probing.enabled = 1
 
 # maximum number of probing candidates probed in the first badge of candidates  [Integer: [1,2147483647]]
@@ -110,12 +118,11 @@ probing.minbadgesize = 10
 probing.mincontdomred = 0.29999999999999999
 
 # is presolver propagation enabled  [Boolean: {0,1}]
-# CHANGED
-propagation.enabled = 0
+# kAll, P: 3.2 bound-strenghening
+propagation.enabled = 1
 
 # is the iteration over the rows in propagation parallelised? [Boolean: {0,1}]
-# CHANGED
-propagation.parallel = 0
+propagation.parallel = 1
 
 # is presolver simpleprobing enabled  [Boolean: {0,1}]
 simpleprobing.enabled = 1
@@ -143,6 +150,7 @@ stuffing.enabled = 1
 substitution.binarieswithints = 0
 
 # is presolver substitution enabled  [Boolean: {0,1}]
+# vAll, P: 4.5 
 substitution.enabled = 1
 
 # markowitz tolerance value for allowing a substitution  [Numerical: [0,1]]

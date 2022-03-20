@@ -24,14 +24,14 @@ void MIPPreSolver<REAL>::printDetailedProblem() {
 template <typename REAL>
 void MIPPreSolver<REAL>::buildProblem(std::string inFileName) {
     std::ifstream infile(inFileName);
-    assert(infile.fail());
+    assert(!infile.fail());
 
     std::string line;
     std::getline(infile, line);
     std::string colNumStr = line.substr(line.find_first_of("=") + 2);
     std::string rowNumStr = line.substr(line.find_last_of("=") + 2);
     int colNum = std::stoi(colNumStr.substr(0, colNumStr.find_first_of(" ")));
-    int rowNum = std::stoi(rowNumStr);  //* papilo supports only int number of variables
+    int rowNum = std::stoi(rowNumStr);  //! papilo supports only int number of variables
 
     std::unordered_map<std::string, int> varMap;
 
@@ -39,7 +39,7 @@ void MIPPreSolver<REAL>::buildProblem(std::string inFileName) {
     builder.setNumRows(rowNum);
     // no need to set all since papilo add one-by-one as well
     for (int i = 0; i < colNum; i++) {
-        std::string varName = "x" + std::to_string(i + 1);
+        std::string varName = "x" + aux::tos(i + 1);
         builder.setColIntegral(i, true);
         builder.setColName(i, varName);
         builder.setColLb(i, 0);
@@ -58,7 +58,7 @@ void MIPPreSolver<REAL>::buildProblem(std::string inFileName) {
             break;  // catch 'min:'
     }
 
-    int coeff;
+    long long coeff;
     std::string varName = "";
 
     // build objective
@@ -67,8 +67,8 @@ void MIPPreSolver<REAL>::buildProblem(std::string inFileName) {
             break;
         }
         infile >> varName;
-        // std::cout << getCoeff(s) << std::endl;
-        builder.setObj(varMap[varName], getCoeff(s));
+        // std::cout << aux::sto(s) << std::endl;
+        builder.setObj(varMap[varName], std::stoll(s));
     }
 
     // add constraint
@@ -84,20 +84,20 @@ void MIPPreSolver<REAL>::buildProblem(std::string inFileName) {
             infile >> RHS;
             builder.setRowLhsInf(row, false);
             builder.setRowRhsInf(row, true);
-            builder.setRowLhs(row, getCoeff(RHS));
+            builder.setRowLhs(row, std::stoll(RHS));
         } else if (s == "=") {
             infile >> RHS;
             builder.setRowLhsInf(row, false);
             builder.setRowRhsInf(row, false);
-            builder.setRowLhs(row, getCoeff(RHS));
-            builder.setRowRhs(row, getCoeff(RHS));
+            builder.setRowLhs(row, std::stoll(RHS));
+            builder.setRowRhs(row, std::stoll(RHS));
         } else if (s == ";") {
             row++;
             // std::cout << "row: " << row << std::endl;
         } else {
             infile >> varName;
-            if (getCoeff(s) != 0) {  // papilo doesn'REAL allow add zero entry
-                builder.addEntry(row, varMap[varName], getCoeff(s));
+            if (std::stoll(s) != 0) {  // papilo doesn'REAL allow add zero entry
+                builder.addEntry(row, varMap[varName], std::stoll(s));
             }
             // std::cout << s << " " << varName << std::endl;
         }
@@ -111,7 +111,7 @@ template <typename REAL>
 void MIPPreSolver<REAL>::setPara() {
     std::string paraPath = "../parameters.test.txt";
     std::ifstream infile(paraPath);
-    assert(infile.fail());
+    assert(!infile.fail());
 
     std::string line;
     papilo::ParameterSet paramset = presolve.getParameters();
@@ -183,15 +183,15 @@ std::string MIPPreSolver<REAL>::collectResult() {
     int nCols = consmatrix.getNCols();
     int nRows = consmatrix.getNRows();
 
-    str += "* #variable= " + std::to_string(nCols) + " #constraint= " + std::to_string(nRows) + "\n";
+    str += "* #variable= " + aux::tos(nCols) + " #constraint= " + aux::tos(nRows) + "\n";
 
     // print objective
     str += "min: ";
     const papilo::Vec<REAL> objCoeff = objective.coefficients;
     for (int i = 0; i < objCoeff.size(); i++) {
         if (num.isZero(objCoeff[i])) continue;
-        assert(!num.isIntegral(objCoef[i]));
-        str += tos(objCoeff[i]) + " " + varnames[i] + " ";
+        assert(num.isIntegral(objCoeff[i]));
+        str += aux::tos(num.round(objCoeff[i])) + " " + varnames[i] + " ";
     }
     str += ";\n";
 
@@ -208,8 +208,10 @@ std::string MIPPreSolver<REAL>::collectResult() {
             str += writeConstraint(row, varnames, -1, ">=", (REAL)(-1 * rhs[i]));
         } else if (!L && !R) {
             if (lhs[i] == rhs[i]) {  // a = x = b
+                assert(row_flags[i].test(papilo::RowFlag::kEquation));
                 str += writeConstraint(row, varnames, 1, "=", lhs[i]);
             } else {  // a <= x <= b, a != b
+                assert(!row_flags[i].test(papilo::RowFlag::kEquation));
                 str += writeConstraint(row, varnames, 1, ">=", lhs[i]);
                 str += writeConstraint(row, varnames, -1, ">=", (REAL)(-1 * rhs[i]));
             }
@@ -271,42 +273,77 @@ void MIPPreSolver<REAL>::postSolve(std::string& rsSol) {
 }
 
 // helper function
-template <typename REAL>
-REAL MIPPreSolver<REAL>::getCoeff(const std::string& s) {
-    REAL answer = 0;
-    bool negate = false;
-    for (char c : s) {
-        if ('0' <= c && c <= '9') {
-            answer *= 10;
-            answer += c - '0';
-        }
-        negate = (negate || (c == '-'));
-    }
-    return negate ? -answer : answer;
-}
-
-template <typename REAL>
-std::string MIPPreSolver<REAL>::tos(const REAL& num) {
-    bigint N(num);
-    return N.str();
-}
 
 template <typename REAL>
 std::string MIPPreSolver<REAL>::writeConstraint(const papilo::SparseVectorView<REAL>& row,
                                                 const papilo::Vec<std::string>& varnames,
-                                                int flip, std::string op, REAL deg) {
+                                                const int& flip, const std::string& op, const REAL& deg) {
+    auto IntegralCoeff = [&](const papilo::Vec<REAL>& vals, papilo::Vec<bigint>& ans, const papilo::Num<REAL> num) {
+        // a/b
+        papilo::Vec<bigint> a(vals.size());
+        papilo::Vec<bigint> b(vals.size());
+        bool allInteger = true;
+        for (int i = 0; i < vals.size(); i++) {
+            if (num.isIntegral(vals[i])) {
+                a[i] = (bigint)num.round(aux::abs(vals[i]));
+                b[i] = 1;
+            } else {
+                allInteger = false;
+                a[i] = aux::numerator(aux::abs(vals[i]));
+                b[i] = aux::denominator(aux::abs(vals[i]));
+            }
+        }
+
+        if (allInteger) {
+            for (int i = 0; i < ans.size(); i++) {
+                ans[i] = a[i];
+                if (num.isLT(vals[i], 0)) {
+                    ans[i] *= -1;
+                }
+            }
+            return;
+        } else {
+            std::cout << "C derational" << std::endl;
+            bigint _gcd = aux::min(a);
+            bigint _lcm = aux::max(b);
+            for (int i = 0; i < b.size(); i++) {
+                _lcm = aux::lcm(_lcm, b[i]);
+            }
+            for (int i = 0; i < a.size(); i++) {
+                ans[i] = _lcm / b[i] * a[i];
+                _gcd = aux::gcd(_gcd, ans[i]);
+            }
+            for (int i = 0; i < ans.size(); i++) {
+                ans[i] /= _gcd;
+                if (num.isLT(vals[i], 0)) {
+                    ans[i] *= -1;
+                }
+
+                assert(num.isIntegral((REAL)(ans[i]) / (REAL)(_gcd)));
+                assert(num.isLT((REAL)ans[i], 0) == num.isLT(vals[i], 0));
+            }
+        }
+    };
+
     const REAL* rowVals = row.getValues();
     const int* indices = row.getIndices();
     const auto len = row.getLength();
+    const papilo::Num<REAL> num{};
+
+    papilo::Vec<REAL> coeffVal(rowVals, rowVals + len);
+    coeffVal.emplace_back(deg);
+    papilo::Vec<bigint> simVal(coeffVal.size());
+
+    IntegralCoeff(coeffVal, simVal, num);
+
     std::string s = "";
     for (int j = 0; j < len; j++) {
-        s += tos((REAL)(flip * rowVals[j])) + " " + varnames[indices[j]] + " ";
+        s += aux::tos((REAL)(flip * simVal[j])) + " " + varnames[indices[j]] + " ";
     }
-    s += op + " " + tos(deg) + " ;\n";
+    s += op + " " + aux::tos(simVal[len]) + " ;\n";
     return s;
 }
 
-template class MIPPreSolver<double>;
 template class MIPPreSolver<papilo::Rational>;
 
 }  // namespace pre

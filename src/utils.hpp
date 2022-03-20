@@ -6,8 +6,6 @@
 #include "papilo/core/Problem.hpp"
 #include "papilo/core/ProblemBuilder.hpp"
 #include "papilo/core/postsolve/Postsolve.hpp"
-#include "papilo/misc/MultiPrecision.hpp"
-#include "papilo/misc/Num.hpp"
 
 // std
 #include <cassert>
@@ -19,7 +17,7 @@
 #include <vector>
 
 // pre
-#include "typedef.hpp"
+#include "auxiliary.hpp"
 
 namespace pre {
 namespace utils {

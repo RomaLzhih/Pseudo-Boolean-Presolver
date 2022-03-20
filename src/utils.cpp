@@ -94,9 +94,9 @@ void printVector(papilo::Vec<REAL> const& input) {
 }
 
 // type definition
-template void printAbstractProblem<double>(papilo::Problem<double> prob);
-template void printDetailedProblem<double>(papilo::Problem<double> prob);
-template void printVector<double>(papilo::Vec<double> const& input);
+// template void printAbstractProblem<double>(papilo::Problem<double> prob);
+// template void printDetailedProblem<double>(papilo::Problem<double> prob);
+// template void printVector<double>(papilo::Vec<double> const& input);
 
 template void printAbstractProblem<papilo::Rational>(papilo::Problem<papilo::Rational> prob);
 template void printDetailedProblem<papilo::Rational>(papilo::Problem<papilo::Rational> prob);
