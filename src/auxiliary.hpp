@@ -14,6 +14,7 @@
 
 #include "papilo/misc/MultiPrecision.hpp"
 #include "papilo/misc/Num.hpp"
+#include "papilo/misc/VectorUtils.hpp"
 #include "typedef.hpp"
 
 // most copied from rs

@@ -32,7 +32,7 @@ std::string runRoundingSat::run(std::string& preInfo, std::string& infile) {
     std::string sol;
 
     while (pipout && std::getline(pipout, line) && !line.empty()) {
-        std::cout << '\t' << line << std::endl;
+        // std::cout << '\t' << line << std::endl;
         if (line.empty() || line[0] == 'c' || line[0] == 's')
             continue;
         else if (line[0] == 'v')
@@ -44,6 +44,6 @@ std::string runRoundingSat::run(std::string& preInfo, std::string& infile) {
     c.wait();
     // return c.exit_code();
     return sol;
-}
+}  // namespace runRoundingSat
 
 }  // namespace pre

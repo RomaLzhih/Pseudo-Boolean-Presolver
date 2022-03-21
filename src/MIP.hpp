@@ -14,7 +14,6 @@ class MIPPreSolver {
 
     // main functionality
     void buildProblem(std::string inFileName);
-    void setPara();
     int runPresolve();
     void alreadySolve();
     bool PBCheck();
@@ -32,6 +31,7 @@ class MIPPreSolver {
     papilo::Problem<REAL> problem;
     papilo::Presolve<REAL> presolve;
     papilo::PresolveResult<REAL> result;
+    papilo::Num<REAL> num{};
 
     const double eps = 1e-6;
 };

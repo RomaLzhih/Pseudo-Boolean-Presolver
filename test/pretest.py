@@ -7,9 +7,12 @@ from unittest import case
 
 preLoc = "/home/mzy/thesis_project/pre/build/pre"
 rSLoc = "/home/mzy/thesis_project/roundingsat/build/roundingsat"
-InsLoc = "/home/mzy/thesis_project/pre/test/opt/"
+InsLoc = "/home/mzy/thesis_project/pre/test/"
 
-checkTerm = sys.argv[1]
+filePathTerm = sys.argv[1]
+checkTerm = sys.argv[2]
+
+InsLoc = InsLoc + filePathTerm + '/'
 
 
 def preParser(lines):
@@ -27,7 +30,7 @@ def preParser(lines):
             else:  # unchanged or reduced
                 preStat = 1
         elif line[0] == 'O':
-            preObj = float(line[1])
+            preObj = line[1]
         elif line[0] == 'V':
             preSol = line[1:]
         elif line[0] == 'P':
@@ -46,7 +49,7 @@ def rsParser(lines):
         elif line[0] == 's':
             rsStat = 1 if line[1] == "OPTIMUM" else 0
         elif line[0] == 'o':
-            rsObj = int(line[1])
+            rsObj = line[1]
         elif line[0] == 'v':
             rsSol = line[1:]
     return rsStat, rsObj, rsSol
@@ -89,9 +92,9 @@ def runRs(file):
 
 def cmpOpt(preStat, preObj, preSol, rsStat, rsObj, rsSol):
     flag = True
-    if preStat >= 1 and rsStat == 1:
-        res = ("OK: optimum pass" if abs(preObj-rsObj) <
-               1e-4 else "FAIL: optimum not pass")
+    if preStat >= 1 and rsStat == 1:  # *pre already-solve 2/reduced 1
+        res = ("OK: optimum pass" + "\t" + preObj + "\t" + rsObj
+               if preObj == rsObj else "FAIL: optimum not pass")
     elif preStat == 0 and rsStat == 0:
         res = "OK: infeasible pass"
     else:
@@ -119,7 +122,7 @@ def checkPseudoBoolean(file):
 
 
 if __name__ == '__main__':
-    files, T, N = os.listdir(InsLoc), 1200, 1300
+    files, T, N = os.listdir(InsLoc), 600, 1300
     out, optFlag, PBFlag = "", True, True
     clearlog()
     # files = files[:N]
@@ -135,7 +138,7 @@ if __name__ == '__main__':
             out, optflag, pre01 = checkOpt(file)
             optFlag = optFlag and optflag
             PBFlag = PBFlag and pre01
-        elif int(checkTerm) == 1:
+        elif int(checkTerm) == 1:  # only presolve
             out, pre01 = checkPseudoBoolean(file)
             PBFlag = PBFlag and pre01
 

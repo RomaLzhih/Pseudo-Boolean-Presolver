@@ -50,7 +50,7 @@ numerics.epsilon = 1.0000000000000001e-09
 numerics.feastol = 9.9999999999999995e-07
 
 # absolute bound value that is considered too huge for activitity based calculations  [Numerical: [0,1.7976931348623157e+308]]
-numerics.hugeval = 100000000
+numerics.hugeval = 100000000000000
 
 # is presolver parallelcols enabled  [Boolean: {0,1}]
 # kAll, P: 6.3

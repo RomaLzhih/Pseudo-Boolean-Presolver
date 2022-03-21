@@ -108,30 +108,33 @@ void MIPPreSolver<REAL>::buildProblem(std::string inFileName) {
 }
 
 template <typename REAL>
-void MIPPreSolver<REAL>::setPara() {
-    std::string paraPath = "../parameters.test.txt";
-    std::ifstream infile(paraPath);
-    assert(!infile.fail());
-
-    std::string line;
-    papilo::ParameterSet paramset = presolve.getParameters();
-    while (std::getline(infile, line)) {
-        if (line.empty() || line[0] == '#') continue;
-        int pos = line.find_first_of("=");
-        std::string para = line.substr(0, pos - 1);
-        std::string val = line.substr(pos + 2);
-        // std::cout << para << " " << val << std::endl;
-        paramset.parseParameter(para.c_str(), val.c_str());
-    }
-    infile.close();
-    return;
-}
-
-template <typename REAL>
 int MIPPreSolver<REAL>::runPresolve() {
+    auto setPara = [&]() {
+        std::string paraPath = "../parameters.test.txt";
+        std::ifstream parafile(paraPath);
+        assert(!parafile.fail());
+
+        std::string line;
+        papilo::ParameterSet paramset = presolve.getParameters();
+        while (std::getline(parafile, line)) {
+            if (line.empty() || line[0] == '#') continue;
+            int pos = line.find_first_of("=");
+            std::string para = line.substr(0, pos - 1);
+            std::string val = line.substr(pos + 2);
+            // std::cout << para << " " << val << std::endl;
+            paramset.parseParameter(para.c_str(), val.c_str());
+        }
+        parafile.close();
+    };
+
     presolve.addDefaultPresolvers();
     setPara();
     result = presolve.apply(problem);
+
+    num.setEpsilon(presolve.getEpsilon());  // use same tollerance with papilo
+    num.setFeasTol(presolve.getFeasTol());
+    num.setHugeVal(presolve.getHugeVal());
+
     if (problem.getNCols() == 0)
         return -1;  // already solve
     else
@@ -146,7 +149,6 @@ void MIPPreSolver<REAL>::alreadySolve() {
     if (result.postsolve.postsolveType == PostsolveType::kFull)
         empty_sol.type = papilo::SolutionType::kPrimalDual;
 
-    const papilo::Num<REAL> num{};
     papilo::Message msg{};
     papilo::Postsolve<REAL> postsolve{msg, num};
     postsolve.undo(empty_sol, solution, result.postsolve);
@@ -170,7 +172,6 @@ bool MIPPreSolver<REAL>::PBCheck() {
 template <typename REAL>
 std::string MIPPreSolver<REAL>::collectResult() {
     std::string str = "";
-    const papilo::Num<REAL> num{};
 
     const papilo::ConstraintMatrix<REAL>& consmatrix = problem.getConstraintMatrix();
     const papilo::Vec<std::string>& varnames = problem.getVariableNames();
@@ -240,16 +241,16 @@ void MIPPreSolver<REAL>::postSolve(std::string& rsSol) {
         throw std::invalid_argument("UNMACHED SOLUTION, REQUIRE: " + std::to_string(problem.getConstraintMatrix().getNCols()) + " OBTAIN: " + std::to_string(reducedsolvals.size()));
     }
 
-    const papilo::Num<REAL> num{};
     papilo::Message msg{};
     papilo::Postsolve<REAL> postsolve{msg, num};
     papilo::Solution<REAL> reducedsol(std::move(reducedsolvals));
     papilo::Solution<REAL> origsol;
     PostsolveStatus status = postsolve.undo(reducedsol, origsol, result.postsolve);
 
-    std::cout << std::fixed << "O "
-              << result.postsolve.getOriginalProblem().computeSolObjective(origsol.primal)
-              << std::endl;
+    REAL origobj = result.postsolve.getOriginalProblem().computeSolObjective(origsol.primal);
+    assert(num.isIntegral(origobj));
+    origobj = num.round(origobj);
+    std::cout << "O " << origobj << std::endl;
 
     std::string pSol = "V ";
     if (status == PostsolveStatus::kOk) {
@@ -268,20 +269,20 @@ void MIPPreSolver<REAL>::postSolve(std::string& rsSol) {
         throw std::invalid_argument("PaPILO POSTSOLVE FAILED");
     }
 
-    std::cout << pSol << std::endl;
+    // std::cout << pSol << std::endl;
     return;
 }
 
 // helper function
-
 template <typename REAL>
 std::string MIPPreSolver<REAL>::writeConstraint(const papilo::SparseVectorView<REAL>& row,
                                                 const papilo::Vec<std::string>& varnames,
                                                 const int& flip, const std::string& op, const REAL& deg) {
-    auto IntegralCoeff = [&](const papilo::Vec<REAL>& vals, papilo::Vec<bigint>& ans, const papilo::Num<REAL> num) {
+    auto IntegralCoeff = [&](const papilo::Vec<REAL>& vals, papilo::Vec<bigint>& ans) {
         // a/b
         papilo::Vec<bigint> a(vals.size());
         papilo::Vec<bigint> b(vals.size());
+
         bool allInteger = true;
         for (int i = 0; i < vals.size(); i++) {
             if (num.isIntegral(vals[i])) {
@@ -313,13 +314,13 @@ std::string MIPPreSolver<REAL>::writeConstraint(const papilo::SparseVectorView<R
                 ans[i] = _lcm / b[i] * a[i];
                 _gcd = aux::gcd(_gcd, ans[i]);
             }
+            std::cout << _lcm << " " << _gcd << std::endl;
             for (int i = 0; i < ans.size(); i++) {
+                assert(num.isIntegral((REAL)(ans[i]) / (REAL)(_gcd)));
                 ans[i] /= _gcd;
                 if (num.isLT(vals[i], 0)) {
                     ans[i] *= -1;
                 }
-
-                assert(num.isIntegral((REAL)(ans[i]) / (REAL)(_gcd)));
                 assert(num.isLT((REAL)ans[i], 0) == num.isLT(vals[i], 0));
             }
         }
@@ -328,13 +329,18 @@ std::string MIPPreSolver<REAL>::writeConstraint(const papilo::SparseVectorView<R
     const REAL* rowVals = row.getValues();
     const int* indices = row.getIndices();
     const auto len = row.getLength();
-    const papilo::Num<REAL> num{};
 
     papilo::Vec<REAL> coeffVal(rowVals, rowVals + len);
     coeffVal.emplace_back(deg);
     papilo::Vec<bigint> simVal(coeffVal.size());
+    IntegralCoeff(coeffVal, simVal);
 
-    IntegralCoeff(coeffVal, simVal, num);
+    // papilo::Vec<REAL> coeffVal{1.5, 0.75, 1.125, 10.5};
+    // papilo::Vec<bigint> simVal(coeffVal.size());
+    // papilo::Vec<bigint> ans{4, 2, 3, 16};
+    // IntegralCoeff(coeffVal, simVal, num);
+    // std::cout << simVal << std::endl;
+    // assert(coeffVal[0] == 1);
 
     std::string s = "";
     for (int j = 0; j < len; j++) {
