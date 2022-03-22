@@ -43,14 +43,16 @@ find_package(PAPILO CONFIG)
 # file(GLOB SOURCES "src/*.cpp")
 set(source_files
   src/utils.cpp
+  src/parsing.cpp
   src/MIP.cpp
   src/runRoundingSat.cpp
   src/main.cpp
   ${PROJECT_SOURCE_DIR}/src/typedef.hpp
+  ${PROJECT_SOURCE_DIR}/src/runRoundingSat.hpp
   ${PROJECT_SOURCE_DIR}/src/auxiliary.hpp
   ${PROJECT_SOURCE_DIR}/src/utils.hpp
+  ${PROJECT_SOURCE_DIR}/src/parsing.hpp
   ${PROJECT_SOURCE_DIR}/src/MIP.hpp
-  ${PROJECT_SOURCE_DIR}/src/runRoundingSat.hpp
   )
 
 add_executable(pre ${source_files})

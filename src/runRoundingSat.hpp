@@ -12,10 +12,12 @@
 #include <fstream>
 #include <sstream>
 
+#include "typedef.hpp"
+
 namespace pre {
 namespace runRoundingSat {
 
-std::string run(std::string& preInfo, std::string& infile);
+strpair run(std::string& preInfo, std::string& infile);
 
 }// namespace runRoundingSat
 }// namespace pre

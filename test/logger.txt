@@ -1,0 +1,4 @@
+diamond.0.d.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.014274000000114029
+		 rs: 0.004800699999577773

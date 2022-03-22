@@ -2,7 +2,7 @@
 
 namespace pre {
 
-std::string runRoundingSat::run(std::string& preInfo, std::string& infile) {
+strpair runRoundingSat::run(std::string& preInfo, std::string& infile) {
     // std::cout << preInfo << std::endl;
 
     namespace bp = boost::process;
@@ -29,12 +29,15 @@ std::string runRoundingSat::run(std::string& preInfo, std::string& infile) {
     pipin << preInfo;
 
     std::string line;
-    std::string sol;
+    std::string sol = "";
+    std::string status = "";
 
     while (pipout && std::getline(pipout, line) && !line.empty()) {
         // std::cout << '\t' << line << std::endl;
-        if (line.empty() || line[0] == 'c' || line[0] == 's')
+        if (line.empty() || line[0] == 'c')
             continue;
+        else if (line[0] == 's')
+            status = line.substr(2);
         else if (line[0] == 'v')
             sol = line.substr(2);
         else
@@ -43,7 +46,7 @@ std::string runRoundingSat::run(std::string& preInfo, std::string& infile) {
 
     c.wait();
     // return c.exit_code();
-    return sol;
+    return std::make_pair(status, sol);
 }  // namespace runRoundingSat
 
 }  // namespace pre

@@ -2,7 +2,6 @@
 #include <iostream>
 
 #include "MIP.hpp"
-#include "runRoundingSat.hpp"
 
 /*
 FLOW CHART
@@ -18,36 +17,21 @@ FLOW CHART
 int main(int argc, char *argv[]) {
     std::string infile = argv[1];
     int onlyPreSolve = std::stoi(argv[2]);
+
     papilo::Rational a = 1.5;
     const papilo::Num<papilo::Rational> num{};
-
     std::cout << num.isLT(-1, 0) << std::endl;
     // return 0;
 
     // run PaPILO
     pre::MIPPreSolver<papilo::Rational> mSolver;
+    mSolver.setOnlyPresolve(onlyPreSolve);
     mSolver.buildProblem(infile);
     papilo::Problem<papilo::Rational> problem = mSolver.getOriginalProblem();
     // mSolver.printDetailedProblem();
-    std::cout << "---------------Start Running PaPILO--------------" << std::endl;
-    int status = mSolver.runPresolve();
-    std::cout << "---------------END Running PaPILO--------------" << std::endl;
 
-    std::cout << "S " << status << std::endl;
-    if (status == -1) {  // already solved
-        mSolver.alreadySolve();
-    } else if (status == 0 || status == 1) {
-        if (mSolver.PBCheck()) std::cout << "P 1 pass Pseudo-Boolean check" << std::endl;
-        if (!onlyPreSolve) {
-            std::string preInfo = mSolver.collectResult();
-            std::cout << "C running roundingSat .. " << std::endl;
-            std::string rsSol = pre::runRoundingSat::run(preInfo, infile);
-            std::cout << "C start postsolve .. " << std::endl;
-            mSolver.postSolve(rsSol);
-        }
-    } else {
-        std::cout << "C PaPILO detec to be infeasible or unbounded .. " << std::endl;
-    }
+    mSolver.run();
+    mSolver.printSolution();
 
     return 0;
 }
