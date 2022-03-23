@@ -1,0 +1,13 @@
+sentoy.0.s.opb
+	colsingleton    2               0               0               0               0               
+	coefftightening 2               0               0               0               0.0011          
+	propagation     2               0               0               0               0.0019          
+	simpleprobing   1               0               0               0               0               
+	parallelrows    1               0               0               0               0.0107          
+	stuffing        1               0               0               0               0               
+	simplifyineq    1               0               0               0               0.0083          
+	doubletoneq     1               0               0               0               0               
+	probing         1               0               0               0               0.0465          
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0.0001          
+

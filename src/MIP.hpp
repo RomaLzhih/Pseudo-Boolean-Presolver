@@ -16,9 +16,11 @@ class MIPPreSolver {
 
     // main functionality
     void run();
-    void buildProblem(std::string inFileName);
+    void buildProblem(const std::string& inFileName);
     void printSolution();
+    void writePresolvers(const std::string& inFileName);
 
+   private:
     // helper function
     int runPresolve();
     void alreadySolve();

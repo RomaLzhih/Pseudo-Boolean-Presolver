@@ -209,6 +209,7 @@ class Presolve
       return num.getFeasTol();
    }
 
+   /// get huge value
    const REAL&
    getHugeVal() const
    {
@@ -251,6 +252,19 @@ class Presolve
    std::pair<int, int>
    applyReductions( int p, const Reductions<REAL>& reductions_,
                     ProblemUpdate<REAL>& probUpdate );
+
+   ///! access presolvers and states
+   const Vec<std::unique_ptr<PresolveMethod<REAL>>>& 
+   getPresolvers() const 
+   {
+      return presolvers;
+   }
+
+   const Vec<std::pair<int, int>>& 
+   getPresolverStats() const
+   {
+      return presolverStats;
+   }
 
  private:
    // data to perform presolving

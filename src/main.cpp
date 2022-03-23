@@ -32,6 +32,7 @@ int main(int argc, char *argv[]) {
 
     mSolver.run();
     mSolver.printSolution();
+    mSolver.writePresolvers(infile);
 
     return 0;
 }

@@ -222,6 +222,18 @@ class PresolveMethod
       return ncalls;
    }
 
+   unsigned int
+   getNSuccessCalls() const
+   {
+      return nsuccessCall;
+   }
+
+   double 
+   getExecTime() const
+   {
+      return execTime;
+   }
+
    void
    setDelayed( bool value )
    {

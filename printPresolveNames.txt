@@ -1,0 +1,18 @@
+! TYPE = 0
+coefftightening
+propagation
+domcol
+dualfix
+dualinfer
+fixcontinuous
+substitution
+implint
+parallelcols
+parallelrows
+probing
+simpleprobing
+doubletoneq
+simplifyineq
+colsingleton
+stuffing
+sparsify
