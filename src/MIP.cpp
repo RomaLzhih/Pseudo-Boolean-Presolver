@@ -42,7 +42,7 @@ void MIPPreSolver<REAL>::buildProblem(const std::string& inFileName) {
 template <typename REAL>
 int MIPPreSolver<REAL>::runPresolve() {
     auto setPara = [&]() {
-        std::string paraPath = "../parameters.test.txt";
+        std::string paraPath = "../param/parameters.test.txt";
         std::ifstream parafile(paraPath);
         assert(!parafile.fail());
 
@@ -327,7 +327,7 @@ void MIPPreSolver<REAL>::printSolution() {
 
 template <typename REAL>
 void MIPPreSolver<REAL>::writePresolvers(const std::string& inFileName) {
-    std::string inpath = "../printPresolveNames.txt";
+    std::string inpath = "../param/printPresolveNames.txt";
     std::string outpath = inFileName.substr(0, inFileName.find_last_of("//") + 1) + "0-paraDoc.txt";
     std::ifstream infile(inpath);
     std::ofstream outfile(outpath, std::ios::app);

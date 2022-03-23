@@ -37,3 +37,16 @@ p0033.opb
 	substitution    1               0               0               0               0               
 	sparsify        1               0               0               0               0.0003          
 
+p0033.opb
+	colsingleton    4               0               0               0               0               
+	coefftightening 4               25              5               100             0.0006          
+	propagation     4               0               0               0               0.0004          
+	simpleprobing   2               0               0               0               0               
+	parallelrows    2               50              1               100             0.0035          
+	stuffing        2               0               0               0               0               
+	simplifyineq    2               50              3               100             0.0039          
+	doubletoneq     2               0               0               0               0               
+	probing         1               0               0               0               0.011           
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0               
+
