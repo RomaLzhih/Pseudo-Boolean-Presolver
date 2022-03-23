@@ -1,0 +1,58 @@
+# Prerequisites
+*.d
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+*.smod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+#IDES
+.vscode
+.idea/
+
+# test and testcluster
+check/results/
+check/IP
+check/LP
+check/MINLP
+check/instancedata
+check/IP/miplib2017-benchmark/*
+
+#Generated Files
+build/
+debug/
+build*/
+cmake-build-debug/
+cmake-build-debug-coverage/
+external/tbb/cmake/
+solutions.test
+
+#downloads
+cmake/*tgz
+cmake/*tar.gz
+
