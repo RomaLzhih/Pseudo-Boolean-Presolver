@@ -60,12 +60,12 @@ struct Locks
 template <typename REAL>
 class Problem
 {
-public:
+ public:
    /// set objective function
    void
    setObjective( Vec<REAL> coefficients, REAL offset = 0.0 )
    {
-      objective = Objective<REAL> { std::move( coefficients ), offset };
+      objective = Objective<REAL>{ std::move( coefficients ), offset };
    }
 
    /// set objective function
@@ -84,21 +84,19 @@ public:
       assert( lhs_values.size() == rhs_values.size() );
       assert( lhs_values.size() == row_flags.size() );
       assert( ( transposed ? cons_matrix.getNCols()
-                : cons_matrix.getNRows() ) == row_flags.size() );
+                           : cons_matrix.getNRows() ) == row_flags.size() );
 
       auto cons_matrix_other = cons_matrix.getTranspose();
-      if ( transposed )
-         constraintMatrix = ConstraintMatrix<REAL> {
-         std::move( cons_matrix_other ), std::move( cons_matrix ),
-         std::move( lhs_values ), std::move( rhs_values ),
-         std::move( row_flags )
-      };
+      if( transposed )
+         constraintMatrix = ConstraintMatrix<REAL>{
+             std::move( cons_matrix_other ), std::move( cons_matrix ),
+             std::move( lhs_values ), std::move( rhs_values ),
+             std::move( row_flags ) };
       else
-         constraintMatrix = ConstraintMatrix<REAL> {
-         std::move( cons_matrix ), std::move( cons_matrix_other ),
-         std::move( lhs_values ), std::move( rhs_values ),
-         std::move( row_flags )
-      };
+         constraintMatrix = ConstraintMatrix<REAL>{
+             std::move( cons_matrix ), std::move( cons_matrix_other ),
+             std::move( lhs_values ), std::move( rhs_values ),
+             std::move( row_flags ) };
    }
 
    /// set constraint matrix
@@ -117,9 +115,9 @@ public:
       nintegers = 0;
       ncontinuous = 0;
 
-      for ( ColFlags cf : variableDomains.flags )
+      for( ColFlags cf : variableDomains.flags )
       {
-         if ( cf.test( ColFlag::kIntegral ) )
+         if( cf.test( ColFlag::kIntegral ) )
             ++nintegers;
          else
             ++ncontinuous;
@@ -131,16 +129,15 @@ public:
    setVariableDomains( Vec<REAL> lower_bounds, Vec<REAL> upper_bounds,
                        Vec<ColFlags> col_flags )
    {
-      variableDomains = VariableDomains<REAL> { std::move( lower_bounds ),
-            std::move( upper_bounds ),
-            std::move( col_flags )
-                                              };
+      variableDomains = VariableDomains<REAL>{ std::move( lower_bounds ),
+                                               std::move( upper_bounds ),
+                                               std::move( col_flags ) };
       nintegers = 0;
       ncontinuous = 0;
 
-      for ( ColFlags cf : variableDomains.flags )
+      for( ColFlags cf : variableDomains.flags )
       {
-         if ( cf.test( ColFlag::kIntegral ) )
+         if( cf.test( ColFlag::kIntegral ) )
             ++nintegers;
          else
             ++ncontinuous;
@@ -363,20 +360,20 @@ public:
                          REAL& boundviolation, REAL& rowviolation,
                          REAL& intviolation ) const
    {
-      if ( (int) sol.size() != getNCols() )
+      if( (int) sol.size() != getNCols() )
          return false;
 
       boundviolation = 0;
       intviolation = 0;
 
-      for ( int i = 0; i != getNCols(); ++i )
+      for( int i = 0; i != getNCols(); ++i )
       {
-         if ( !variableDomains.flags[i].test( ColFlag::kLbInf ) &&
-               sol[i] < variableDomains.lower_bounds[i] )
+         if( !variableDomains.flags[i].test( ColFlag::kLbInf ) &&
+             sol[i] < variableDomains.lower_bounds[i] )
          {
             REAL thisviol = variableDomains.lower_bounds[i] - sol[i];
 
-            if ( !num.isFeasZero( thisviol ) )
+            if( !num.isFeasZero( thisviol ) )
                Message::debug( this,
                                "lower bound {} of column {} with solution "
                                "value {} is violated by {}\n",
@@ -386,12 +383,12 @@ public:
             boundviolation = num.max( boundviolation, thisviol );
          }
 
-         if ( !variableDomains.flags[i].test( ColFlag::kUbInf ) &&
-               sol[i] > variableDomains.upper_bounds[i] )
+         if( !variableDomains.flags[i].test( ColFlag::kUbInf ) &&
+             sol[i] > variableDomains.upper_bounds[i] )
          {
             REAL thisviol = sol[i] - variableDomains.upper_bounds[i];
 
-            if ( !num.isFeasZero( thisviol ) )
+            if( !num.isFeasZero( thisviol ) )
                Message::debug( this,
                                "upper bound {} of column {} with solution "
                                "value {} is violated by {}\n",
@@ -401,11 +398,11 @@ public:
             boundviolation = num.max( boundviolation, thisviol );
          }
 
-         if ( variableDomains.flags[i].test( ColFlag::kIntegral ) )
+         if( variableDomains.flags[i].test( ColFlag::kIntegral ) )
          {
             REAL thisviol = abs( num.round( sol[i] ) - sol[i] );
 
-            if ( !num.isFeasZero( thisviol ) )
+            if( !num.isFeasZero( thisviol ) )
                Message::debug( this,
                                "integrality of column {} with solution value "
                                "{} is violated by {}\n",
@@ -421,20 +418,20 @@ public:
       const Vec<REAL>& lhs = constraintMatrix.getLeftHandSides();
       const Vec<REAL>& rhs = constraintMatrix.getRightHandSides();
 
-      for ( int i = 0; i != getNRows(); ++i )
+      for( int i = 0; i != getNRows(); ++i )
       {
          auto rowvec = constraintMatrix.getRowCoefficients( i );
          const REAL* vals = rowvec.getValues();
          const int* inds = rowvec.getIndices();
 
          StableSum<REAL> activitySum;
-         for ( int j = 0; j != rowvec.getLength(); ++j )
+         for( int j = 0; j != rowvec.getLength(); ++j )
             activitySum.add( sol[inds[j]] * vals[j] );
 
          REAL activity = activitySum.get();
 
-         if ( !rflags[i].test( RowFlag::kRhsInf )
-               && num.isFeasGT( activity, rhs[i] ) )
+         if( !rflags[i].test( RowFlag::kRhsInf )
+             && num.isFeasGT( activity, rhs[i] ) )
          {
             Message::debug( this,
                             "the activity {} of constraint {}  "
@@ -443,8 +440,8 @@ public:
             rowviolation = num.max( rowviolation, activity - rhs[i] );
          }
 
-         if ( !rflags[i].test( RowFlag::kLhsInf )
-               && num.isFeasLT( activity, rhs[i] ) )
+         if( !rflags[i].test( RowFlag::kLhsInf )
+             && num.isFeasLT( activity, rhs[i] ) )
          {
             Message::debug( this,
                             "the activity {} of constraint {}  "
@@ -464,7 +461,7 @@ public:
       assert( sol.size() == getNCols() );
 
       StableSum<REAL> obj( objective.offset );
-      for ( int i = 0; i < getNCols(); ++i )
+      for( int i = 0; i < getNCols(); ++i )
          obj.add( sol[i] * objective.coefficients[i] );
 
       return obj.get();
@@ -472,14 +469,14 @@ public:
 
    /// return const reference to vector of row activities
    const Vec<RowActivity<REAL>>&
-                             getRowActivities() const
+   getRowActivities() const
    {
       return rowActivities;
    }
 
    /// return reference to vector of row activities
    Vec<RowActivity<REAL>>&
-                       getRowActivities()
+   getRowActivities()
    {
       return rowActivities;
    }
@@ -493,30 +490,30 @@ public:
    }
 
    std::pair<Vec<int>, Vec<int>>
-                              compress( bool full = false )
+   compress( bool full = false )
    {
       std::pair<Vec<int>, Vec<int>> mappings =
-                                    constraintMatrix.compress( full );
+          constraintMatrix.compress( full );
 
       // update information about columns that is stored by index
       tbb::parallel_invoke(
-      [this, &mappings, full]() {
-         compress_vector( mappings.second, objective.coefficients );
-         if ( full )
-            objective.coefficients.shrink_to_fit();
-      },
-      [this, &mappings, full]() {
-         variableDomains.compress( mappings.second, full );
-      },
-      [this, &mappings, full]() {
-         // compress row activities
-         // recomputeAllActivities();
-         if ( rowActivities.size() != 0 )
-            compress_vector( mappings.first, rowActivities );
+          [this, &mappings, full]() {
+             compress_vector( mappings.second, objective.coefficients );
+             if( full )
+                objective.coefficients.shrink_to_fit();
+          },
+          [this, &mappings, full]() {
+             variableDomains.compress( mappings.second, full );
+          },
+          [this, &mappings, full]() {
+             // compress row activities
+             // recomputeAllActivities();
+             if( rowActivities.size() != 0 )
+                compress_vector( mappings.first, rowActivities );
 
-         if ( full )
-            rowActivities.shrink_to_fit();
-      } );
+             if( full )
+                rowActivities.shrink_to_fit();
+          } );
 
       // compress row activities
       return mappings;
@@ -537,17 +534,17 @@ public:
       // loop through rows once, compute initial acitvities, detect trivial
       // redundancy
       tbb::parallel_for(
-         tbb::blocked_range<int>( 0, getNRows() ),
-      [this]( const tbb::blocked_range<int>& r ) {
-         for ( int row = r.begin(); row != r.end(); ++row )
-         {
-            auto rowvec = constraintMatrix.getRowCoefficients( row );
-            rowActivities[row] = compute_row_activity(
-                                    rowvec.getValues(), rowvec.getIndices(), rowvec.getLength(),
-                                    variableDomains.lower_bounds, variableDomains.upper_bounds,
-                                    variableDomains.flags );
-         }
-      } );
+          tbb::blocked_range<int>( 0, getNRows() ),
+          [this]( const tbb::blocked_range<int>& r ) {
+             for( int row = r.begin(); row != r.end(); ++row )
+             {
+                auto rowvec = constraintMatrix.getRowCoefficients( row );
+                rowActivities[row] = compute_row_activity(
+                    rowvec.getValues(), rowvec.getIndices(), rowvec.getLength(),
+                    variableDomains.lower_bounds, variableDomains.upper_bounds,
+                    variableDomains.flags );
+             }
+          } );
    }
 
    void
@@ -558,22 +555,22 @@ public:
       // loop through rows once, compute initial acitvities, detect trivial
       // redundancy
       tbb::parallel_for(
-         tbb::blocked_range<int>( 0, getNCols() ),
-      [this]( const tbb::blocked_range<int>& c ) {
-         for ( int col = c.begin(); col != c.end(); ++col )
-         {
-            auto colvec = constraintMatrix.getColumnCoefficients( col );
+          tbb::blocked_range<int>( 0, getNCols() ),
+          [this]( const tbb::blocked_range<int>& c ) {
+             for( int col = c.begin(); col != c.end(); ++col )
+             {
+                auto colvec = constraintMatrix.getColumnCoefficients( col );
 
-            const REAL* vals = colvec.getValues();
-            const int* inds = colvec.getIndices();
-            int len = colvec.getLength();
-            const auto& rflags = getRowFlags();
+                const REAL* vals = colvec.getValues();
+                const int* inds = colvec.getIndices();
+                int len = colvec.getLength();
+                const auto& rflags = getRowFlags();
 
-            for ( int i = 0; i != len; ++i )
-               count_locks( vals[i], rflags[inds[i]], locks[col].down,
-                            locks[col].up );
-         }
-      } );
+                for( int i = 0; i != len; ++i )
+                   count_locks( vals[i], rflags[inds[i]], locks[col].down,
+                                locks[col].up );
+             }
+          } );
    }
 
    std::pair<int, int>
@@ -592,19 +589,19 @@ public:
 
       Vec<std::tuple<int, REAL, int>> colperm( getNCols() );
 
-      for ( int i = 0; i != getNCols(); ++i )
+      for( int i = 0; i != getNCols(); ++i )
          colperm[i] = std::make_tuple(
-                         colsize[i],
-                         constraintMatrix.getColumnCoefficients( i ).getDynamism(), i );
+             colsize[i],
+             constraintMatrix.getColumnCoefficients( i ).getDynamism(), i );
 
       pdqsort( colperm.begin(), colperm.end() );
 
-      for ( const auto& tuple : colperm )
+      for( const auto& tuple : colperm )
       {
          int col = std::get<2>( tuple );
 
-         if ( cflags[col].test( ColFlag::kInactive ) ||
-               !cflags[col].test( ColFlag::kUnbounded ) )
+         if( cflags[col].test( ColFlag::kInactive ) ||
+             !cflags[col].test( ColFlag::kUnbounded ) )
             continue;
 
          auto colvec = constraintMatrix.getColumnCoefficients( col );
@@ -616,37 +613,37 @@ public:
 
          ColFlags colf = cflags[col];
 
-         while ( ( !colf.test( ColFlag::kLbInf ) ||
-                   !colf.test( ColFlag::kUbInf ) ) &&
-                 k != collen )
+         while( ( !colf.test( ColFlag::kLbInf ) ||
+                  !colf.test( ColFlag::kUbInf ) ) &&
+                k != collen )
          {
             int row = colrows[k];
 
-            if ( rflags[row].test( RowFlag::kRedundant ) )
+            if( rflags[row].test( RowFlag::kRedundant ) )
             {
                ++k;
                continue;
             }
 
-            if ( !colf.test( ColFlag::kLbInf ) &&
-                  row_implies_LB( num, lhs[row], rhs[row], rflags[row],
-                                  activities[row], colvals[k], lbs[col], ubs[col],
-                                  cflags[col] ) )
+            if( !colf.test( ColFlag::kLbInf ) &&
+                row_implies_LB( num, lhs[row], rhs[row], rflags[row],
+                                activities[row], colvals[k], lbs[col], ubs[col],
+                                cflags[col] ) )
                colf.set( ColFlag::kLbInf );
 
-            if ( !colf.test( ColFlag::kUbInf ) &&
-                  row_implies_UB( num, lhs[row], rhs[row], rflags[row],
-                                  activities[row], colvals[k], lbs[col], ubs[col],
-                                  cflags[col] ) )
+            if( !colf.test( ColFlag::kUbInf ) &&
+                row_implies_UB( num, lhs[row], rhs[row], rflags[row],
+                                activities[row], colvals[k], lbs[col], ubs[col],
+                                cflags[col] ) )
                colf.set( ColFlag::kUbInf );
 
             ++k;
          }
 
-         if ( colf.test( ColFlag::kLbInf ) && colf.test( ColFlag::kUbInf ) )
+         if( colf.test( ColFlag::kLbInf ) && colf.test( ColFlag::kUbInf ) )
          {
             int oldnremoved = nremoved;
-            if ( !cflags[col].test( ColFlag::kLbInf ) )
+            if( !cflags[col].test( ColFlag::kLbInf ) )
             {
                update_activities_remove_finite_bound( colrows, colvals, collen,
                                                       BoundChange::kLower,
@@ -655,7 +652,7 @@ public:
                ++nremoved;
             }
 
-            if ( !cflags[col].test( ColFlag::kUbInf ) )
+            if( !cflags[col].test( ColFlag::kUbInf ) )
             {
                update_activities_remove_finite_bound( colrows, colvals, collen,
                                                       BoundChange::kUpper,
@@ -664,7 +661,7 @@ public:
                ++nremoved;
             }
 
-            if ( oldnremoved != nremoved )
+            if( oldnremoved != nremoved )
                ++nnewfreevars;
          }
       }
@@ -692,7 +689,7 @@ public:
       ar& locks;
    }
 
-private:
+ private:
    String name;
    REAL inputTolerance{ 0 };
    Objective<REAL> objective;
@@ -719,7 +716,7 @@ Problem<REAL>::substituteVarInObj( const Num<REAL>& num, int col, int row )
    auto& objcoefficients = getObjective().coefficients;
    REAL freevarCoefInObj = objcoefficients[col];
 
-   if ( freevarCoefInObj == REAL{ 0 } )
+   if( freevarCoefInObj == REAL{ 0 } )
       return;
 
    const auto equalityrow = consMatrix.getRowCoefficients( row );
@@ -735,13 +732,13 @@ Problem<REAL>::substituteVarInObj( const Num<REAL>& num, int col, int row )
    REAL substscale = -freevarCoefInObj / freevarCoefInCons;
 
    objcoefficients[col] = REAL{ 0.0 };
-   for ( int j = 0; j < length; ++j )
+   for( int j = 0; j < length; ++j )
    {
-      if ( indices[j] == col )
+      if( indices[j] == col )
          continue;
 
       REAL newobjcoeff = objcoefficients[indices[j]] + values[j] * substscale;
-      if ( num.isZero( newobjcoeff ) )
+      if( num.isZero( newobjcoeff ) )
          newobjcoeff = 0;
 
       objcoefficients[indices[j]] = newobjcoeff;
@@ -751,7 +748,7 @@ Problem<REAL>::substituteVarInObj( const Num<REAL>& num, int col, int row )
            !consMatrix.getRowFlags()[row].test( RowFlag::kRhsInf ) &&
            !consMatrix.getRowFlags()[row].test( RowFlag::kLhsInf ) &&
            consMatrix.getLeftHandSides()[row] ==
-           consMatrix.getRightHandSides()[row] );
+               consMatrix.getRightHandSides()[row] );
    getObjective().offset -= consMatrix.getLeftHandSides()[row] * substscale;
 }
 

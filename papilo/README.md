@@ -17,14 +17,13 @@ available at [github.com/scipopt/papilo](https://github.com/scipopt/papilo).
 
 # Dependencies
 
-External dependencies that need to be installed by the user are the Intel TBB 2020 runtime library and boost headers.
+External dependencies that need to be installed by the user are the Intel TBB >= 2020, or TBB from oneAPI runtime library and boost >= 1.65 headers.
 The executable additionally requires some of the boost runtime libraries that are not required when PaPILO is used as
 a library.
 Under the folder external/ there are additional packages that are directly included within PaPILO and have a
 liberal open-source license.
 
-Intel TBB 2021 is also included and PaPILO tries to compile a static version of TBB if the runtime library is missing.
-This fails on some systems currently and if any problems occur it is recommended to install an Intel TBB runtime library.
+If TBB is not found, then PaPILO tries to compile a static version. However this may fail on some systems currently and it is strongly recommended to install an Intel TBB runtime library.
 
 # Building
 
@@ -38,23 +37,28 @@ cd build
 cmake ..
 make
 ```
-Building PaPILO with SCIP and SOPELX works also with the standard cmake workflow:
+
+Building PaPILO with SCIP and SOPLEX works also with the standard cmake workflow:
 ```
 mkdir build
 cd build
 cmake -DSCIP_DIR=PATH_TO_SCIP_BUILD_DIR ..
 make
 ```
+After this, your papilo binary should be found in the `bin` folder.
+To install into your system, run `sudo make install`.
+
+To install papilo into a folder, add `-DCMAKE_INSTALL_PREFIX=/path/to/install/dir/` to the cmake call and run `make install` after the build.
+
 If you use a relative path to SCIP, then the reference point is the location of the `CMakeLists.txt`.
 If you want to build PaPILO with a provided Boost version please add one of these option to the cmake command:
-
 ```
 -DBOOST_ROOT=../boost_1_66_0
 -DBOOST_INCLUDEDIR=../boost_1_66_0/include
 ```
 
 Solvers that are found in the system are automatically linked to the executable.
-Additionally one can specify the locations of solvers, e.g. with -DSCIP_DIR=<location of scip-config.cmake>, to allow
+Additionally one can specify the locations of solvers, e.g. with `-DSCIP_DIR=<location of scip-config.cmake>`, to allow
 PaPILO to find them in non-standard locations.
 
 # Usage of the binary
@@ -66,7 +70,7 @@ Next we provide a small example of how the binary can be used to apply presolvin
 
 Assuming a problem instance is stored in the file `problem.mps` the following call will apply presolving with standard settings and write the reduced problem to `reduced.mps` and all information that is needed for postsolve to the binary archive `reduced.postsolve`.
 ```
-bin/papilo presolve -f problem.mps -r reduced.mps -v reduced.postsolve
+papilo presolve -f problem.mps -r reduced.mps -v reduced.postsolve
 ```
 
 Now we can use the reduced problem `reduced.mps` to obtain a solution
@@ -80,14 +84,14 @@ Variable names that are not found in the reduced problem are ignored.
 
 The command for applying the postsolve step to the solution `reduced.sol` is then
 ```
-bin/papilo postsolve -v reduced.postsolve -u reduced.sol -l problem.sol
+papilo postsolve -v reduced.postsolve -u reduced.sol -l problem.sol
 ```
 Giving the parameter `-l problem.sol` is optional and will store the solution transformed to the original space under `problem.sol`.
 The output of papilo contains some information about violations and objective value of the solution.
 
 If PaPILO was linked to a suitable solver, then the above can also be achieved by using the `solve` subcommand like this:
 ```
-bin/papilo solve -f problem.mps -l problem.sol
+papilo solve -f problem.mps -l problem.sol
 ```
 This will presolve the problem, pass the reduced problem to a solver, and subsequently transform back the optimal solution returned by the solver and write it to problem.sol.
 
@@ -95,7 +99,6 @@ This will presolve the problem, pass the reduced problem to a solver, and subseq
 
 PaPILO provides a templated C++ interface that allows to specify the type used for numerical computations. During configuration time PaPILO scans the system and provides the fastest available numeric types for quadprecision and for exact rational arithmetic in the file
 `papilo/misc/MultiPrecision.hpp`. Including this file will currently introduce the types
-
 ```
 papilo::Quad
 papilo::Float100
@@ -185,10 +188,8 @@ For this section we assume a problem instance is stored in a variable `problem` 
 
 In order to presolve a problem instance we need to setup an instance of `papilo::Presolve<REAL>` and then call `papilo::Presolve<REAL>::apply(problem)`.
 
-###### The same instance of `papilo::Presolve<REAL>` can be used for presolving multiple problem instances.
-
+The same instance of `papilo::Presolve<REAL>` can be used for presolving multiple problem instances.
 It stores the basic configuration of the presolving routine and constructing it with the default presolvers and settings to presolve the problem is straight forward:
-
 ```
 papilo::Presolve<REAL> presolve;
 presolve.addDefaultPresolvers();
@@ -248,7 +249,7 @@ There are several parameters that can be adjusted to influence the behavior duri
 All the parameters and their default values are listed in the file `parameters.txt`.
 Adjusting a parameter via the command line when using the PaPILO exectuable works like this:
 ```
-bin/papilo solve -f problem.mps -l problem.sol --presolve.randomseed=42
+papilo solve -f problem.mps -l problem.sol --presolve.randomseed=42
 ```
 This call will use an adjusted random seed for the presolve routine.
 

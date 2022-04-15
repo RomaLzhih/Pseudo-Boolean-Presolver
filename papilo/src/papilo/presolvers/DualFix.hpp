@@ -310,7 +310,7 @@ DualFix<REAL>::perform_dual_fix_step(
       // We consider only rows of
       // M := { (a_ji < 0 and rhs != inf) or (a_ji > 0 and lhs != inf)}.
       // If all constraints in M get redundant for x_i = new_UB, the upper
-      // bound can be set to new_UB.   
+      // bound can be set to new_UB.
       if( objective[i] >= 0 )
       {
          // in case of skip_variable_tightening set bounds to an infinite value

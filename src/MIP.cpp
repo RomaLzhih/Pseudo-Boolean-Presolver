@@ -365,7 +365,7 @@ void MIPPreSolver<REAL>::writePresolvers(const std::string& inFileName) {
 
         if (presolverNames.count(name)) {
             if ((!BYNCALLS && ncalls) || (BYNCALLS && nsuccessCall)) {
-                presolve.getPresolvers()[i]->printStats(msg, presolverStats[i]);
+                // presolve.getPresolvers()[i]->printStats(msg, presolverStats[i]);
                 double success =
                     ncalls == 0 ? 0.0
                                 : (double(nsuccessCall) / double(ncalls)) * 100.0;

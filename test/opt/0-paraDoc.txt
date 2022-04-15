@@ -50,3 +50,126 @@ p0033.opb
 	substitution    1               0               0               0               0               
 	sparsify        1               0               0               0               0               
 
+p0033.opb
+	colsingleton    4               0               0               0               0               
+	coefftightening 4               25              5               100             0.0006          
+	propagation     4               0               0               0               0.0003          
+	simpleprobing   2               0               0               0               0               
+	parallelrows    2               50              1               100             0.0008          
+	stuffing        2               0               0               0               0               
+	simplifyineq    2               50              3               100             0.0013          
+	doubletoneq     2               0               0               0               0               
+	probing         1               0               0               0               0.002           
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0.0002          
+
+p0033.opb
+	colsingleton    4               0               0               0               0               
+	coefftightening 4               25              5               100             0.0014          
+	propagation     4               0               0               0               0.0012          
+	simpleprobing   2               0               0               0               0               
+	parallelrows    2               50              1               100             0.0032          
+	stuffing        2               0               0               0               0               
+	simplifyineq    2               50              3               100             0.0038          
+	doubletoneq     2               0               0               0               0               
+	probing         1               0               0               0               0.0041          
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0               
+
+p0033.opb
+	colsingleton    4               0               0               0               0               
+	coefftightening 4               25              5               100             0.0009          
+	propagation     4               0               0               0               0.0003          
+	simpleprobing   2               0               0               0               0               
+	parallelrows    2               50              1               100             0.0033          
+	stuffing        2               0               0               0               0               
+	simplifyineq    2               50              3               100             0.0047          
+	doubletoneq     2               0               0               0               0               
+	probing         1               0               0               0               0.0047          
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0.0001          
+
+p0033.opb
+	colsingleton    4               0               0               0               0               
+	coefftightening 4               25              5               100             0.0016          
+	propagation     4               0               0               0               0.001           
+	simpleprobing   2               0               0               0               0               
+	parallelrows    2               50              1               100             0.0021          
+	stuffing        2               0               0               0               0               
+	simplifyineq    2               50              3               100             0.0038          
+	doubletoneq     2               0               0               0               0               
+	probing         1               0               0               0               0.0032          
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0               
+
+p0033.opb
+	colsingleton    4               0               0               0               0               
+	coefftightening 4               25              5               100             0.0034          
+	propagation     4               0               0               0               0.0011          
+	simpleprobing   2               0               0               0               0.0007          
+	parallelrows    2               50              1               100             0.0054          
+	stuffing        2               0               0               0               0               
+	simplifyineq    2               50              3               100             0.009           
+	doubletoneq     2               0               0               0               0               
+	probing         1               0               0               0               0.008           
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0.0001          
+
+p0033.opb
+	colsingleton    4               0               0               0               0               
+	coefftightening 4               25              5               100             0.0005          
+	propagation     4               0               0               0               0.0003          
+	simpleprobing   2               0               0               0               0               
+	parallelrows    2               50              1               100             0.0011          
+	parallelcols    2               50              3               100             0.0009          
+	stuffing        2               0               0               0               0.0001          
+	dualfix         2               0               0               0               0.0007          
+	simplifyineq    2               50              3               100             0.0013          
+	doubletoneq     2               0               0               0               0               
+	domcol          1               0               0               0               0.0004          
+	probing         1               0               0               0               0.0022          
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0               
+
+p0033.opb
+	colsingleton    4               0               0               0               0               
+	coefftightening 4               25              5               100             0.0005          
+	propagation     4               0               0               0               0.0003          
+	simpleprobing   2               0               0               0               0               
+	parallelrows    2               50              1               100             0.0011          
+	stuffing        2               0               0               0               0               
+	simplifyineq    2               50              3               100             0.0018          
+	doubletoneq     2               0               0               0               0               
+	probing         1               0               0               0               0.003           
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0               
+
+p0033.opb
+	colsingleton    4               0               0               0               0               
+	coefftightening 4               25              5               100             0.0023          
+	propagation     4               0               0               0               0.0005          
+	simpleprobing   2               0               0               0               0               
+	parallelrows    2               50              1               100             0.0006          
+	parallelcols    2               50              3               100             0.0081          
+	stuffing        2               0               0               0               0               
+	dualfix         2               0               0               0               0.0007          
+	simplifyineq    2               50              3               100             0.0076          
+	doubletoneq     2               0               0               0               0               
+	domcol          1               0               0               0               0.0004          
+	probing         1               0               0               0               0.0024          
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0               
+
+p0033.opb
+	colsingleton    4               0               0               0               0               
+	coefftightening 4               25              5               100             0.0013          
+	propagation     4               0               0               0               0.0004          
+	simpleprobing   2               0               0               0               0               
+	parallelrows    2               50              1               100             0.0018          
+	stuffing        2               0               0               0               0               
+	simplifyineq    2               50              3               100             0.0033          
+	doubletoneq     2               0               0               0               0.0001          
+	probing         1               0               0               0               0.0051          
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0.0005          
+

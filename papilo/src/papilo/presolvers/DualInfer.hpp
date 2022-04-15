@@ -92,8 +92,7 @@ DualInfer<REAL>::execute( const Problem<REAL>& problem,
    this->skipRounds( this->getNCalls() );
 
    Vec<RowActivity<REAL>> activitiesCopy( activities );
-   auto checkNonImpliedBounds = [&]( int col, bool& lbinf, bool& ubinf )
-   {
+   auto checkNonImpliedBounds = [&]( int col, bool& lbinf, bool& ubinf ) {
       const REAL& lb = lbValues[col];
       const REAL& ub = ubValues[col];
       ColFlags colf = cflags[col];
@@ -199,8 +198,9 @@ DualInfer<REAL>::execute( const Problem<REAL>& problem,
    }
 
    pdqsort( checkRedundantBounds.begin(), checkRedundantBounds.end(),
-            []( std::pair<int, int> c1, std::pair<int, int> c2 )
-            { return c1.first < c2.first; } );
+            []( std::pair<int, int> c1, std::pair<int, int> c2 ) {
+               return c1.first < c2.first;
+            } );
 
    for( std::pair<int, int> pair : checkRedundantBounds )
    {
@@ -232,8 +232,7 @@ DualInfer<REAL>::execute( const Problem<REAL>& problem,
    Vec<int> changedActivity;
    Vec<int> nextChangedActivity;
 
-   auto checkRedundancy = [&]( int dualRow )
-   {
+   auto checkRedundancy = [&]( int dualRow ) {
       if( ( dualRowFlags[dualRow].test( RowFlag::kLhsInf ) ||
             ( dualActivities[dualRow].ninfmin == 0 &&
               num.isFeasGE( dualActivities[dualRow].min,
@@ -278,9 +277,7 @@ DualInfer<REAL>::execute( const Problem<REAL>& problem,
 
    // do domain propagation
    int nrounds = 0;
-   auto boundChanged =
-       [&]( BoundChange boundChg, int dualCol, REAL newbound, int dualRow )
-   {
+   auto boundChanged = [&]( BoundChange boundChg, int dualCol, REAL newbound, int dualRow ) {
       auto rowvec = consMatrix.getRowCoefficients( dualCol );
 
       bool oldboundinf;
@@ -527,11 +524,11 @@ DualInfer<REAL>::execute( const Problem<REAL>& problem,
                num.isFeasGT( dualActivities[i].min, obj[i] ) &&
                num.isSafeGT( dualActivities[i].min, obj[i] ) )
       {
-         if( cflags[i].test( ColFlag::kUbInf ) )
+         if( cflags[i].test(ColFlag::kUbInf))
             return PresolveStatus::kUnbndOrInfeas;
-         TransactionGuard<REAL> tg{ reductions };
-         reductions.lockColBounds( i );
-         reductions.fixCol( i, ubValues[i] );
+         TransactionGuard<REAL> tg{reductions};
+         reductions.lockColBounds(i);
+         reductions.fixCol(i, ubValues[i]);
 
          if( cflags[i].test( ColFlag::kIntegral ) )
             ++fixedints;

@@ -85,7 +85,7 @@ CoefficientStrengthening<REAL>::execute(
    PresolveStatus result = PresolveStatus::kUnchanged;
 
    if( problemUpdate.getPresolveOptions().runs_sequentiell() ||
-       !problemUpdate.getPresolveOptions().coefficient_strengthening_parallel )
+      !problemUpdate.getPresolveOptions().coefficient_strengthening_parallel )
    {
       Vec<std::pair<REAL, int>> integerCoefficients;
       for( int i : changedActivities )
@@ -102,16 +102,14 @@ CoefficientStrengthening<REAL>::execute(
       Vec<Reductions<REAL>> stored_reductions( changedActivities.size() );
       tbb::parallel_for(
           tbb::blocked_range<int>( 0, changedActivities.size() ),
-          [&]( const tbb::blocked_range<int>& r )
-          {
-             Vec<std::pair<REAL, int>> integerCoefficients;
+          [&]( const tbb::blocked_range<int>& r ) {
+            Vec<std::pair<REAL, int>> integerCoefficients;
              for( int j = r.begin(); j < r.end(); ++j )
              {
                 if( perform_coefficient_tightening(
                         num, domains, activities, changedActivities[j],
                         constMatrix, lhs_values, rhs_values, rflags, cflags,
-                        stored_reductions[j],
-                        integerCoefficients ) == PresolveStatus::kReduced )
+                        stored_reductions[j], integerCoefficients ) == PresolveStatus::kReduced )
                    result = PresolveStatus::kReduced;
              }
           } );
@@ -119,7 +117,7 @@ CoefficientStrengthening<REAL>::execute(
       if( result == PresolveStatus::kUnchanged )
          return PresolveStatus::kUnchanged;
 
-      for( int i = 0; i < (int)stored_reductions.size(); ++i )
+      for( int i = 0; i < (int) stored_reductions.size(); ++i )
       {
          Reductions<REAL> reds = stored_reductions[i];
          if( reds.size() > 0 )
@@ -132,8 +130,8 @@ CoefficientStrengthening<REAL>::execute(
                for( int c = start; c < end; c++ )
                {
                   Reduction<REAL>& reduction = reds.getReduction( c );
-                  reductions.add_reduction( reduction.row, reduction.col,
-                                            reduction.newval );
+                  reductions.add_reduction( reduction.row,
+                                            reduction.col, reduction.newval );
                }
             }
          }

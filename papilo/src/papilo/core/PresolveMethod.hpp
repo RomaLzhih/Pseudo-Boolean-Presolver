@@ -222,13 +222,14 @@ class PresolveMethod
       return ncalls;
    }
 
+   /// ! add NSuccessCalls and ExecTime
    unsigned int
    getNSuccessCalls() const
    {
       return nsuccessCall;
    }
 
-   double 
+   double
    getExecTime() const
    {
       return execTime;
