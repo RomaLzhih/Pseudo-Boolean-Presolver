@@ -1,12 +1,22 @@
 {
     "configurations": [
         {
+            "name": "Linux",
             "includePath": [
                 "/src",
                 "/papilo",
                 "/usr/include/boost/"
             ],
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "defines": [],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "linux-gcc-x64",
+            "configurationProvider": "ms-vscode.cmake-tools",
+            "compilerArgs": [
+                "-Dsoplex=ON",
+                ".."
+            ]
         }
     ],
     "version": 4

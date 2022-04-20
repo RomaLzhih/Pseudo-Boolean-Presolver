@@ -31,21 +31,13 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include <string>
-#include "typedefs.hpp"
+#include "Options.hpp"
+#include "Stats.hpp"
 
 namespace rs {
 
-class Solver;
-
-namespace parsing {
-
-bigint read_number(const std::string& s);
-void opb_read(std::istream& in, Solver& solver, CeArb objective);
-void wcnf_read(std::istream& in, BigCoef top, Solver& solver, CeArb objective);
-void cnf_read(std::istream& in, Solver& solver);
-void file_read(std::istream& in, Solver& solver, CeArb objective);
-
-}  // namespace parsing
+extern bool asynch_interrupt;
+extern Options options;
+extern Stats stats;
 
 }  // namespace rs

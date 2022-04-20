@@ -29,23 +29,53 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ***********************************************************************/
 
-#pragma once
-
-#include <string>
-#include "typedefs.hpp"
+#include "ConstrSimple.hpp"
+#include "ConstrExp.hpp"
 
 namespace rs {
 
-class Solver;
+template <typename CF, typename DG>
+CeSuper ConstrSimple<CF, DG>::toExpanded(ConstrExpPools& cePools) const {
+  // TODO: make this the minimal bitwidth expanded constraint?
+  CePtr<ConstrExp<CF, DG>> ce = cePools.take<CF, DG>();
+  ce->addRhs(rhs);
+  for (const Term<CF>& t : terms) {
+    ce->addLhs(t.c, t.l);
+  }
+  ce->orig = orig;
+  if (ce->plogger) {
+    ce->proofBuffer.str(std::string());
+    ce->proofBuffer << proofLine;
+  }
+  return ce;
+}
 
-namespace parsing {
+template <typename CF, typename DG>
+void ConstrSimple<CF, DG>::toNormalFormLit() {
+  for (Term<CF>& t : terms) {
+    if (t.c < 0) {
+      rhs -= t.c;
+      t.c = -t.c;
+      t.l = -t.l;
+    }
+  }
+}
 
-bigint read_number(const std::string& s);
-void opb_read(std::istream& in, Solver& solver, CeArb objective);
-void wcnf_read(std::istream& in, BigCoef top, Solver& solver, CeArb objective);
-void cnf_read(std::istream& in, Solver& solver);
-void file_read(std::istream& in, Solver& solver, CeArb objective);
+template <typename CF, typename DG>
+void ConstrSimple<CF, DG>::toNormalFormVar() {
+  for (Term<CF>& t : terms) {
+    if (t.l < 0) {
+      rhs -= t.c;
+      t.c = -t.c;
+      t.l = -t.l;
+    }
+  }
+}
 
-}  // namespace parsing
+template struct ConstrSimple<int, long long>;
+template struct ConstrSimple<long long, int128>;
+template struct ConstrSimple<int128, int128>;
+template struct ConstrSimple<int128, int256>;
+template struct ConstrSimple<bigint, bigint>;
 
 }  // namespace rs

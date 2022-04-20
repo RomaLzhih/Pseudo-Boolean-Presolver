@@ -31,21 +31,23 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include <string>
+#include <memory>
+#include <vector>
 #include "typedefs.hpp"
 
 namespace rs {
 
 class Solver;
 
-namespace parsing {
-
-bigint read_number(const std::string& s);
-void opb_read(std::istream& in, Solver& solver, CeArb objective);
-void wcnf_read(std::istream& in, BigCoef top, Solver& solver, CeArb objective);
-void cnf_read(std::istream& in, Solver& solver);
-void file_read(std::istream& in, Solver& solver, CeArb objective);
-
-}  // namespace parsing
+namespace quit {
+void printSol(const std::vector<Lit>& sol, const int& orig_n);
+void printSolAsOpb(const std::vector<Lit>& sol, const int& orig_n);
+void exit_SAT(const Solver& solver);
+template <typename LARGE>
+void exit_UNSAT(const Solver& solver, const LARGE& bestObjVal);
+void exit_UNSAT(const Solver& solver);
+void exit_INDETERMINATE(const Solver& solver);
+void exit_ERROR(const std::initializer_list<std::string>& messages);
+}  // namespace quit
 
 }  // namespace rs

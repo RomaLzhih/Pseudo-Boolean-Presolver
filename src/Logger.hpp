@@ -31,21 +31,40 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #pragma once
 
-#include <string>
+#include <fstream>
+#include "Stats.hpp"
 #include "typedefs.hpp"
 
 namespace rs {
 
-class Solver;
+struct Logger {
+  std::ofstream proof_out;
+  ID last_formID = 0;
+  ID last_proofID = 0;
+  std::vector<ID> unitIDs;
 
-namespace parsing {
+  Logger(const std::string& proof_log_name) {
+    proof_out = std::ofstream(proof_log_name + ".proof");
+    proof_out << "pseudo-Boolean proof version 1.0\n";
+    // Dummy constraint for easier proof logging.
+    proof_out << "u >= 0 ;\n";
+    ++last_proofID;
+  }
 
-bigint read_number(const std::string& s);
-void opb_read(std::istream& in, Solver& solver, CeArb objective);
-void wcnf_read(std::istream& in, BigCoef top, Solver& solver, CeArb objective);
-void cnf_read(std::istream& in, Solver& solver);
-void file_read(std::istream& in, Solver& solver, CeArb objective);
+  void flush() { proof_out.flush(); }
 
-}  // namespace parsing
+  void logComment([[maybe_unused]] const std::string& comment, [[maybe_unused]] const Stats& sts) {
+#if !NDEBUG
+    proof_out << "* " << sts.getDetTime() << " " << comment << "\n";
+#endif
+  }
+
+  void logComment([[maybe_unused]] const std::string& comment) {
+#if !NDEBUG
+    proof_out << "* "
+              << " " << comment << "\n";
+#endif
+  }
+};
 
 }  // namespace rs

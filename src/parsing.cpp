@@ -1,101 +1,190 @@
+/***********************************************************************
+Copyright (c) 2014-2020, Jan Elffers
+Copyright (c) 2019-2021, Jo Devriendt
+Copyright (c) 2020-2021, Stephan Gocht
+Copyright (c) 2014-2021, Jakob Nordström
+
+Parts of the code were copied or adapted from MiniSat.
+
+MiniSat -- Copyright (c) 2003-2006, Niklas Een, Niklas Sorensson
+           Copyright (c) 2007-2010  Niklas Sorensson
+
+Permission is hereby granted, free of charge, to any person obtaining a
+copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be included
+in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+***********************************************************************/
+
 #include "parsing.hpp"
+#include <sstream>
+#include "Solver.hpp"
 
-namespace pre {
-namespace parser {
-papilo::Rational read_number(const std::string& s) {
-    papilo::Rational answer = 0;
-    bool negate = false;
-    for (char c : s) {
-        if ('0' <= c && c <= '9') {
-            answer *= 10;
-            answer += c - '0';
-        }
-        negate = (negate || (c == '-'));
+namespace rs {
+
+bigint parsing::read_number(const std::string& s) {
+  bigint answer = 0;
+  bool negate = false;
+  for (char c : s) {
+    if ('0' <= c && c <= '9') {
+      answer *= 10;
+      answer += c - '0';
     }
-    return negate ? -answer : answer;
+    negate = (negate || (c == '-'));
+  }
+  return negate ? -answer : answer;
 }
 
-template <typename REAL>
-int opb_read(std::ifstream& infile, papilo::ProblemBuilder<REAL>& builder) {
-    std::string line;
-    std::getline(infile, line);
-    std::string colNumStr = line.substr(line.find_first_of("=") + 2);
-    std::string rowNumStr = line.substr(line.find_last_of("=") + 2);
-    int colNum = std::stoi(colNumStr.substr(0, colNumStr.find_first_of(" ")));
-    int rowNum = std::stoi(rowNumStr);  //! papilo supports only int number of variables
-
-    std::unordered_map<std::string, int> varMap;
-
-    builder.setNumCols(colNum);
-    builder.setNumRows(rowNum);
-    // no need to set all since papilo add one-by-one as well
-    for (int i = 0; i < colNum; i++) {
-        std::string varName = "x" + aux::tos(i + 1);
-        builder.setColIntegral(i, true);
-        builder.setColName(i, varName);
-        builder.setColLb(i, 0);
-        builder.setColUb(i, 1);
-        varMap[varName] = i;
+void parsing::opb_read(std::istream& in, Solver& solver, CeArb objective) {
+  assert(objective->isReset());
+  CeArb input = solver.cePools.takeArb();
+  [[maybe_unused]] bool first_constraint = true;
+  for (std::string line; getline(in, line);) {
+    if (line.empty() || line[0] == '*') continue;
+    for (char& c : line)
+      if (c == ';') c = ' ';
+    bool opt_line = line.substr(0, 4) == "min:";
+    std::string line0;
+    if (opt_line)
+      line = line.substr(4), assert(first_constraint);
+    else {
+      std::string symbol;
+      if (line.find(">=") != std::string::npos)
+        symbol = ">=";
+      else
+        symbol = "=";
+      assert(line.find(symbol) != std::string::npos);
+      line0 = line;
+      line = line.substr(0, line.find(symbol));
     }
-
-    // jump comments
-    std::string s = "";
-    std::string varName = "";
-    bool obj = false;
-    while (std::getline(infile, line)) {
-        if (line.empty() || line[0] == '*')
-            continue;
-        else if (line.substr(0, 4) == "min:") {
-            std::istringstream is(line.substr(5));
-            while (is >> s) {
-                if (s == ";") break;
-                is >> varName;
-                builder.setObj(varMap[varName], read_number(s));
-            }
-            obj = true;
-            std::getline(infile, line);  // opt case, get first constraint
-            assert(line.find(">=") || line.find("="));
-            break;
-        } else if (line.find(">=") || line.find("=")) {  // dec case's first constraint
-            papilo::Vec<REAL> v(colNum, 0);
-            builder.setObjAll(v);
-            break;
-        }
+    first_constraint = false;
+    std::istringstream is(line);
+    input->reset();
+    std::vector<std::string> tokens;
+    std::string tmp;
+    while (is >> tmp) tokens.push_back(tmp);
+    if (tokens.size() % 2 != 0) quit::exit_ERROR({"No support for non-linear constraints."});
+    for (int i = 0; i < (long long)tokens.size(); i += 2)
+      if (find(tokens[i].begin(), tokens[i].end(), 'x') != tokens[i].end())
+        quit::exit_ERROR({"No support for non-linear constraints."});
+    for (int i = 0; i < (long long)tokens.size(); i += 2) {
+      std::string scoef = tokens[i];
+      std::string var = tokens[i + 1];
+      BigCoef coef = read_number(scoef);
+      bool negated = false;
+      std::string origvar = var;
+      if (!var.empty() && var[0] == '~') {
+        negated = true;
+        var = var.substr(1);
+      }
+      if (var.empty() || var[0] != 'x') quit::exit_ERROR({"Invalid literal token: ", origvar});
+      var = var.substr(1);
+      Lit l = atoi(var.c_str());
+      if (l < 1) quit::exit_ERROR({"Variable token less than 1: ", origvar});
+      if (negated) l = -l;
+      solver.setNbVars(std::abs(l), true);
+      input->addLhs(coef, l);
     }
-    // add constraint
-    int row = 0;
-    std::string RHS;
-    do {
-        if (line.empty() || line[0] == '*') continue;
-        std::istringstream is(line);
-        while (is >> s) {
-            if (s == ">=") {
-                is >> RHS;
-                builder.setRowLhsInf(row, false);
-                builder.setRowRhsInf(row, true);
-                builder.setRowLhs(row, read_number(RHS));
-            } else if (s == "=") {
-                is >> RHS;
-                builder.setRowLhsInf(row, false);
-                builder.setRowRhsInf(row, false);
-                builder.setRowLhs(row, read_number(RHS));
-                builder.setRowRhs(row, read_number(RHS));
-            } else if (s == ";") {
-                row++;
-                // std::cout << "row: " << row << std::endl;
-            } else {
-                is >> varName;
-                if (read_number(s) !=(REAL)0) {  // papilo doesn't allow add zero entry
-                    builder.addEntry(row, varMap[varName], read_number(s));
-                }
-                // std::cout << s << " " << varName << std::endl;
-            }
-        }
-    } while (std::getline(infile, line));
-    return obj;
+    if (opt_line)
+      input->copyTo(objective);
+    else {
+      input->addRhs(read_number(line0.substr(line0.find("=") + 1)));
+      if (solver.addConstraint(input, Origin::FORMULA).second == ID_Unsat) quit::exit_UNSAT(solver);
+      if (line0.find(" = ") != std::string::npos) {  // Handle equality case with second constraint
+        input->invert();
+        if (solver.addConstraint(input, Origin::FORMULA).second == ID_Unsat) quit::exit_UNSAT(solver);
+      }
+    }
+  }
 }
 
-template int opb_read<papilo::Rational>(std::ifstream& infile, papilo::ProblemBuilder<papilo::Rational>& builder);
+void parsing::wcnf_read(std::istream& in, BigCoef top, Solver& solver, CeArb objective) {
+  assert(objective->isReset());
+  CeArb input = solver.cePools.takeArb();
+  for (std::string line; getline(in, line);) {
+    if (line.empty() || line[0] == 'c')
+      continue;
+    else {
+      std::istringstream is(line);
+      std::string sweight;
+      is >> sweight;
+      BigCoef weight = read_number(sweight);
+      if (weight == 0) continue;
+      input->reset();
+      input->addRhs(1);
+      Lit l;
+      while (is >> l, l) input->addLhs(1, l);
+      if (weight < top) {  // soft clause
+        std::stringstream s;
+        s << "Negative clause weight: " << weight;
+        if (weight < 0) quit::exit_ERROR({s.str()});
+        solver.setNbVars(solver.getNbVars() + 1, true);  // increases n to n+1
+        objective->addLhs(weight, solver.getNbVars());
+        input->addLhs(1, solver.getNbVars());
+      }  // else hard clause
+      if (solver.addConstraint(input, Origin::FORMULA).second == ID_Unsat) quit::exit_UNSAT(solver);
+    }
+  }
+}
 
-}  // namespace parser
-}  // namespace pre
+void parsing::cnf_read(std::istream& in, Solver& solver) {
+  Ce32 input = solver.cePools.take32();
+  for (std::string line; getline(in, line);) {
+    if (line.empty() || line[0] == 'c')
+      continue;
+    else {
+      std::istringstream is(line);
+      input->reset();
+      input->addRhs(1);
+      Lit l;
+      while (is >> l, l) {
+        solver.setNbVars(std::abs(l), true);
+        input->addLhs(1, l);
+      }
+      if (solver.addConstraint(input, Origin::FORMULA).second == ID_Unsat) quit::exit_UNSAT(solver);
+    }
+  }
+}
+
+void parsing::file_read(std::istream& in, Solver& solver, CeArb objective) {
+  for (std::string line; getline(in, line);) {
+    if (line.empty() || line[0] == 'c') continue;
+    if (line[0] == 'p') {
+      std::istringstream is(line);
+      is >> line;  // skip 'p'
+      std::string type;
+      is >> type;
+      if (type == "cnf") {
+        cnf_read(in, solver);
+      } else if (type == "wcnf") {
+        long long val;
+        is >> val;  // variable count
+        solver.setNbVars(val);
+        is >> line;  // skip nbConstraints
+        std::string stop;
+        is >> stop;  // top
+        BigCoef top = read_number(stop);
+        wcnf_read(in, top, solver, objective);
+      }
+    } else if (line[0] == '*' && line.substr(0, 13) == "* #variable= ") {
+      opb_read(in, solver, objective);
+    } else {
+      quit::exit_ERROR({"No supported format [opb, cnf, wcnf] detected."});
+    }
+  }
+}
+
+}  // namespace rs
