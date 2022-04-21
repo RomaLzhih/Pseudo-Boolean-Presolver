@@ -86,7 +86,7 @@ class Optimization {
   std::vector<LvM<SMALL>> lazyVars;
   IntSet assumps;
 
-public:
+ public:
   Optimization(CePtr<ConstrExp<SMALL, LARGE>> obj) : origObj(obj) {
     assert(origObj->vars.size() > 0);
     // NOTE: -origObj->getDegree() keeps track of the offset of the reformulated objective (or after removing unit lits)
@@ -169,11 +169,11 @@ public:
     CeSuper card = core->clone(solver.cePools);
     if (options.cgReduction.is("clause")) {
       card->sortInDecreasingCoefOrder(
-      [&](Var v1, Var v2) { return aux::abs(reformObj->coefs[v1]) > aux::abs(reformObj->coefs[v2]); });
+          [&](Var v1, Var v2) { return aux::abs(reformObj->coefs[v1]) > aux::abs(reformObj->coefs[v2]); });
       card->simplifyToClause();
     } else if (options.cgReduction.is("minslack")) {
       card->sortInDecreasingCoefOrder(
-      [&](Var v1, Var v2) { return aux::abs(reformObj->coefs[v1]) > aux::abs(reformObj->coefs[v2]); });
+          [&](Var v1, Var v2) { return aux::abs(reformObj->coefs[v1]) > aux::abs(reformObj->coefs[v2]); });
       card->simplifyToMinLengthCardinality();
     } else {
       assert(options.cgReduction.is("bestbound"));
@@ -214,7 +214,7 @@ public:
       // objective coefficient literals are removed first, as the smallest objective coefficients are the ones that
       // will be eliminated from the objective function. Thanks Stephan!
       card->sortInDecreasingCoefOrder(
-      [&](Var v1, Var v2) { return aux::abs(reformObj->coefs[v1]) < aux::abs(reformObj->coefs[v2]); });
+          [&](Var v1, Var v2) { return aux::abs(reformObj->coefs[v1]) < aux::abs(reformObj->coefs[v2]); });
       card->simplifyToCardinality(false);
     }
 
@@ -336,7 +336,7 @@ public:
         quit::exit_UNSAT(solver, upper_bound);
       for (Var v = oldN + 1; v < newN; ++v) {  // add symmetry breaking constraints
         if (solver.addConstraint(ConstrSimple32({{1, v}, {1, -v - 1}}, 1), Origin::COREGUIDED).second == ID_Unsat)
-        quit::exit_UNSAT(solver, upper_bound);
+          quit::exit_UNSAT(solver, upper_bound);
       }
     } else {
       bool reified = options.cgEncoding.is("reified");
@@ -426,7 +426,7 @@ public:
            (options.optMode.is("coreboosted") && stats.getRunTime() < options.cgBoosted.get()) ||
            (options.optMode.is("hybrid") &&
             lower_time <
-            options.cgHybrid.get() * (upper_time + lower_time)))) {  // use core-guided step by setting assumptions
+                options.cgHybrid.get() * (upper_time + lower_time)))) {  // use core-guided step by setting assumptions
         reformObj->removeZeroes();
         if (coeflim > 0 && coefLimFlag == CoefLimStatus::REFINE) {
           // find a new coeflim
@@ -466,11 +466,11 @@ public:
       assert(upper_bound > lower_bound);
       // std::cout << "c nAssumptions for solve: " << assumps.size() << " @ " << stats.getTime() << " s\n";
       SolveAnswer out = aux::timeCall<SolveAnswer>(
-      [&] {
-        solver.setAssumptions(assumps);
-        return solver.solve();
-      },
-      assumps.isEmpty() ? stats.SOLVETIME : stats.SOLVETIMECG);
+          [&] {
+            solver.setAssumptions(assumps);
+            return solver.solve();
+          },
+          assumps.isEmpty() ? stats.SOLVETIME : stats.SOLVETIMECG);
       reply = out.state;
       if (reply == SolveState::RESTARTED) continue;
       if (reply == SolveState::UNSAT) {

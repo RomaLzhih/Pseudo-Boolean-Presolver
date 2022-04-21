@@ -12,21 +12,23 @@ class MIPPreSolver {
   papilo::Problem<REAL> getOriginalProblem();
   void printAbstractProblem();
   void printDetailedProblem();
-  void setOnlyPresolve(bool flag);
+  void setPreSolveStatus(const int& val) { this->presolveStatus = val; }
+  void setOnlyPresolve(const bool& flag) { this->onlyPreSolve = flag; }
+  void setPBStatus(const bool& val) { this->pbStatus = val; }
+  void setSolutionStat(const solStat& val) { this->solutionStatus = val; }
+  bool getPBStatus() { return pbStatus; }
 
   // main functionality
-  void run();
   void buildProblem(const std::string& inFileName);
   void printSolution();
   void writePresolvers(const std::string& inFileName);
+  void postSolve(const std::vector<int>& rsSol, const pre::solStat& rsStat);
 
- private:
   // helper function
   int runPresolve();
   void alreadySolve();
   bool PBCheck();
   std::string collectResult();
-  void postSolve(strpair& rsSol);
 
   // helper function
   std::string writeConstraint(const papilo::SparseVectorView<REAL>& row, const papilo::Vec<std::string>& varnames,

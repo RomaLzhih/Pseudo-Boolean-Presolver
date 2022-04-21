@@ -99,6 +99,7 @@ set(source_files
     src/presolving/parsing.cpp
     src/presolving/MIP.cpp
     src/presolving/runRoundingSat.cpp
+    src/presolving/presolve.cpp
     src/used_licenses/gpl_3_0.cpp
     src/used_licenses/zib_academic.cpp
     src/used_licenses/roundingsat.cpp
@@ -128,6 +129,7 @@ set(source_files
     src/presolving/utils.hpp
     src/presolving/parsing.hpp
     src/presolving/MIP.hpp
+    src/presolving/presolve.hpp
     src/used_licenses/roundingsat.hpp
     src/used_licenses/lgpl_3_0.hpp
     src/used_licenses/boost.hpp

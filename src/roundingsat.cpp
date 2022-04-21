@@ -35,6 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "auxiliary.hpp"
 #include "globals.hpp"
 #include "parsing.hpp"
+#include "presolving/presolve.hpp"
 #include "run.hpp"
 
 namespace rs {
@@ -71,14 +72,19 @@ int main(int argc, char** argv) {
   rs::run::solver.init();
   rs::CeArb objective = rs::run::solver.cePools.takeArb();
 
-  if (!rs::options.formulaName.empty()) {
-    std::ifstream fin(rs::options.formulaName);
-    if (!fin) rs::quit::exit_ERROR({"Could not open ", rs::options.formulaName});
-    rs::parsing::file_read(fin, rs::run::solver, objective);
-  } else {
-    if (rs::options.verbosity.get() > 0) std::cout << "c No filename given, reading from standard input" << std::endl;
-    rs::parsing::file_read(std::cin, rs::run::solver, objective);
-  }
+  //* presolve
+  std::string preSolvedIns = "";
+  pre::PreSolver pre;
+  pre.setInputPath(rs::options.formulaName);
+  pre.MIPSolve();
+  preSolvedIns = pre.getPreSolvedPath();
+
+  if (preSolvedIns.empty()) return 0;
+
+  //-------------------run RoundingSat----------------------
+  std::ifstream fin(preSolvedIns);
+  if (!fin) rs::quit::exit_ERROR({"Could not open ", rs::options.formulaName});
+  rs::parsing::file_read(fin, rs::run::solver, objective);  // TODO: add read from std
 
   signal(SIGINT, SIGINT_interrupt);
   signal(SIGTERM, SIGINT_interrupt);
@@ -87,4 +93,10 @@ int main(int argc, char** argv) {
   rs::run::solver.initLP(objective);
 
   rs::run::run(objective);
+  //------------------end RoundingSat-----------------------
+  //* post solve
+  pre.MIPPostSolve(rs::run::solver);
+  pre.printSolution();
+
+  return 0;
 }

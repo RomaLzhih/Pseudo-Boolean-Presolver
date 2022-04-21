@@ -15,7 +15,7 @@
 namespace pre {
 namespace runRoundingSat {
 
-strpair run(std::string& preInfo, std::string& infile);
+std::string getMIPSolvedFile(const std::string& preInfo, std::string infile);
 
 }  // namespace runRoundingSat
 }  // namespace pre

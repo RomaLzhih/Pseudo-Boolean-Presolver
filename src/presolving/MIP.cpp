@@ -19,23 +19,18 @@ void MIPPreSolver<REAL>::printDetailedProblem() {
   utils::printDetailedProblem(problem);
 }
 
-template <typename REAL>
-void MIPPreSolver<REAL>::setOnlyPresolve(bool flag) {
-  onlyPreSolve = flag;
-  return;
-}
-
 // main functionality
 template <typename REAL>
 void MIPPreSolver<REAL>::buildProblem(const std::string& inFileName) {
   std::ifstream infile(inFileName);
   assert(!infile.fail());
-  inputIns = inFileName;
+  this->inputIns = inFileName;
 
-  instanceType = parser::opb_read(infile, builder) ? fileType::opt : fileType::dec;
+  this->instanceType = parser::opb_read(infile, builder) ? fileType::opt : fileType::dec;
 
   infile.close();
-  problem = builder.build();
+  this->problem = builder.build();
+  return;
 }
 
 template <typename REAL>
@@ -58,15 +53,15 @@ int MIPPreSolver<REAL>::runPresolve() {
     parafile.close();
   };
 
-  presolve.addDefaultPresolvers();
+  this->presolve.addDefaultPresolvers();
   setPara();
-  result = presolve.apply(problem);
+  this->result = presolve.apply(problem);
 
-  num.setEpsilon(presolve.getEpsilon());  // use same tollerance with papilo
-  num.setFeasTol(presolve.getFeasTol());
-  num.setHugeVal(presolve.getHugeVal());
+  this->num.setEpsilon(presolve.getEpsilon());  // use same tollerance with papilo
+  this->num.setFeasTol(presolve.getFeasTol());
+  this->num.setHugeVal(presolve.getHugeVal());
 
-  if (problem.getNCols() == 0)
+  if (this->problem.getNCols() == 0)
     return -1;  // already solve
   else
     return (int)utils::as_integer(result.status);  // papilo status
@@ -161,25 +156,18 @@ std::string MIPPreSolver<REAL>::collectResult() {
   return str;
 }
 
-template <typename REAL>
-void MIPPreSolver<REAL>::postSolve(strpair& rsSol) {
-  if (rsSol.first == "UNSATISFIABLE") {
-    solutionStatus = solStat::UNSATISFIABLE;
+template <typename REAL>  // rsStatus and rsSol
+void MIPPreSolver<REAL>::postSolve(const std::vector<int>& rsSol, const pre::solStat& rsStat) {
+  if (rsStat == solStat::UNSATISFIABLE) {
+    this->solutionStatus = solStat::UNSATISFIABLE;
     return;
   }
-  assert(rsSol.first == "OPTIMUM FOUND" || rsSol.first == "SATISFIABLE");
-  assert(rsSol.second.size());
+  assert(rsStat == solStat::OPTIMAL || rsStat == solStat::SATISFIABLE);
+  assert(rsSol.size());
+
   papilo::Vec<REAL> reducedsolvals;
-  std::vector<std::string> splitSols;
-  boost::split(splitSols, rsSol.second, boost::is_any_of(" "), boost::token_compress_on);
-  for (auto s : splitSols) {
-    if (s[0] == '+' || s[0] == 'x')
-      reducedsolvals.push_back(1);
-    else if (s[0] == '-')
-      reducedsolvals.push_back(0);
-    else
-      throw std::invalid_argument("INVALID ROUNDINGSAT SOLUTION: NON +/-/x");
-  }
+  for (auto s : rsSol) reducedsolvals.push_back(s);
+
   if (reducedsolvals.size() != problem.getConstraintMatrix().getNCols()) {
     throw std::invalid_argument(
         "UNMACHED SOLUTION, REQUIRE: " + std::to_string(problem.getConstraintMatrix().getNCols()) +
@@ -192,14 +180,13 @@ void MIPPreSolver<REAL>::postSolve(strpair& rsSol) {
   papilo::Solution<REAL> origsol;
   PostsolveStatus status = postsolve.undo(reducedsol, origsol, result.postsolve);
 
-  origobj = result.postsolve.getOriginalProblem().computeSolObjective(origsol.primal);
+  this->origobj = result.postsolve.getOriginalProblem().computeSolObjective(origsol.primal);
   assert(num.isIntegral(origobj));
-  origobj = num.round(origobj);
+  this->origobj = num.round(origobj);  // round to integer
 
   if (status == PostsolveStatus::kOk) {
-    std::string sign;
-    sol = origsol.primal;
-    solutionStatus = solStat::SATISFIABLE;
+    this->sol = origsol.primal;
+    this->solutionStatus = solStat::SATISFIABLE;
   } else {
     throw std::invalid_argument("PaPILO POSTSOLVE FAILED");
   }
@@ -282,31 +269,6 @@ std::string MIPPreSolver<REAL>::writeConstraint(const papilo::SparseVectorView<R
   }
   s += op + " " + aux::tos(simVal[len]) + " ;\n";
   return s;
-}
-
-template <typename REAL>
-void MIPPreSolver<REAL>::run() {
-  std::cout << "---------------Start Running PaPILO--------------" << std::endl;
-  presolveStatus = runPresolve();
-  std::cout << "---------------END Running PaPILO--------------" << std::endl;
-
-  if (presolveStatus == -1) {  // already solved
-    alreadySolve();
-    std::cout << "B " << pbStatus << std::endl;  // 0 fail 1 pass
-  } else if (presolveStatus == 0 || presolveStatus == 1) {
-    pbStatus = PBCheck();
-    std::cout << "B " << pbStatus << std::endl;
-    if (!onlyPreSolve) {
-      std::string preInfo = collectResult();
-      std::cout << "C running roundingSat .. " << std::endl;
-      strpair rsSol = runRoundingSat::run(preInfo, inputIns);
-      std::cout << "C start postsolve .. " << std::endl;
-      postSolve(rsSol);
-    }
-  } else {
-    solutionStatus = solStat::UNSATISFIABLE;
-    std::cout << "C PaPILO detec to be infeasible or unbounded .. " << std::endl;
-  }
 }
 
 template <typename REAL>

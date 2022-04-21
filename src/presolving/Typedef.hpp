@@ -14,7 +14,8 @@ enum class fileType : int {
 
 enum class solStat : int {
     UNSATISFIABLE = 1 << 0,
-    SATISFIABLE = 1 << 1
+    SATISFIABLE = 1 << 1,
+    OPTIMAL = 1<< 2
 };
 
 using bigint = boost::multiprecision::cpp_int;
