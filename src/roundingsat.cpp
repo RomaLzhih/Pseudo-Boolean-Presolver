@@ -35,7 +35,6 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "auxiliary.hpp"
 #include "globals.hpp"
 #include "parsing.hpp"
-#include "presolving/presolve.hpp"
 #include "run.hpp"
 
 namespace rs {

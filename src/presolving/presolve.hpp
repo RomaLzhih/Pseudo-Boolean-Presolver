@@ -1,10 +1,11 @@
 #pragma once
 
-#include "presolving/MIP.hpp"
-#include "run.hpp"
 #include "Solver.hpp"
+#include "presolving/MIP.hpp"
 
-namespace rs{
+namespace rs {
+class Solver;
+
 namespace pre {
 class PreSolver {
  public:
@@ -22,4 +23,4 @@ class PreSolver {
 };
 
 }  // namespace pre
-}
+}  // namespace rs

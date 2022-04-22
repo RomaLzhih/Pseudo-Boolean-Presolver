@@ -107,22 +107,17 @@ set(source_files
     src/used_licenses/licenses.cpp
     src/used_licenses/boost.cpp
     src/used_licenses/lgpl_3_0.cpp
-    src/Constr.hpp
-    src/ConstrExp.hpp
-    src/ConstrSimple.hpp
-    src/SolverStructs.hpp
-    src/Logger.hpp
-    src/Stats.hpp
-    src/LpSolver.hpp
-    src/Options.hpp
-    src/IntSet.hpp
-    src/Solver.hpp
     src/typedefs.hpp
     src/auxiliary.hpp
-    src/globals.hpp
+    src/ConstrSimple.hpp
+    src/ConstrExp.hpp
+    src/Constr.hpp
+    src/SolverStructs.hpp
+    src/Logger.hpp
+    src/LpSolver.hpp
+    src/IntSet.hpp
+    src/Solver.hpp
     src/parsing.hpp
-    src/quit.hpp
-    src/run.hpp
     src/presolving/Typedef.hpp
     src/presolving/runRoundingSat.hpp
     src/presolving/Auxiliary.hpp
@@ -130,6 +125,11 @@ set(source_files
     src/presolving/parsing.hpp
     src/presolving/MIP.hpp
     src/presolving/presolve.hpp
+    src/quit.hpp
+    src/Options.hpp
+    src/Stats.hpp
+    src/globals.hpp
+    src/run.hpp
     src/used_licenses/roundingsat.hpp
     src/used_licenses/lgpl_3_0.hpp
     src/used_licenses/boost.hpp

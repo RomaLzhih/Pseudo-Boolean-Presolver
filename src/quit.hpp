@@ -33,6 +33,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #include <memory>
 #include <vector>
+#include "presolving/presolve.hpp"
 #include "typedefs.hpp"
 
 namespace rs {
@@ -40,6 +41,8 @@ namespace rs {
 class Solver;
 
 namespace quit {
+extern pre::PreSolver ps;
+
 void printSol(const std::vector<Lit>& sol, const int& orig_n);
 void printSolAsOpb(const std::vector<Lit>& sol, const int& orig_n);
 void exit_SAT(const Solver& solver);
