@@ -12,6 +12,7 @@
 #include <sstream>
 #include "presolving/Typedef.hpp"
 
+namespace rs{
 namespace pre {
 namespace runRoundingSat {
 
@@ -19,3 +20,4 @@ std::string getMIPSolvedFile(const std::string& preInfo, std::string infile);
 
 }  // namespace runRoundingSat
 }  // namespace pre
+} // rs

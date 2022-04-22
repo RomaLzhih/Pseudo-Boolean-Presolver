@@ -1,5 +1,6 @@
 #include "presolving/runRoundingSat.hpp"
 
+namespace rs{
 namespace pre {
 
 std::string runRoundingSat::getMIPSolvedFile(const std::string& preInfo, std::string infile) {
@@ -17,3 +18,4 @@ std::string runRoundingSat::getMIPSolvedFile(const std::string& preInfo, std::st
 }  // namespace runRoundingSat
 
 }  // namespace pre
+} // rs

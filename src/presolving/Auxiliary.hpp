@@ -16,6 +16,7 @@
 #include "presolving/Typedef.hpp"
 
 // most copied from rs
+namespace rs{
 namespace pre {
 template <typename T, typename U>
 std::ostream& operator<<(std::ostream& os, const std::pair<T, U>& p) {
@@ -137,3 +138,5 @@ inline bigint denominator(const T& x) {
 }  // namespace aux
 
 }  // namespace pre
+
+} // rs

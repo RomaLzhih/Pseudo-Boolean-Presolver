@@ -19,6 +19,7 @@
 // pre
 #include "presolving/Auxiliary.hpp"
 
+namespace rs{
 namespace pre {
 namespace utils {
 
@@ -38,3 +39,4 @@ void printVector(papilo::Vec<REAL> const& input);
 
 }  // namespace utils
 }  // namespace pre
+} // rs

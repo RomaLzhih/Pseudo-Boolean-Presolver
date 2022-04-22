@@ -2,6 +2,7 @@
 #include "presolving/MIP.hpp"
 #include <boost/algorithm/string.hpp>
 
+namespace rs{
 namespace pre {
 // export
 template <typename REAL>
@@ -73,17 +74,17 @@ void MIPPreSolver<REAL>::alreadySolve() {
   papilo::Solution<REAL> solution{};
   papilo::Solution<REAL> empty_sol{};
   empty_sol.type = papilo::SolutionType::kPrimal;
-  if (result.postsolve.postsolveType == PostsolveType::kFull) empty_sol.type = papilo::SolutionType::kPrimalDual;
+  if (this->result.postsolve.postsolveType == PostsolveType::kFull) empty_sol.type = papilo::SolutionType::kPrimalDual;
 
   papilo::Message msg{};
   papilo::Postsolve<REAL> postsolve{msg, num};
   postsolve.undo(empty_sol, solution, result.postsolve);
-  sol = solution.primal;
+  this->sol = solution.primal;
   if (instanceType == fileType::opt) {
-    origobj = result.postsolve.getOriginalProblem().computeSolObjective(solution.primal);
+    this->origobj = result.postsolve.getOriginalProblem().computeSolObjective(solution.primal);
   }
-  solutionStatus = solStat::SATISFIABLE;
-  pbStatus = true;
+  this->solutionStatus = solStat::SATISFIABLE;
+  this->pbStatus = true;
 }
 
 template <typename REAL>
@@ -354,3 +355,5 @@ void MIPPreSolver<REAL>::writePresolvers(const std::string& inFileName) {
 template class MIPPreSolver<papilo::Rational>;
 
 }  // namespace pre
+
+} // rs

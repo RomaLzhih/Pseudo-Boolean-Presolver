@@ -1,5 +1,6 @@
 #include "presolving/utils.hpp"
 
+namespace rs{
 namespace pre {
 namespace utils {
 template <typename REAL>
@@ -102,3 +103,4 @@ template void printVector<papilo::Rational>(papilo::Vec<papilo::Rational> const&
 
 }  // namespace utils
 }  // namespace pre
+} // rs

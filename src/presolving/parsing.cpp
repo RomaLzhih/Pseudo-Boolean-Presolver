@@ -1,5 +1,6 @@
 #include "presolving/parsing.hpp"
 
+namespace rs{
 namespace pre {
 namespace parser {
 papilo::Rational read_number(const std::string& s) {
@@ -99,3 +100,4 @@ template int opb_read<papilo::Rational>(std::ifstream& infile, papilo::ProblemBu
 
 }  // namespace parser
 }  // namespace pre
+} // rs

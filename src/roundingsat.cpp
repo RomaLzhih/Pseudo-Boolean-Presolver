@@ -74,7 +74,7 @@ int main(int argc, char** argv) {
 
   //* presolve
   std::string preSolvedIns = "";
-  pre::PreSolver pre;
+  rs::pre::PreSolver pre;
   pre.setInputPath(rs::options.formulaName);
   pre.MIPSolve();
   preSolvedIns = pre.getPreSolvedPath();

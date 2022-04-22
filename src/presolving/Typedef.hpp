@@ -6,6 +6,7 @@
 
 #include "boost/multiprecision/cpp_int.hpp"
 
+namespace rs{
 namespace pre {
 enum class fileType : int {
     opt = 1 << 0,
@@ -22,3 +23,4 @@ using bigint = boost::multiprecision::cpp_int;
 using strpair = std::pair<std::string, std::string>;
 
 }  // namespace pre
+} // rs

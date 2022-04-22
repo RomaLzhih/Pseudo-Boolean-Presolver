@@ -2,6 +2,7 @@
 
 #include "presolving/utils.hpp"
 
+namespace rs{
 namespace pre {
 namespace parser {
 
@@ -11,3 +12,4 @@ template <typename REAL>
 int opb_read(std::ifstream& infile, papilo::ProblemBuilder<REAL>& builder);
 }  // namespace parser
 }  // namespace pre
+}

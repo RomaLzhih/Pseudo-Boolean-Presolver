@@ -3,6 +3,7 @@
 #include "presolving/parsing.hpp"
 #include "presolving/runRoundingSat.hpp"
 
+namespace rs{
 namespace pre {
 
 template <typename REAL>
@@ -56,3 +57,4 @@ class MIPPreSolver {
 };
 
 }  // namespace pre
+} //rs

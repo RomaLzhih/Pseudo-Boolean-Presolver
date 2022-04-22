@@ -4,6 +4,7 @@
 #include "run.hpp"
 #include "Solver.hpp"
 
+namespace rs{
 namespace pre {
 class PreSolver {
  public:
@@ -21,3 +22,4 @@ class PreSolver {
 };
 
 }  // namespace pre
+}

@@ -1,5 +1,6 @@
 #include "presolving/presolve.hpp"
 
+namespace rs{
 namespace pre {
 
 void PreSolver::MIPSolve() {
@@ -49,3 +50,4 @@ void PreSolver::printSolution(){
 }
 
 }  // namespace pre
+} // rs
