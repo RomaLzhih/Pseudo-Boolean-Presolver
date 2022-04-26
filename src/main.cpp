@@ -2,7 +2,7 @@
 #include <iostream>
 
 #include "MIP.hpp"
-
+#include "SAT.hpp"
 /*
 FLOW CHART
     1: feed .opb file to problem builder
@@ -17,22 +17,21 @@ FLOW CHART
 int main(int argc, char *argv[]) {
     std::string infile = argv[1];
     int onlyPreSolve = std::stoi(argv[2]);
+    int solvertype = std::stoi(argv[3]);
+    if (solvertype == 0) {  // run SAT
+        pre::SATPreSolver<pre::bigint> sSolver;
+        sSolver.buildProblem(infile);
+    } else if (solvertype == 1) {  // run papilo
+        pre::MIPPreSolver<papilo::Rational> mSolver;
+        mSolver.setOnlyPresolve(onlyPreSolve);
+        mSolver.buildProblem(infile);
+        papilo::Problem<papilo::Rational> problem = mSolver.getOriginalProblem();
+        // mSolver.printDetailedProblem();
 
-    papilo::Rational a = 1.5;
-    const papilo::Num<papilo::Rational> num{};
-    std::cout << num.isLT(-1, 0) << std::endl;
-    // return 0;
-
-    // run PaPILO
-    pre::MIPPreSolver<papilo::Rational> mSolver;
-    mSolver.setOnlyPresolve(onlyPreSolve);
-    mSolver.buildProblem(infile);
-    papilo::Problem<papilo::Rational> problem = mSolver.getOriginalProblem();
-    // mSolver.printDetailedProblem();
-
-    mSolver.run();
-    mSolver.printSolution();
-    mSolver.writePresolvers(infile);
-
+        mSolver.run();
+        mSolver.printSolution();
+        mSolver.writePresolvers(infile);
+    } else {
+    }
     return 0;
 }

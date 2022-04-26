@@ -16,7 +16,7 @@ papilo::Rational read_number(const std::string& s) {
 }
 
 template <typename REAL>
-int opb_read(std::ifstream& infile, papilo::ProblemBuilder<REAL>& builder) {
+fileType opb_read_to_papilo(std::ifstream& infile, papilo::ProblemBuilder<REAL>& builder) {
     std::string line;
     std::getline(infile, line);
     std::string colNumStr = line.substr(line.find_first_of("=") + 2);
@@ -41,7 +41,7 @@ int opb_read(std::ifstream& infile, papilo::ProblemBuilder<REAL>& builder) {
     // jump comments
     std::string s = "";
     std::string varName = "";
-    bool obj = false;
+    fileType f;
     while (std::getline(infile, line)) {
         if (line.empty() || line[0] == '*')
             continue;
@@ -52,13 +52,14 @@ int opb_read(std::ifstream& infile, papilo::ProblemBuilder<REAL>& builder) {
                 is >> varName;
                 builder.setObj(varMap[varName], read_number(s));
             }
-            obj = true;
+            f = fileType::opt;
             std::getline(infile, line);  // opt case, get first constraint
             assert(line.find(">=") || line.find("="));
             break;
         } else if (line.find(">=") || line.find("=")) {  // dec case's first constraint
             papilo::Vec<REAL> v(colNum, 0);
             builder.setObjAll(v);
+            f = fileType::dec;
             break;
         }
     }
@@ -85,17 +86,67 @@ int opb_read(std::ifstream& infile, papilo::ProblemBuilder<REAL>& builder) {
                 // std::cout << "row: " << row << std::endl;
             } else {
                 is >> varName;
-                if (read_number(s) !=(REAL)0) {  // papilo doesn't allow add zero entry
+                if (read_number(s) != (REAL)0) {  // papilo doesn't allow add zero entry
                     builder.addEntry(row, varMap[varName], read_number(s));
                 }
                 // std::cout << s << " " << varName << std::endl;
             }
         }
     } while (std::getline(infile, line));
-    return obj;
+    return f;
 }
 
-template int opb_read<papilo::Rational>(std::ifstream& infile, papilo::ProblemBuilder<papilo::Rational>& builder);
+template <typename REAL>
+fileType opb_read_to_sat(std::ifstream& infile, ExprPool<REAL>& exprs) {
+    std::string line;
+    std::getline(infile, line);
+    std::string colNumStr = line.substr(line.find_first_of("=") + 2);
+    std::string rowNumStr = line.substr(line.find_last_of("=") + 2);
+    int colNum = std::stoi(colNumStr.substr(0, colNumStr.find_first_of(" ")));
+    int origRowNum = std::stoi(rowNumStr);
+    exprs.setSize(colNum, origRowNum);
+
+    fileType f;
+    std::string lhs, rhs;
+    while (std::getline(infile, line)) {
+        if (line.empty() || line[0] == '*')
+            continue;
+        else if (line.substr(0, 4) == "min:") {
+            lhs = line.substr(5), lhs.pop_back(), lhs.pop_back();
+            rhs = "";
+            Expr<REAL> e(lhs, rhs);
+            exprs.addObj(e);
+            f = fileType::opt;
+            std::getline(infile, line);  // opt case, get first constraint
+            assert(line.find(">=") || line.find("="));
+            break;
+        } else if (line.find(">=") || line.find("=")) {  // dec case's first constraint
+            f = fileType::dec;
+            break;
+        }
+    }
+
+    int op;
+    do {
+        if (line.empty() || line[0] == '*') continue;
+        op = line.find(">=") == std::string::npos ? line.find("=") : line.find(">=");
+        lhs = line.substr(0, op - 1);
+        rhs = line[op] == '>' ? line.substr(op + 3) : line.substr(op + 2);
+        assert(*rhs.rbegin() == ';');
+        rhs.pop_back(), rhs.pop_back();  // pop away ; and " "
+        Expr<REAL> e(lhs, rhs);
+        exprs.addExpr(e);
+        // e.print();
+        if (line[op] == '=') {
+            e.invert();
+            exprs.addExpr(e);
+        }
+    } while (std::getline(infile, line));
+    return f;
+}
+
+template fileType opb_read_to_sat<bigint>(std::ifstream& infile, ExprPool<bigint>& exprs);
+template fileType opb_read_to_papilo<papilo::Rational>(std::ifstream& infile, papilo::ProblemBuilder<papilo::Rational>& builder);
 
 }  // namespace parser
 }  // namespace pre

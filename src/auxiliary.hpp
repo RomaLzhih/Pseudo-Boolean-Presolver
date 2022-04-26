@@ -3,6 +3,7 @@
 #include <sys/resource.h>
 
 #include <algorithm>
+#include <boost/container_hash/hash.hpp>
 #include <cassert>
 #include <cstdlib>
 #include <iostream>
@@ -21,12 +22,12 @@
 namespace pre {
 template <typename T, typename U>
 std::ostream& operator<<(std::ostream& os, const std::pair<T, U>& p) {
-    os << p.first << "," << p.second;
+    os << p.first << " " << p.second << " ";
     return os;
 }
 template <typename T, typename U>
 std::ostream& operator<<(std::ostream& os, const std::unordered_map<T, U>& m) {
-    for (const auto& e : m) os << e << ";";
+    for (const auto& e : m) os << e << ";" << std::endl;
     return os;
 }
 template <typename T>
@@ -37,17 +38,24 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& m) {
 
 namespace aux {
 template <typename T>
-bigint sto_bigint(const std::string& s) {
-    T answer = 0;
-    bool negate = false;
-    for (char c : s) {
-        if ('0' <= c && c <= '9') {
-            answer *= 10;
-            answer += c - '0';
-        }
-        negate = (negate || (c == '-'));
-    }
-    return negate ? -answer : answer;
+std::size_t hashExpr(const std::unordered_map<int, T>& cols, T deg) {
+    std::size_t seed = 0;
+    boost::hash_combine(seed, deg);
+    for (auto c : cols) boost::hash_combine(seed, c.first), boost::hash_combine(seed, c.second);
+    return seed;
+}
+
+template <typename T>
+T sto(const std::string& s) {
+    return std::stold(s);
+}
+template <>
+inline double sto(const std::string& s) {
+    return std::stod(s);
+}
+template <>
+inline std::string sto(const std::string& s) {
+    return s;
 }
 
 template <typename T>
