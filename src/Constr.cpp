@@ -27,11 +27,27 @@ void Expr<REAL>::invert() {
 }
 
 template <typename REAL>
-std::string Expr<REAL>::toString() {
+const std::string& Expr<REAL>::toString() {
     this->stringView.clear();
-    for (auto c : cols)
-        this->stringView += aux::tos(c.second) + " x" + aux::tos(c.first) + " ";
-    this->stringView += "; \n";
+    for (auto c : cols) {
+        this->stringView +=
+            (c.second > 0 ? "+" : "") + aux::tos(c.second) + " x" + aux::tos(c.first) + " ";
+    }
+    this->stringView += ">= " + aux::tos(this->deg) + " ;";
+    return this->stringView;
+}
+
+template <typename REAL>
+const std::string& Expr<REAL>::toOrdString() {
+    this->stringView = "";
+    auto key_selector = [](auto p) { return p.first; };
+    std::vector<int> v(this->cols.size());
+    std::transform(this->cols.begin(), this->cols.end(), v.begin(), key_selector);
+    std::sort(v.begin(), v.end());
+    for (auto i : v) {
+        this->stringView += (this->cols[i] > 0 ? "+" : "") + aux::tos(this->cols[i]) + " x" + aux::tos(i) + " ";
+    }
+    this->stringView += ">= " + aux::tos(this->deg) + " ;";
     return this->stringView;
 }
 

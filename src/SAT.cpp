@@ -8,14 +8,13 @@ void SATPreSolver<REAL>::buildProblem(const std::string& inFileName) {
     this->inputIns = inFileName;
 
     this->instanceType = parser::opb_read_to_sat(infile, this->exprs);
-    this->exprs.print();
+    // this->exprs.print();
 
     infile.close();
 }
 
 template <typename REAL>
 void SATPreSolver<REAL>::redundancyDetection() {
-    
 }
 
 template class SATPreSolver<bigint>;

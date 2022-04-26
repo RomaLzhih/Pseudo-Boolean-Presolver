@@ -127,6 +127,7 @@ fileType opb_read_to_sat(std::ifstream& infile, ExprPool<REAL>& exprs) {
     }
 
     int op;
+    int eq = 0, less = 0;
     do {
         if (line.empty() || line[0] == '*') continue;
         op = line.find(">=") == std::string::npos ? line.find("=") : line.find(">=");
@@ -136,12 +137,18 @@ fileType opb_read_to_sat(std::ifstream& infile, ExprPool<REAL>& exprs) {
         rhs.pop_back(), rhs.pop_back();  // pop away ; and " "
         Expr<REAL> e(lhs, rhs);
         exprs.addExpr(e);
-        // e.print();
         if (line[op] == '=') {
+            assert(e.toOrdString().substr(0, op) == line.substr(0, op) && e.toOrdString().substr(op + 1) == line.substr(op));
+
             e.invert();
             exprs.addExpr(e);
+            eq++;
+        } else {
+            assert(e.toOrdString() == line);
+            less++;
         }
     } while (std::getline(infile, line));
+    assert(exprs.getExprs().size() == less + eq * 2);  // make sure no hash collision
     return f;
 }
 

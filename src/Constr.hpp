@@ -22,7 +22,8 @@ struct Expr {
     void addition(const Expr& exp, const int& var);
     const REAL& getDeg() { return this->deg; }
     const std::unordered_map<int, REAL>& getCols() { return this->cols; }
-    std::string toString();
+    const std::string& toString();
+    const std::string& toOrdString();
 
     std::size_t hashValue;
 
@@ -47,7 +48,7 @@ struct ExprPool {
     void addObj(const Expr<REAL>& _obj) { this->obj = _obj; }
     void delateExpr(const int& idx);
     void setSize(const int& n, const int& m) { N = n, M = m; }
-    auto getExprs() { return exprs; }
+    const auto& getExprs() { return exprs; }
     void print() {
         obj.print();
         for (auto e : exprs) e.print();
