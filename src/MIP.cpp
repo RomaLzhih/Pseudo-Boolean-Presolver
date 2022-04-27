@@ -46,7 +46,7 @@ int MIPPreSolver<REAL>::runPresolve() {
         std::ifstream parafile(paraPath);
         assert(!parafile.fail());
 
-        std::string line;
+        std::string line;  
         papilo::ParameterSet paramset = presolve.getParameters();
         while (std::getline(parafile, line)) {
             if (line.empty() || line[0] == '#') continue;
@@ -296,7 +296,7 @@ void MIPPreSolver<REAL>::run() {
         if (!this->onlyPreSolve) {
             std::string preInfo = collectResult();
             std::cout << "C running roundingSat .. " << std::endl;
-            strpair rsSol = runRoundingSat::run(preInfo, inputIns);
+            strpair rsSol = runRoundingSat::runforPaPILO(preInfo, inputIns);
             std::cout << "C start postsolve .. " << std::endl;
             postSolve(rsSol);
         }

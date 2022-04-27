@@ -10,61 +10,35 @@ Expr<REAL>::Expr(const std::string& lhs, const std::string& rhs) {
     std::vector<std::string> tokens;
     boost::split(tokens, lhs, boost::is_any_of(" "), boost::token_compress_on);
     assert(tokens.size() >= 2);
-    for (int l = 0, r = 1; l < tokens.size() && r < tokens.size(); l += 2, r += 2) {
+    for (int l = 0, r = 1; l < tokens.size() && r < tokens.size();
+         l += 2, r += 2) {
         this->cols[std::stoi(tokens[r].substr(1))] = to_bigint(tokens[l]);
     }
     // add deg
     tokens.clear();
     boost::split(tokens, rhs, boost::is_any_of(" "), boost::token_compress_on);
     this->deg = to_bigint(tokens[0]);
-    this->hashValue = aux::hashExpr(cols, deg);
+    return;
 }
 
 template <typename REAL>
 void Expr<REAL>::invert() {
     for (auto c : cols) cols[c.first] *= -1;
     this->deg *= -1;
+    return;
 }
 
 template <typename REAL>
-const std::string& Expr<REAL>::toString() {
-    this->stringView.clear();
-    for (auto c : cols) {
-        this->stringView +=
-            (c.second > 0 ? "+" : "") + aux::tos(c.second) + " x" + aux::tos(c.first) + " ";
-    }
-    this->stringView += ">= " + aux::tos(this->deg) + " ;";
-    return this->stringView;
+void Expr<REAL>::negate() {
+    for (auto c : cols) cols[c.first] *= -1;
+    this->deg = -this->deg + 1;
+    return;
 }
 
 template <typename REAL>
-const std::string& Expr<REAL>::toOrdString() {
-    this->stringView = "";
-    auto key_selector = [](auto p) { return p.first; };
-    std::vector<int> v(this->cols.size());
-    std::transform(this->cols.begin(), this->cols.end(), v.begin(), key_selector);
-    std::sort(v.begin(), v.end());
-    for (auto i : v) {
-        this->stringView += (this->cols[i] > 0 ? "+" : "") + aux::tos(this->cols[i]) + " x" + aux::tos(i) + " ";
-    }
-    this->stringView += ">= " + aux::tos(this->deg) + " ;";
-    return this->stringView;
-}
-
-template <typename REAL>
-void Expr<REAL>::print() {
-    // TODO: first sort then print
-    auto key_selector = [](auto p) { return p.first; };
-    std::vector<int> v(this->cols.size());
-    std::transform(this->cols.begin(), this->cols.end(), v.begin(), key_selector);
-    std::sort(v.begin(), v.end());
-    std::string op;
-    for (auto i : v) {
-        op = this->cols[i] > 0 ? "+" : "";
-        std::cout << op << this->cols[i] << " "
-                  << "x" << i << " ";
-    }
-    std::cout << ">= " << this->deg << " ;" << std::endl;
+void Expr<REAL>::print() const {
+    std::cout << aux::Expr2String(cols, deg) << std::endl;
+    return;
 }
 
 template struct Expr<bigint>;

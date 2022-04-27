@@ -37,14 +37,12 @@ std::ostream& operator<<(std::ostream& os, const std::vector<T>& m) {
 }
 
 namespace aux {
-template <typename T>
-std::size_t hashExpr(const std::unordered_map<int, T>& cols, T deg) {
-    std::size_t seed = 0;
-    boost::hash_combine(seed, deg);
-    for (auto c : cols) boost::hash_combine(seed, c.first), boost::hash_combine(seed, c.second);
-    return seed;
+// Minisat cpuTime function
+static inline double cpuTime() {
+    struct rusage ru;
+    getrusage(RUSAGE_SELF, &ru);
+    return (double)ru.ru_utime.tv_sec + (double)ru.ru_utime.tv_usec / 1000000;
 }
-
 template <typename T>
 T sto(const std::string& s) {
     return std::stold(s);
@@ -75,6 +73,72 @@ template <>
 inline std::string tos(const long long& x) {
     return std::to_string(x);
 }
+template <typename T>
+T mod_safe(const T& p, const T& q) {
+    assert(q > 0);
+    if (p < 0)
+        return q - (-p % q);
+    else
+        return p % q;
+}
+template <typename T>
+std::size_t hashExpr(const std::unordered_map<int, T>& cols, const T& deg) {
+    auto fibonacci_muliplier = [&]() {
+        return (std::size_t)(0x9e3779b97f4a7c15);
+    };
+    auto rotate_left = [&](unsigned long x, int n) {
+        return (std::size_t)(x << n) | (x >> (64 - n));
+    };
+    auto addValue = [&](std::size_t& seed, T val) {
+        seed = (std::size_t)(rotate_left(seed, 5) ^ T(val)) *
+               fibonacci_muliplier();
+    };
+
+    std::size_t seed = 0;
+    addValue(seed, (T)(aux::cpuTime() * 1e24));
+    boost::hash_combine(seed, deg);
+
+    return seed;
+}
+
+template <typename T>
+std::string Expr2String(const std::unordered_map<int, T>& cols, const T& deg) {
+    std::string stringView = "";
+    for (auto c : cols) {
+        stringView += (c.second > 0 ? "+" : "") + aux::tos(c.second) + " x" +
+                      aux::tos(c.first) + " ";
+    }
+    stringView += ">= " + aux::tos(deg) + " ;";
+    return stringView;
+}
+
+template <typename T>
+std::string Expr2OrdString(const std::unordered_map<int, T>& cols,
+                           const T& deg) {
+    std::string stringView = "";
+    auto key_selector = [](auto p) { return p.first; };
+    std::vector<int> v(cols.size());
+    std::transform(cols.begin(), cols.end(), v.begin(), key_selector);
+    std::sort(v.begin(), v.end());
+    for (auto i : v) {
+        stringView += (cols.at(i) > 0 ? "+" : "") + aux::tos(cols.at(i)) +
+                      " x" + aux::tos(i) + " ";
+    }
+    stringView += ">= " + aux::tos(deg) + " ;";
+    return stringView;
+}
+
+template <typename T>
+std::string Expr2NegString(const std::unordered_map<int, T>& cols,
+                           const T& deg) {
+    std::string stringView = "";
+    for (auto c : cols) {
+        stringView += (c.second < 0 ? "+" : "") + aux::tos(-c.second) + " x" +
+                      aux::tos(c.first) + " ";
+    }
+    stringView += ">= " + aux::tos(-deg + 1) + " ;";
+    return stringView;
+}
 
 template <typename T>
 T min(const std::vector<T>& v) {
@@ -99,7 +163,8 @@ inline bigint abs(const bigint& x) {
     return boost::multiprecision::abs(x);
 }
 template <>
-inline boost::multiprecision::int128_t abs(const boost::multiprecision::int128_t& x) {
+inline boost::multiprecision::int128_t abs(
+    const boost::multiprecision::int128_t& x) {
     return boost::multiprecision::abs(x);
 }
 
@@ -113,8 +178,9 @@ inline bigint gcd(const bigint& x, const bigint& y) {
     return boost::multiprecision::gcd(x, y);
 }
 template <>
-inline boost::multiprecision::int128_t gcd(const boost::multiprecision::int128_t& x,
-                                           const boost::multiprecision::int128_t& y) {
+inline boost::multiprecision::int128_t gcd(
+    const boost::multiprecision::int128_t& x,
+    const boost::multiprecision::int128_t& y) {
     return boost::multiprecision::gcd(x, y);
 }
 
@@ -128,8 +194,9 @@ inline bigint lcm(const bigint& x, const bigint& y) {
     return boost::multiprecision::lcm(x, y);
 }
 template <>
-inline boost::multiprecision::int128_t lcm(const boost::multiprecision::int128_t& x,
-                                           const boost::multiprecision::int128_t& y) {
+inline boost::multiprecision::int128_t lcm(
+    const boost::multiprecision::int128_t& x,
+    const boost::multiprecision::int128_t& y) {
     return boost::multiprecision::lcm(x, y);
 }
 

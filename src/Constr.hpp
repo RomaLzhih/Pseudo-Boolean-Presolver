@@ -10,45 +10,54 @@ template <typename REAL>
 struct Expr {
    public:
     bool operator==(const Expr& b) const {
-        return cols == b.cols && deg == b.deg;
+        return hashValue == b.hashValue && cols == b.cols && deg == b.deg;
     }
     Expr() {}
     Expr(const std::string& lhs, const std::string& rhs);
 
-    void getVars();
-    void getCoeffs();
-    void print();
     void invert();
+    void negate();
     void addition(const Expr& exp, const int& var);
-    const REAL& getDeg() { return this->deg; }
-    const std::unordered_map<int, REAL>& getCols() { return this->cols; }
-    const std::string& toString();
-    const std::string& toOrdString();
+    void setHash(std::size_t& h) { this->hashValue = h; }
 
-    std::size_t hashValue;
+    void print() const;
+    const int getVarsSize() const { return cols.size(); }
+    const REAL& getDeg() const { return deg; }
+    const std::unordered_map<int, REAL>& getCols() const { return cols; }
+    const std::size_t getHash() const { return hashValue; }
+
+    friend std::size_t hash_value(Expr<REAL> const& b) {
+        std::size_t h = b.hashValue;
+        return h;
+    }
 
    private:
     std::unordered_map<int, REAL> cols;
     std::unordered_map<int, REAL> norCols;
     REAL deg;
     std::string stringView;
+    std::size_t hashValue;
 };
-
-template <typename REAL>
-std::size_t hash_value(Expr<REAL> const& b) {
-    boost::hash<REAL> hasher;
-    return hasher(b.hashValue);
-}
 
 template <typename REAL>
 struct ExprPool {
    public:
     ExprPool() {}
-    void addExpr(const Expr<REAL>& e) { exprs.insert(e); }
-    void addObj(const Expr<REAL>& _obj) { this->obj = _obj; }
-    void delateExpr(const int& idx);
+    void addExpr(Expr<REAL>& e) {
+        e.setHash(++ghostCode);
+        exprs.insert(e);
+    }
+    void addObj(Expr<REAL>& _obj) {
+        _obj.setHash(++ghostCode);
+        this->obj = _obj;
+    }
+    void delateExpr(const Expr<REAL>& e) { exprs.erase(e); }
     void setSize(const int& n, const int& m) { N = n, M = m; }
-    const auto& getExprs() { return exprs; }
+    auto& getExprs() { return exprs; }
+    std::size_t& getGhostCode() { return this->ghostCode; }
+    const int& getVarNum() { return N; }
+    const int& getOrigConsNum() { return M; }
+    int getCosNum() { return exprs.size(); }
     void print() {
         obj.print();
         for (auto e : exprs) e.print();
@@ -59,6 +68,7 @@ struct ExprPool {
     Expr<REAL> obj;
     int N;
     int M;
+    std::size_t ghostCode;
 };
 
 }  // namespace pre

@@ -18,9 +18,13 @@ int main(int argc, char *argv[]) {
     std::string infile = argv[1];
     int onlyPreSolve = std::stoi(argv[2]);
     int solvertype = std::stoi(argv[3]);
+
     if (solvertype == 0) {  // run SAT
         pre::SATPreSolver<pre::bigint> sSolver;
         sSolver.buildProblem(infile);
+        // sSolver.redundancyDetection();
+        // sSolver.writePresolvers(infile);
+
     } else if (solvertype == 1) {  // run papilo
         pre::MIPPreSolver<papilo::Rational> mSolver;
         mSolver.setOnlyPresolve(onlyPreSolve);

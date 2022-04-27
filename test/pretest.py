@@ -11,6 +11,7 @@ InsLoc = "/home/mzy/thesis_project/pre/test/"
 
 filePathTerm = sys.argv[1]
 checkTerm = int(sys.argv[2])
+solverType = int(sys.argv[3])
 
 InsLoc = InsLoc + filePathTerm + '/'
 loggerPath = InsLoc + "0-logger.txt"
@@ -67,7 +68,7 @@ def rsParser(lines):
     return rsSolStat, rsObj, rsSol
 
 
-def runPre(file, onlyPreSolve):
+def runPre(file, onlyPreSolve, solverType):
     start = timer()
     preOut = ""
     solved = True
@@ -75,7 +76,7 @@ def runPre(file, onlyPreSolve):
 
     try:
         preOut = subprocess.run(
-            [preLoc, file, str(onlyPreSolve)], stdout=subprocess.PIPE, timeout=T).stdout.decode('utf-8')
+            [preLoc, file, str(onlyPreSolve), str(solverType)], stdout=subprocess.PIPE, timeout=T).stdout.decode('utf-8')
     except subprocess.TimeoutExpired:
         print("timeout")
         solved = False
@@ -128,7 +129,7 @@ def cmpOpt(preStat, solStat, preObj, preSol, fileType, rsSolStat, rsObj, rsSol):
 
 
 def checkOpt(file):
-    preSol, pre01, preTime, preSolved = runPre(InsLoc+file, 0)
+    preSol, pre01, preTime, preSolved = runPre(InsLoc+file, 0, solverType)
     rsSol, rsTime, rsSolved = runRs(InsLoc+file)
     if(preSolved and rsSolved):
         res, optflag = cmpOpt(*preSol, *rsSol)
@@ -145,7 +146,7 @@ def checkOpt(file):
 
 
 def checkPseudoBoolean(file):
-    preAns, pre01, preTime, preSolved = runPre(InsLoc+file, 1)
+    preAns, pre01, preTime, preSolved = runPre(InsLoc+file, 1, solverType)
     if preSolved:
         out = file + ":\n " + "\t" + str(pre01) + "\n"
     else:
@@ -155,8 +156,12 @@ def checkPseudoBoolean(file):
     return out, pre01
 
 
+def simpleRun(file):
+    runPre(InsLoc+file, 0, solverType)
+
+
 if __name__ == '__main__':
-    files, T, N = os.listdir(InsLoc), 30, 1300
+    files, T, N = os.listdir(InsLoc), 1200, 1300
     out, optFlag, PBFlag = "", True, True
     clearlog()
     # files = files[:N]
@@ -174,6 +179,8 @@ if __name__ == '__main__':
         elif checkTerm == 1:  # only presolve
             out, pre01 = checkPseudoBoolean(file)
             PBFlag = PBFlag and pre01
+        else:
+            simpleRun(file)
 
         f1.write(out)
         f1.close()

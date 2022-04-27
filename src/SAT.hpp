@@ -2,6 +2,7 @@
 
 #include "Constr.hpp"
 #include "parsing.hpp"
+#include "runRoundingSat.hpp"
 
 namespace pre {
 template <typename REAL>
@@ -9,9 +10,13 @@ class SATPreSolver {
    public:
     void buildProblem(const std::string& inFileName);
     void redundancyDetection();
+    void writePresolvers(const std::string& inFileName);
 
    private:
     ExprPool<REAL> exprs;
+    // parameter
+    int redCmpSize = 800;
+
     // overall container
     int presolveStatus;
     fileType instanceType;
