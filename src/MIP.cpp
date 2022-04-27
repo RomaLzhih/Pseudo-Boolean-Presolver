@@ -42,7 +42,8 @@ void MIPPreSolver<REAL>::buildProblem(const std::string& inFileName) {
 template <typename REAL>
 int MIPPreSolver<REAL>::runPresolve() {
     auto setPara = [&]() {
-        std::string paraPath = "../param/parameters.test.txt";
+        // std::string paraPath = "../param/parameters.test.txt";
+        std::string paraPath = "../param/onlyPure.txt";
         std::ifstream parafile(paraPath);
         assert(!parafile.fail());
 

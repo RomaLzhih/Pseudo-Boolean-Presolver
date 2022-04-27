@@ -227,6 +227,7 @@ add_library(papilo-core STATIC
    src/papilo/presolvers/SingletonStuffing.cpp
    src/papilo/presolvers/Sparsify.cpp
    src/papilo/presolvers/SimplifyInequalities.cpp
+   src/papilo/presolvers/PureLit.cpp
   )
 
 target_link_libraries(papilo-core papilo)
@@ -353,6 +354,7 @@ install(FILES
      ${PROJECT_SOURCE_DIR}/src/papilo/presolvers/SingletonCols.hpp
      ${PROJECT_SOURCE_DIR}/src/papilo/presolvers/SingletonStuffing.hpp
      ${PROJECT_SOURCE_DIR}/src/papilo/presolvers/Sparsify.hpp
+     ${PROJECT_SOURCE_DIR}/src/papilo/presolvers/PureLit.hpp
   DESTINATION include/papilo/presolvers)
 
 install(FILES
