@@ -286,8 +286,7 @@ Nevertheless this can be convenient for setting basic things like tolerances, ti
 
 # Adding a presolver
 
-Adding a presolver to PaPILO requires the following steps. First create a class for your presolver that inherits publically from `papilo::PresolveMethod<REAL>`.
-In the constructor at least adjust the name and the timing of the new presolver.
+Adding a presolver to PaPILO requires the following steps. First create a class for your presolver that inherits publically from `papilo::PresolveMethod<REAL>`. In the constructor at least adjust the name and the timing of the new presolver.
 For the constraint propagation presolver this is done in the constructor by the following calls:
 ```
 this->setName( "propagation" );
