@@ -30,22 +30,22 @@ def preParser(lines):
         line = line.split()
         if len(line) == 0 or line[0] == 'C':
             pass
-        elif line[0] == 'F':
+        elif line[0] == 'FILE':
             fileType = int(line[1])
-        elif line[0] == 'P':  # presolved status
+        elif line[0] == 'PRESOLVE_STAT':  # presolved status
             if int(line[1]) == -1:  # already solve
                 preStat = 2
             elif int(line[1]) >= 2:  # unbounded or infeasible
                 preStat = 0
             else:  # unchanged or reduced
                 preStat = 1
-        elif line[0] == 'S':
+        elif line[0] == 'SAT':
             solStat = int(line[1])
-        elif line[0] == 'O':
+        elif line[0] == 'OBJ':
             preObj = line[1]
-        elif line[0] == 'V':
+        elif line[0] == 'VAR':
             preSol = line[1:]
-        elif line[0] == 'B':
+        elif line[0] == 'BOOLEAN':
             pre01 = bool(int(line[1]))
     if preStat == 0 or preStat == 2:  # unbounded or already solve
         pre01 = True
@@ -161,7 +161,7 @@ def simpleRun(file):
 
 
 if __name__ == '__main__':
-    files, T, N = os.listdir(InsLoc), 1200, 1300
+    files, T, N = os.listdir(InsLoc), 60, 1300
     out, optFlag, PBFlag = "", True, True
     clearlog()
     # files = files[:N]

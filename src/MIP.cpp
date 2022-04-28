@@ -158,17 +158,20 @@ MIPPreSolver<REAL>::collectResult()
           " #constraint= " + aux::tos( nRows ) + "\n";
 
    // print objective
-   str += "min: ";
-   const papilo::Vec<REAL> objCoeff = objective.coefficients;
-   for( int i = 0; i < objCoeff.size(); i++ )
+   if( this->instanceType == fileType::opt )
    {
-      if( this->num.isZero( objCoeff[i] ) )
-         continue;
-      assert( this->num.isIntegral( objCoeff[i] ) );
-      str +=
-          aux::tos( this->num.round( objCoeff[i] ) ) + " " + varnames[i] + " ";
+      str += "min: ";
+      const papilo::Vec<REAL> objCoeff = objective.coefficients;
+      for( int i = 0; i < objCoeff.size(); i++ )
+      {
+         if( this->num.isZero( objCoeff[i] ) )
+            continue;
+         assert( this->num.isIntegral( objCoeff[i] ) );
+         str += aux::tos( this->num.round( objCoeff[i] ) ) + " " + varnames[i] +
+                " ";
+      }
+      str += ";\n";
    }
-   str += ";\n";
 
    // print constraint
    for( int i = 0; i < nRows; i++ )
@@ -355,13 +358,6 @@ MIPPreSolver<REAL>::writeConstraint( const papilo::SparseVectorView<REAL>& row,
    papilo::Vec<bigint> simVal( coeffVal.size() );
    IntegralCoeff( coeffVal, simVal );
 
-   // papilo::Vec<REAL> coeffVal{1.5, 0.75, 1.125, 10.5};
-   // papilo::Vec<bigint> simVal(coeffVal.size());
-   // papilo::Vec<bigint> ans{4, 2, 3, 16};
-   // IntegralCoeff(coeffVal, simVal, num);
-   // std::cout << simVal << std::endl;
-   // assert(coeffVal[0] == 1);
-
    std::string s = "";
    for( int j = 0; j < len; j++ )
    {
@@ -384,18 +380,18 @@ MIPPreSolver<REAL>::run()
    if( this->presolveStatus == -1 )
    { // already solved
       alreadySolve();
-      std::cout << "B " << pbStatus << std::endl; // 0 fail 1 pass
    }
    else if( presolveStatus == 0 || presolveStatus == 1 )
    {
       this->pbStatus = PBCheck();
-      std::cout << "B " << this->pbStatus << std::endl;
       if( !this->onlyPreSolve )
       {
          std::string preInfo = collectResult();
-         std::cout << "C running roundingSat .. " << std::endl;
+         std::cout << "C"
+                   << " running roundingSat .. " << std::endl;
          strpair rsSol = runRoundingSat::runforPaPILO( preInfo, inputIns );
-         std::cout << "C start postsolve .. " << std::endl;
+         std::cout << "C"
+                   << " start postsolve.." << std::endl;
          postSolve( rsSol );
       }
    }
@@ -411,22 +407,26 @@ template <typename REAL>
 void
 MIPPreSolver<REAL>::printSolution()
 {
+   std::cout << std::setw( 16 ) << "BOOLEAN " << pbStatus
+             << std::endl; // 0 fail 1 pass
    // 0: opt, 1: dec
-   std::cout << "F " << std::log2( utils::as_integer( this->instanceType ) )
+   std::cout << std::setw( 16 ) << "FILE "
+             << std::log2( utils::as_integer( this->instanceType ) )
              << std::endl;
    // -1: already solved, 0: unchanged, 1: reduced,
    //  2: unbounded or infeasible, 3: unbounded, 4: infeasible
-   std::cout << "P " << this->presolveStatus << std::endl;
+   std::cout << std::setw( 16 ) << "PRESOLVE_STAT " << this->presolveStatus
+             << std::endl;
    if( !this->onlyPreSolve )
    {
       // 0: UNSAT, 1:SAT
-      std::cout << "S "
+      std::cout << std::setw( 16 ) << "SAT "
                 << std::log2( utils::as_integer( this->solutionStatus ) )
                 << std::endl;
       if( this->solutionStatus != solStat::UNSATISFIABLE &&
           this->instanceType == fileType::opt )
       {
-         std::cout << "O " << this->origobj << std::endl;
+         std::cout << std::setw( 16 ) << "OBJ " << this->origobj << std::endl;
       }
       else if( this->instanceType == fileType::dec )
       {

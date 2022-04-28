@@ -23,3 +23,78 @@ diamond.0.d.opb
 	probing         1               100             0               0               0.0003          
 	substitution    1               100             0               0               0.0001          
 
+diamond.0.d.opb
+	pureliteral     1               0               0               0               0.0026          
+
+diamond.0.d.opb
+	pureliteral     1               0               0               0               0.0003          
+
+bm23.0.u.opb
+	pureliteral     1               0               0               0               0.0021          
+
+sentoy.0.s.opb
+	pureliteral     1               0               0               0               0.0292          
+
+p0040.0.s.opb
+	pureliteral     1               0               0               0               0.027           
+
+p0040.0.u.opb
+	pureliteral     1               0               0               0               0.0316          
+
+bm23.0.s.opb
+	pureliteral     1               0               0               0               0.0049          
+
+pipex.0.u.opb
+	pureliteral     1               0               0               0               0.0216          
+
+stein9.0.s.opb
+	pureliteral     1               0               0               0               0.0003          
+
+stein9.0.u.opb
+	pureliteral     1               0               0               0               0.0003          
+
+p0291.0.u.opb
+	pureliteral     2               50              188             100             0.5348          
+
+sentoy.0.u.opb
+	pureliteral     1               0               0               0               0.0497          
+
+p0291.0.s.opb
+	pureliteral     2               50              188             100             0.4377          
+
+cracpb1.0.s.opb
+	pureliteral     1               0               0               0               2.2982          
+
+cracpb1.0.u.opb
+	pureliteral     1               0               0               0               2.6881          
+
+stein15.0.s.opb
+	pureliteral     1               0               0               0               0.0013          
+
+air01.0.u.opb
+	pureliteral     1               0               0               0               3.4976          
+
+air01.0.s.opb
+	pureliteral     1               0               0               0               2.3736          
+
+22array_alg_ineq7.opb
+	pureliteral     2               50              44              100             3.2747          
+
+stein15.0.u.opb
+	pureliteral     1               0               0               0               0.0008          
+
+256ebits_0.opb
+	pureliteral     1               0               0               0               0.004           
+
+pipex.0.s.opb
+	pureliteral     1               0               0               0               0.0685          
+
+128ebits_0.opb
+	pureliteral     1               0               0               0               0.0004          
+
+lp4l.0.s.opb
+	pureliteral     1               0               0               0               5.7172          
+
+21array_alg_ineq7.opb
+	pureliteral     2               50              42              100             2.6212          
+
