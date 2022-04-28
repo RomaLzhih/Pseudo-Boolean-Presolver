@@ -91,3 +91,26 @@ diamond.opb
 
 diamond.opb
 
+diamond.opb
+
+diamond.opb
+	12 0
+
+diamond.opb
+
+p0033.opb
+
+p0033.opb
+
+p0033.opb
+
+pipex.opb
+
+p0033.opb
+
+p0033.opb
+
+p0033.opb
+
+air01.opb
+

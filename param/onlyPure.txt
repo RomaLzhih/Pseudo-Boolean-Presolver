@@ -26,9 +26,9 @@ presolve.componentsmaxint = -1
 
 presolve.compressfac = 0.84999999999999998
 
-presolve.detectlindep = 1
+presolve.detectlindep = 0
 
-presolve.dualreds = 2
+presolve.dualreds = 0
 
 presolve.lpabortfac = 0.0
 
@@ -59,7 +59,7 @@ sparsify.maxscale = 1000
 
 stuffing.enabled = 0
 
-substitution.binarieswithints = 1
+substitution.binarieswithints = 0
 
 substitution.enabled = 0
 

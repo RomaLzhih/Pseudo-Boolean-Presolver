@@ -18,6 +18,7 @@ Expr<REAL>::Expr(const std::string& lhs, const std::string& rhs) {
     tokens.clear();
     boost::split(tokens, rhs, boost::is_any_of(" "), boost::token_compress_on);
     this->deg = to_bigint(tokens[0]);
+    this->hashValue = aux::hashExpr(this->cols, this->deg);
     return;
 }
 
@@ -25,6 +26,7 @@ template <typename REAL>
 void Expr<REAL>::invert() {
     for (auto c : cols) cols[c.first] *= -1;
     this->deg *= -1;
+    this->hashValue = aux::hashExpr(this->cols, this->deg);
     return;
 }
 
@@ -32,6 +34,7 @@ template <typename REAL>
 void Expr<REAL>::negate() {
     for (auto c : cols) cols[c.first] *= -1;
     this->deg = -this->deg + 1;
+    this->hashValue = aux::hashExpr(this->cols, this->deg);
     return;
 }
 

@@ -31,7 +31,7 @@
 namespace papilo
 {
 
-/// presolver to fix continuous variables whose bounds are very close
+/// presolver to find pure literal
 template <typename REAL>
 class PureLit : public PresolveMethod<REAL>
 {
@@ -65,31 +65,137 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
 
    const auto& consMatrix = problem.getConstraintMatrix();
    const auto& domains = problem.getVariableDomains();
+   const auto& rflags = consMatrix.getRowFlags();
    const auto& cflags = domains.flags;
    const auto& objective = problem.getObjective();
+   const auto& objVec = objective.coefficients;
    const auto& lbs = problem.getLowerBounds();
    const auto& ubs = problem.getUpperBounds();
    const int ncols = consMatrix.getNCols();
-
-   Message msg;
+   const int nrow = consMatrix.getNRows();
 
    PresolveStatus result = PresolveStatus::kUnchanged;
-   if( num.getFeasTol() == REAL{ 0 } )
-      return result;
+
+   Message msg;
+   msg.info( "\n\n" );
+   msg.info( "rows {} and cols {}\n", nrow, ncols );
 
    for( int i = 0; i < ncols; ++i )
    {
-      if( cflags[i].test( ColFlag::kUnbounded, ColFlag::kInactive ) )
+      if( cflags[i].test( ColFlag::kUnbounded, ColFlag::kInactive,
+                          ColFlag::kFixed ) ||
+          lbs[i] == ubs[i] )
+      {
          continue;
+      }
 
+      if( !domains.isBinary( i ) )
+      {
+         msg.info( "{} is not binary, lb {}, ub {}\n", i, lbs[i], ubs[i] );
+      }
+      else if( consMatrix.getColSizes()[i] <= 0 )
+      {
+         msg.info( "col {} has empty size\n", i );
+      }
       assert( domains.isBinary( i ) );
-      assert( lbs[i] != ubs[i] );
       assert( consMatrix.getColSizes()[i] >= 0 );
 
       auto colvec = consMatrix.getColumnCoefficients( i );
+      const REAL* colVals = colvec.getValues();
+      const int* indices = colvec.getIndices();
+      const auto len = colvec.getLength();
+
+      //* requires: 1: same sign for every coefficient;
+      //* 2: same operator every constraint it appears
+      //* 3: fix to 1 should have <= obj, fix to 0 should have >= obj
+      int st = -1;
+      for( int r = 0; r < len; r++ )
+      {
+         if( !rflags[indices[r]].test( RowFlag::kRedundant ) &&
+             !rflags[indices[r]].test( RowFlag::kEquation ) )
+         {
+            st = r;
+            break;
+         }
+      }
+      if( st == -1 )
+         continue;
+
+      const bool op =
+          rflags[indices[st]].test( RowFlag::kRhsInf ); // true => >=
+      const bool sign = num.isFeasGT( colVals[st], 0 ); // true => >0
+      bool ok = true;
+
+      auto rowvec = consMatrix.getRowCoefficients( indices[st] );
+      const REAL* rowVals = rowvec.getValues();
+      for( int i = 0; i < rowvec.getLength(); i++ )
+      {
+         msg.info( " {}", rowVals[i] );
+      }
+      msg.info( " op: {}, sign {} for {}\n", op, sign, i );
+
+      assert( op != rflags[indices[st]].test( RowFlag::kLhsInf ) &&
+              !rflags[indices[st]].test( RowFlag::kRedundant ) &&
+              !rflags[indices[st]].test( RowFlag::kEquation ) &&
+              !num.isFeasEq( colVals[st], 0 ) );
+
+      for( int r = st + 1; r < len; r++ )
+      {
+         if( rflags[indices[r]].test( RowFlag::kRedundant ) )
+         {
+            continue;
+         }
+         else if( rflags[indices[r]].test( RowFlag::kEquation ) ||
+                  rflags[indices[r]].test( RowFlag::kRhsInf ) != op ||
+                  num.isFeasGT( colVals[r], 0 ) != sign )
+         {
+            ok = false;
+            break;
+         }
+         else
+         {
+            assert( rflags[indices[r]].test( RowFlag::kRhsInf ) == op &&
+                    num.isFeasGT( colVals[r], 0 ) == sign );
+         }
+      }
+
+      if( ok == true )
+      {
+         if( ( op && sign ) || ( !op && !sign ) ) //* 0<=x or -x<=0
+         {
+            if( num.isFeasLE( objVec[i], 0 ) ) //* obj coeff of i should <=0
+            {
+               assert( ubs[i] == 1 );
+               msg.info( "fix {} to {}\n", i, ubs[i] );
+
+               TransactionGuard<REAL> tg{ reductions };
+               reductions.lockColBounds( i );
+               reductions.fixCol( i, ubs[i] );
+               result = PresolveStatus::kReduced;
+            }
+         }
+         else if( ( !op && sign ) || ( op && !sign ) ) //* x<=0 or 0<=-x
+         {
+            if( num.isFeasGE( objVec[i], 0 ) )
+            {
+               assert( lbs[i] == 0 );
+               msg.info( "fix {}  to {}\n", i, lbs[i] );
+
+               TransactionGuard<REAL> tg{ reductions };
+               reductions.lockColBounds( i );
+               reductions.fixCol( i, lbs[i] );
+               result = PresolveStatus::kReduced;
+            }
+         }
+      }
+      else
+      {
+         continue;
+      }
    }
 
-   msg.debug( this, 1, "----------------called---------------\n\n" );
+   msg.info( "finish pure literal" );
+   msg.info( "\n\n" );
    return result;
 }
 

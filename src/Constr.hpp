@@ -27,23 +27,7 @@ struct Expr {
     const std::size_t getHash() const { return hashValue; }
 
     friend std::size_t hash_value(Expr<REAL> const& b) {
-        auto fibonacci_muliplier = [&]() {
-            return (std::size_t)(0x9e3779b97f4a7c15);
-        };
-        auto rotate_left = [&](unsigned long x, int n) {
-            return (std::size_t)(x << n) | (x >> (64 - n));
-        };
-        auto addValue = [&](std::size_t& seed, REAL val) {
-            seed = (std::size_t)(rotate_left(seed, 5) ^ REAL(val)) *
-                   fibonacci_muliplier();
-        };
-
-        std::size_t seed = b.cols.size();
-        for (auto i : b.cols) {
-            boost::hash_combine(seed, i.first);
-            boost::hash_combine(seed, i.second);
-        }
-
+        std::size_t seed = b.hashValue;
         return seed;
     }
 

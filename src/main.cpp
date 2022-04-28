@@ -20,13 +20,13 @@ int main(int argc, char *argv[]) {
     int solvertype = std::stoi(argv[3]);
     // std::string infile = "../test/opt/p0033.opb";
     // int onlyPreSolve = std::stoi("0");
-    // int solvertype = std::stoi("0");
+    // int solvertype = std::stoi("1");
 
     if (solvertype == 0) {  // run SAT
         pre::SATPreSolver<pre::bigint> sSolver;
         sSolver.buildProblem(infile);
-        sSolver.redundancyDetection();
-        sSolver.writePresolvers(infile);
+        // sSolver.redundancyDetection();
+        // sSolver.writePresolvers(infile);
 
     } else if (solvertype == 1) {  // run papilo
         pre::MIPPreSolver<papilo::Rational> mSolver;

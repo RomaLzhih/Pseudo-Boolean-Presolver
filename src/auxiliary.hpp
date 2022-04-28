@@ -86,7 +86,7 @@ std::size_t hashExpr(const std::unordered_map<int, T>& cols, const T& deg) {
     auto fibonacci_muliplier = [&]() {
         return (std::size_t)(0x9e3779b97f4a7c15);
     };
-    auto rotate_left = [&](unsigned long x, int n) {
+    auto rotate_left = [&](std::size_t x, int n) {
         return (std::size_t)(x << n) | (x >> (64 - n));
     };
     auto addValue = [&](std::size_t& seed, T val) {
@@ -94,10 +94,12 @@ std::size_t hashExpr(const std::unordered_map<int, T>& cols, const T& deg) {
                fibonacci_muliplier();
     };
 
-    std::size_t seed = 0;
-    addValue(seed, (T)(aux::cpuTime() * 1e24));
-    boost::hash_combine(seed, deg);
-
+    std::size_t seed = cols.size();
+    for (auto i : cols) {
+        // boost::hash_combine(seed, i.first);
+        // boost::hash_combine(seed, i.second);
+        addValue(seed, i.first);
+    }
     return seed;
 }
 

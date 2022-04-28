@@ -39,6 +39,7 @@ option(INSTALL_TBB "should the TBB library be installed" OFF)
 
 # make 'Release' the default build type
 if(NOT CMAKE_BUILD_TYPE)
+   #CHANGED
     set(CMAKE_BUILD_TYPE Release)
 endif()
 

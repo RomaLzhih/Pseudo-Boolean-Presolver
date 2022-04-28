@@ -63,3 +63,15 @@ add_executable(pre ${source_files})
 # target_include_directories(pre PRIVATE ${PROJECT_SOURCE_DIR}/src/ )
 target_link_libraries(pre ${PAPILO_IMPORTED_TARGETS} ${Boost_LIBRARIES})
 # target_link_libraries(PresolveOpb PRIVATE Boost::serialization)
+
+FIND_PROGRAM(CLANG_FORMAT "clang-format")
+IF(CLANG_FORMAT)
+    add_custom_target(
+        format
+        WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}
+        COMMAND ${CLANG_FORMAT}
+        -style=file
+        -i
+        ${all_files}
+    )
+endif()
