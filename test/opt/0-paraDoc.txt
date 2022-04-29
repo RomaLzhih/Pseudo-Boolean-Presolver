@@ -206,3 +206,78 @@ p0033.opb
 p0033.opb
 	pureliteral     3               66.6667         3               100             0.0078          
 
+p0033.opb
+	pureliteral     2               50              1               100             0.0049          
+
+p0033.opb
+	parallelcols    1               100             6               0               0.0008          
+	pureliteral     1               0               0               0               0.0024          
+
+pipex.opb
+	parallelcols    1               0               0               0               0.0002          
+	pureliteral     1               0               0               0               0.004           
+
+enigma.opb
+	parallelcols    1               0               0               0               0.0002          
+	pureliteral     1               0               0               0               0.0001          
+
+air01.opb
+	parallelcols    1               100             15              0               0.0025          
+	pureliteral     1               0               0               0               0.0008          
+
+sentoy.opb
+	parallelcols    1               0               0               0               0.0008          
+	pureliteral     1               0               0               0               0.0083          
+
+pipex.opb
+	parallelcols    1               0               0               0               0.0002          
+	pureliteral     1               0               0               0               0.0028          
+
+p0291.opb
+	parallelcols    1               0               0               0               0.002           
+	pureliteral     2               50              187             100             0.0395          
+
+stein9.opb
+	parallelcols    1               0               0               0               0.0002          
+	pureliteral     1               0               0               0               0.0003          
+
+stein15.opb
+	parallelcols    1               0               0               0               0.0001          
+	pureliteral     1               0               0               0               0.0004          
+
+diamond.opb
+	parallelcols    1               0               0               0               0               
+	pureliteral     1               0               0               0               0.0001          
+
+p0033.opb
+	parallelcols    1               100             6               0               0.0008          
+	pureliteral     1               0               0               0               0.0012          
+
+stein27.opb
+	parallelcols    1               0               0               0               0.0009          
+	pureliteral     1               0               0               0               0.001           
+
+cracpb1.opb
+	parallelcols    1               0               0               0               0.0157          
+	pureliteral     1               0               0               0               0.4881          
+
+p0040.opb
+	parallelcols    1               0               0               0               0.0006          
+	pureliteral     1               0               0               0               0.0009          
+
+mod008.opb
+	parallelcols    1               0               0               0               0.0038          
+	pureliteral     1               0               0               0               0.2511          
+
+lseu.opb
+	parallelcols    1               100             6               0               0.0011          
+	pureliteral     1               0               0               0               0.0224          
+
+p0201.opb
+	parallelcols    1               100             63              0               0.0268          
+	pureliteral     1               0               0               0               0.0065          
+
+bm23.opb
+	parallelcols    1               0               0               0               0.0012          
+	pureliteral     1               0               0               0               0.0021          
+

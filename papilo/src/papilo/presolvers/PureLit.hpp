@@ -77,8 +77,8 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
    PresolveStatus result = PresolveStatus::kUnchanged;
 
    Message msg;
-   msg.info( "\n\n" );
-   msg.info( "rows {} and cols {}\n", nrow, ncols );
+   // msg.info( "\n\n" );
+   // msg.info( "rows {} and cols {}\n", nrow, ncols );
 
    for( int i = 0; i < ncols; ++i )
    {
@@ -89,14 +89,14 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
          continue;
       }
 
-      if( !domains.isBinary( i ) )
-      {
-         msg.info( "{} is not binary, lb {}, ub {}\n", i, lbs[i], ubs[i] );
-      }
-      else if( consMatrix.getColSizes()[i] <= 0 )
-      {
-         msg.info( "col {} has empty size\n", i );
-      }
+      // if( !domains.isBinary( i ) )
+      // {
+      //    msg.info( "{} is not binary, lb {}, ub {}\n", i, lbs[i], ubs[i] );
+      // }
+      // else if( consMatrix.getColSizes()[i] <= 0 )
+      // {
+      //    msg.info( "col {} has empty size\n", i );
+      // }
       assert( domains.isBinary( i ) );
       assert( consMatrix.getColSizes()[i] >= 0 );
 
@@ -126,13 +126,13 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
       const bool sign = num.isFeasGT( colVals[st], 0 ); // true => >0
       bool ok = true;
 
-      auto rowvec = consMatrix.getRowCoefficients( indices[st] );
-      const REAL* rowVals = rowvec.getValues();
-      for( int i = 0; i < rowvec.getLength(); i++ )
-      {
-         msg.info( " {}", rowVals[i] );
-      }
-      msg.info( " op: {}, sign {} for {}\n", op, sign, i );
+      // auto rowvec = consMatrix.getRowCoefficients( indices[st] );
+      // const REAL* rowVals = rowvec.getValues();
+      // for( int i = 0; i < rowvec.getLength(); i++ )
+      // {
+      //    msg.info( " {}", rowVals[i] );
+      // }
+      // msg.info( " op: {}, sign {} for {}\n", op, sign, i );
 
       assert( op != rflags[indices[st]].test( RowFlag::kLhsInf ) &&
               !rflags[indices[st]].test( RowFlag::kRedundant ) &&
@@ -166,7 +166,7 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
             if( num.isFeasLE( objVec[i], 0 ) ) //* obj coeff of i should <=0
             {
                assert( ubs[i] == 1 );
-               msg.info( "fix {} to {}\n", i, ubs[i] );
+               // msg.info( "fix {} to {}\n", i, ubs[i] );
 
                TransactionGuard<REAL> tg{ reductions };
                reductions.lockColBounds( i );
@@ -179,7 +179,7 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
             if( num.isFeasGE( objVec[i], 0 ) )
             {
                assert( lbs[i] == 0 );
-               msg.info( "fix {}  to {}\n", i, lbs[i] );
+               // msg.info( "fix {}  to {}\n", i, lbs[i] );
 
                TransactionGuard<REAL> tg{ reductions };
                reductions.lockColBounds( i );
@@ -194,8 +194,8 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
       }
    }
 
-   msg.info( "finish pure literal" );
-   msg.info( "\n\n" );
+   // msg.info( "finish pure literal" );
+   // msg.info( "\n\n" );
    return result;
 }
 
