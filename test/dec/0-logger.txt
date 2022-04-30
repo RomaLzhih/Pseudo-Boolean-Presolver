@@ -1,128 +1,258 @@
 diamond.0.d.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.07465660000070784
-		 rs: 0.031398999999510124
+		 pre: 0.017027599998982623
+		 rs: 0.007031799992546439
 air02.0.s.opb: 
-	 result: UNKNOWN: preSolved: False, rsSolved: False
-		 pre: 7.745808199999374
-		 rs: 6.381567399999767
+	 result: OK: satisfiablility pass
+		 pre: 39.68578909999633
+		 rs: 36.170388400001684
 bm23.0.u.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 1.9363078000005771
-		 rs: 0.2219942000001538
+		 pre: 0.19107199998688884
+		 rs: 0.1652992000017548
 sentoy.0.s.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 1.957174699999996
-		 rs: 0.20765709999977844
+		 pre: 0.2035808999935398
+		 rs: 0.12271009999676608
 128ebits_any.opb: 
 	 result: UNKNOWN: preSolved: False, rsSolved: False
-		 pre: 6.0264930000003005
-		 rs: 6.026586400000269
+		 pre: 60.06242370000109
+		 rs: 60.06568430000334
 air02.0.u.opb: 
 	 result: UNKNOWN: preSolved: False, rsSolved: False
-		 pre: 6.03773849999925
-		 rs: 6.0216376000007585
+		 pre: 60.067717000012635
+		 rs: 60.083725999997114
 p0040.0.s.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.0739398000005167
-		 rs: 0.028576300000167976
+		 pre: 0.03586709999945015
+		 rs: 0.013542399989091791
 p0040.0.u.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.09912460000032297
-		 rs: 0.04316910000034113
+		 pre: 0.04176899998856243
+		 rs: 0.015684599988162518
 bm23.0.s.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.24637559999973746
-		 rs: 0.18158189999940078
+		 pre: 0.19380059999821242
+		 rs: 0.16053680000186432
 pipex.0.u.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.23748560000058205
-		 rs: 0.11603019999984099
+		 pre: 0.16795190000266302
+		 rs: 0.11832870000216644
 stein9.0.s.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.07342159999916475
-		 rs: 0.03597280000030878
+		 pre: 0.03319119999650866
+		 rs: 0.019344600004842505
 stein9.0.u.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.0757181999997556
-		 rs: 0.04880039999989094
+		 pre: 0.034730400002445094
+		 rs: 0.02756770000269171
 p0291.0.u.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.7313220000005458
-		 rs: 0.1579383999996935
+		 pre: 0.18509450000419747
+		 rs: 0.16524919999937993
 256ebits_any.opb: 
 	 result: UNKNOWN: preSolved: False, rsSolved: False
-		 pre: 6.0167043999999805
-		 rs: 6.019567299999835
+		 pre: 60.06130469999334
+		 rs: 60.079202499997336
 sentoy.0.u.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.5323428000001513
-		 rs: 0.37449130000004516
+		 pre: 0.3760400000028312
+		 rs: 0.44256480000331067
 p0291.0.s.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.8806322000000364
-		 rs: 0.1487981000000218
+		 pre: 0.30116580000321846
+		 rs: 0.14376140000240412
 lp4l.0.u.opb: 
 	 result: UNKNOWN: preSolved: False, rsSolved: False
-		 pre: 7.579205799999727
-		 rs: 6.0255911000003834
+		 pre: 60.09559040000022
+		 rs: 60.08400339999935
 cracpb1.0.s.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 5.4162797999997565
-		 rs: 3.60742670000036
+		 pre: 2.8128087999939453
+		 rs: 2.8338478000077885
 cracpb1.0.u.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 2.5748836000002484
-		 rs: 0.5458282999998119
+		 pre: 0.6880347000114853
+		 rs: 0.3910714999947231
 stein15.0.s.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.48396369999954914
-		 rs: 0.08989060000021709
+		 pre: 0.16062280000187457
+		 rs: 0.0988948000012897
 air01.0.u.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 4.051856500000213
-		 rs: 0.7417640000003303
+		 pre: 0.7590097999927821
+		 rs: 0.5344646999874385
 32array_alg_ineq5.opb: 
-	 result: UNKNOWN: preSolved: False, rsSolved: False
-		 pre: 6.026938900000459
-		 rs: 6.010255499999403
+	 result: UNKNOWN: preSolved: True, rsSolved: False
+		 pre: 2.156956499995431
+		 rs: 60.087475899999845
 air01.0.s.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 5.820130199999767
-		 rs: 1.222792199999276
+		 pre: 0.8886168999888469
+		 rs: 0.6236457000049995
 air06.0.s.opb: 
 	 result: UNKNOWN: preSolved: False, rsSolved: False
-		 pre: 6.04281759999958
-		 rs: 6.028096199999709
+		 pre: 60.076480699994136
+		 rs: 60.069731399999
 22array_alg_ineq7.opb: 
 	 result: UNKNOWN: preSolved: True, rsSolved: False
-		 pre: 2.738711599999988
-		 rs: 6.023105799999939
+		 pre: 0.8102884999971138
+		 rs: 60.0790721999947
 stein15.0.u.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.17129950000071403
-		 rs: 0.1448208000001614
+		 pre: 0.13801040001271758
+		 rs: 0.07519800000591204
 air06.0.u.opb: 
 	 result: UNKNOWN: preSolved: False, rsSolved: False
-		 pre: 6.0628061999996135
-		 rs: 6.03003500000068
+		 pre: 60.10511600000609
+		 rs: 60.071857699993416
 256ebits_0.opb: 
 	 result: UNKNOWN: preSolved: True, rsSolved: False
-		 pre: 0.6274557999995523
-		 rs: 6.024986000000354
+		 pre: 0.13321660000656266
+		 rs: 60.06359829999565
 pipex.0.s.opb: 
 	 result: OK: satisfiablility pass
-		 pre: 0.5498655999999755
-		 rs: 0.05714429999989079
+		 pre: 0.17373299998871516
+		 rs: 0.1287406000046758
 128ebits_0.opb: 
 	 result: UNKNOWN: preSolved: True, rsSolved: False
-		 pre: 0.1569182000002911
-		 rs: 6.024015699999836
+		 pre: 0.1398977999924682
+		 rs: 60.07692059999681
 lp4l.0.s.opb: 
-	 result: UNKNOWN: preSolved: False, rsSolved: False
-		 pre: 6.027562500000386
-		 rs: 6.0269559999997
+	 result: OK: satisfiablility pass
+		 pre: 25.062523500004318
+		 rs: 25.53093799999624
 21array_alg_ineq7.opb: 
+	 result: UNKNOWN: preSolved: True, rsSolved: False
+		 pre: 0.45647160000225995
+		 rs: 60.111267600004794
+
+
+diamond.0.d.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.09467570000560954
+		 rs: 0.029278700007125735
+air02.0.s.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: True
+		 pre: 60.08988289999252
+		 rs: 56.774826299995766
+bm23.0.u.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.2901702999952249
+		 rs: 0.18287509999936447
+sentoy.0.s.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.21582289999059867
+		 rs: 0.20176409999839962
+128ebits_any.opb: 
 	 result: UNKNOWN: preSolved: False, rsSolved: False
-		 pre: 6.008731700000681
-		 rs: 6.018765499999972
+		 pre: 60.07901200000197
+		 rs: 60.070149899998796
+air02.0.u.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.066181900008814
+		 rs: 60.085192999991705
+p0040.0.s.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.08703500000410713
+		 rs: 0.03240379999624565
+p0040.0.u.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.07700679999834392
+		 rs: 0.042559000008623116
+bm23.0.s.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.35036500000569504
+		 rs: 0.31246359999931883
+pipex.0.u.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.25162290000298526
+		 rs: 0.12479829999210779
+stein9.0.s.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.07572539999091532
+		 rs: 0.03436649999639485
+stein9.0.u.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.0559919999941485
+		 rs: 0.05116509999788832
+p0291.0.u.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.27425179998681415
+		 rs: 0.335611800008337
+256ebits_any.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.078845899988664
+		 rs: 60.0892623999971
+sentoy.0.u.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.6755248999979813
+		 rs: 0.6849383000080707
+p0291.0.s.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.3476782999932766
+		 rs: 0.1600120000075549
+lp4l.0.u.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.0810163999995
+		 rs: 60.08092380000744
+cracpb1.0.s.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 4.435956199988141
+		 rs: 4.624879800001509
+cracpb1.0.u.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.9999670999968657
+		 rs: 0.47675569998682477
+stein15.0.s.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.14442539999436121
+		 rs: 0.06860080000478774
+air01.0.u.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.8585601999948267
+		 rs: 0.5850400999916019
+32array_alg_ineq5.opb: 
+	 result: UNKNOWN: preSolved: True, rsSolved: False
+		 pre: 2.8496245999995153
+		 rs: 60.07326479999756
+air01.0.s.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 1.0204175999970175
+		 rs: 1.0224244999990333
+air06.0.s.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.0865741000016
+		 rs: 60.07033600000432
+22array_alg_ineq7.opb: 
+	 result: UNKNOWN: preSolved: True, rsSolved: False
+		 pre: 0.9432960999984061
+		 rs: 60.101436500001
+stein15.0.u.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.20051450000028126
+		 rs: 0.08433379999769386
+air06.0.u.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.091501599992625
+		 rs: 60.065120699990075
+256ebits_0.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.067236799994134
+		 rs: 60.09920769999735
+pipex.0.s.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 0.20794499998737592
+		 rs: 0.12349779999931343
+128ebits_0.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.078255700005684
+		 rs: 60.099580199996126
+lp4l.0.s.opb: 
+	 result: OK: satisfiablility pass
+		 pre: 41.29190739999467
+		 rs: 41.06018429998949
+21array_alg_ineq7.opb: 
+	 result: UNKNOWN: preSolved: True, rsSolved: False
+		 pre: 1.0191635000082897
+		 rs: 60.07774340000469

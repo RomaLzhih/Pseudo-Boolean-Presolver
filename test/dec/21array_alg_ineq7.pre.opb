@@ -1,5 +1,4 @@
 * #variable= 2279 #constraint= 1073
-min: ;
 1 x2 -1 x22 >= 0 ;
 -1 x2 1 x22 >= 0 ;
 1 x4 -1 x23 >= 0 ;

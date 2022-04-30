@@ -124,7 +124,6 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
       const bool op =
           rflags[indices[st]].test( RowFlag::kRhsInf ); // true => >=
       const bool sign = num.isFeasGT( colVals[st], 0 ); // true => >0
-      bool ok = true;
 
       // auto rowvec = consMatrix.getRowCoefficients( indices[st] );
       // const REAL* rowVals = rowvec.getValues();
@@ -139,29 +138,46 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
               !rflags[indices[st]].test( RowFlag::kEquation ) &&
               !num.isFeasEq( colVals[st], 0 ) );
 
+      bool ok = true;
+      bool rop, rsign;
       for( int r = st + 1; r < len; r++ )
       {
          if( rflags[indices[r]].test( RowFlag::kRedundant ) )
          {
             continue;
          }
-         else if( rflags[indices[r]].test( RowFlag::kEquation ) ||
-                  rflags[indices[r]].test( RowFlag::kRhsInf ) != op ||
-                  num.isFeasGT( colVals[r], 0 ) != sign )
+         else if( rflags[indices[r]].test( RowFlag::kEquation ) )
          {
+            ok = false;
+            break;
+         }
+
+         rop = rflags[indices[r]].test( RowFlag::kRhsInf ) == op;
+         rsign = num.isFeasGT( colVals[r], 0 ) == sign;
+
+         if( rop ^ rsign )
+         {
+            assert( ( ( rflags[indices[r]].test( RowFlag::kRhsInf ) != op ) &&
+                      num.isFeasGT( colVals[r], 0 ) == sign ) ||
+                    ( ( rflags[indices[r]].test( RowFlag::kRhsInf ) == op ) &&
+                      num.isFeasGT( colVals[r], 0 ) != sign ) );
             ok = false;
             break;
          }
          else
          {
-            assert( rflags[indices[r]].test( RowFlag::kRhsInf ) == op &&
-                    num.isFeasGT( colVals[r], 0 ) == sign );
+            assert( ( ( rflags[indices[r]].test( RowFlag::kRhsInf ) != op ) &&
+                      num.isFeasGT( colVals[r], 0 ) != sign ) ||
+                    ( ( rflags[indices[r]].test( RowFlag::kRhsInf ) == op ) &&
+                      num.isFeasGT( colVals[r], 0 ) == sign ) );
+
+            continue;
          }
       }
 
       if( ok == true )
       {
-         if( ( op && sign ) || ( !op && !sign ) ) //* 0<=x or -x<=0
+         if( ( op && sign ) || ( !op && !sign ) ) //* 0<=x or -x<=0 => x=1
          {
             if( num.isFeasLE( objVec[i], 0 ) ) //* obj coeff of i should <=0
             {
@@ -174,7 +190,7 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
                result = PresolveStatus::kReduced;
             }
          }
-         else if( ( !op && sign ) || ( op && !sign ) ) //* x<=0 or 0<=-x
+         else if( ( !op && sign ) || ( op && !sign ) ) //* x<=0 or 0<=-x => x=0
          {
             if( num.isFeasGE( objVec[i], 0 ) )
             {

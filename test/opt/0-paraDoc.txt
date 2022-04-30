@@ -281,3 +281,31 @@ bm23.opb
 	parallelcols    1               0               0               0               0.0012          
 	pureliteral     1               0               0               0               0.0021          
 
+p0033.opb
+	parallelcols    1               100             6               0               0.0027          
+	pureliteral     1               0               0               0               0.0002          
+
+pipex.opb
+	parallelcols    1               0               0               0               0.0002          
+	pureliteral     1               0               0               0               0.0002          
+
+pipex.opb
+	pureliteral     1               0               0               0               0.0002          
+
+diamond.opb
+
+diamond.opb
+	pureliteral     1               0               0               0               0               
+
+p0033.opb
+	pureliteral     2               50              1               100             0.0002          
+
+pipex.opb
+	pureliteral     1               0               0               0               0.0003          
+
+pipex.opb
+	pureliteral     1               0               0               0               0.0002          
+
+pipex.opb
+	pureliteral     1               0               0               0               0.0002          
+

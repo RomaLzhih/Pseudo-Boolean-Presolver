@@ -14,7 +14,7 @@ fixcontinuous.enabled = 0
 
 implint.enabled = 0
 
-parallelcols.enabled = 1
+parallelcols.enabled = 0
 
 parallelrows.enabled = 0
 
@@ -28,7 +28,7 @@ presolve.compressfac = 0.84999999999999998
 
 presolve.detectlindep = 0
 
-presolve.dualreds = 2
+presolve.dualreds = 0
 
 presolve.lpabortfac = 0.0
 

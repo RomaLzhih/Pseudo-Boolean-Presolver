@@ -389,7 +389,12 @@ MIPPreSolver<REAL>::run()
          std::string preInfo = collectResult();
          std::cout << "C"
                    << " running roundingSat .. " << std::endl;
-         strpair rsSol = runRoundingSat::runforPaPILO( preInfo, inputIns );
+         strpair rsSol;
+         if( presolveStatus == 0 )
+            rsSol = runRoundingSat::runforPaPILO( inputIns );
+         else if( presolveStatus == 1 )
+            rsSol = runRoundingSat::runforPaPILO( preInfo, inputIns );
+
          std::cout << "C"
                    << " start postsolve.." << std::endl;
          postSolve( rsSol );
@@ -397,6 +402,7 @@ MIPPreSolver<REAL>::run()
    }
    else
    {
+      std::cout << this->presolveStatus << std::endl;
       this->solutionStatus = solStat::UNSATISFIABLE;
       std::cout << "C PaPILO detec to be infeasible or unbounded .. "
                 << std::endl;

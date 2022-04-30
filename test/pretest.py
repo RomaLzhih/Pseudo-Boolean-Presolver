@@ -161,9 +161,9 @@ def simpleRun(file):
 
 
 if __name__ == '__main__':
-    files, T, N = os.listdir(InsLoc), 6, 1300
+    files, T, N = os.listdir(InsLoc), 60, 1300
     out, optFlag, PBFlag = "", True, True
-    clearlog()
+    # clearlog()
     # files = files[:N]
 
     for file in files:

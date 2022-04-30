@@ -198,3 +198,358 @@ pipex.0.s.opb
 	parallelcols    1               0               0               0               0.0102          
 	pureliteral     1               0               0               0               0.0004          
 
+diamond.0.d.opb
+	parallelcols    1               0               0               0               0.0008          
+	pureliteral     1               0               0               0               0               
+
+air02.0.s.opb
+	parallelcols    1               100             48              0               0.0279          
+	pureliteral     1               100             6774            100             0.0724          
+
+bm23.0.u.opb
+	parallelcols    1               0               0               0               0.0003          
+	pureliteral     1               0               0               0               0.0002          
+
+sentoy.0.s.opb
+	parallelcols    1               0               0               0               0.0008          
+	pureliteral     1               0               0               0               0.0004          
+
+air02.0.u.opb
+	parallelcols    1               100             48              0               0.0289          
+	pureliteral     1               100             6774            100             0.0642          
+
+p0040.0.s.opb
+	parallelcols    1               0               0               0               0.0001          
+	pureliteral     1               0               0               0               0.0001          
+
+p0040.0.u.opb
+	parallelcols    1               0               0               0               0.0001          
+	pureliteral     1               0               0               0               0.0001          
+
+bm23.0.s.opb
+	parallelcols    1               0               0               0               0.0003          
+	pureliteral     1               0               0               0               0.0002          
+
+pipex.0.u.opb
+	parallelcols    1               0               0               0               0.0002          
+	pureliteral     1               0               0               0               0.0003          
+
+stein9.0.s.opb
+	parallelcols    1               0               0               0               0.0001          
+	pureliteral     1               0               0               0               0               
+
+stein9.0.u.opb
+	parallelcols    1               0               0               0               0.0001          
+	pureliteral     1               0               0               0               0               
+
+p0291.0.u.opb
+	parallelcols    1               0               0               0               0.001           
+	pureliteral     2               50              188             100             0.0016          
+
+diamond.0.d.opb
+	parallelcols    1               0               0               0               0               
+	pureliteral     1               0               0               0               0.0003          
+
+air02.0.s.opb
+	parallelcols    1               100             48              0               0.0355          
+	pureliteral     1               100             6774            100             0.0895          
+
+bm23.0.u.opb
+	parallelcols    1               0               0               0               0.0003          
+	pureliteral     1               0               0               0               0.0002          
+
+sentoy.0.s.opb
+	parallelcols    1               0               0               0               0.0007          
+	pureliteral     1               0               0               0               0.0002          
+
+air02.0.u.opb
+	parallelcols    1               100             48              0               0.0291          
+	pureliteral     1               100             6774            100             0.0641          
+
+p0040.0.s.opb
+	parallelcols    1               0               0               0               0.0002          
+	pureliteral     1               0               0               0               0.0001          
+
+p0040.0.u.opb
+	parallelcols    1               0               0               0               0.0002          
+	pureliteral     1               0               0               0               0.0001          
+
+bm23.0.s.opb
+	parallelcols    1               0               0               0               0.0004          
+	pureliteral     1               0               0               0               0.0002          
+
+pipex.0.u.opb
+	parallelcols    1               0               0               0               0.0002          
+	pureliteral     1               0               0               0               0.0002          
+
+stein9.0.s.opb
+	parallelcols    1               0               0               0               0.0003          
+	pureliteral     1               0               0               0               0.0001          
+
+stein9.0.u.opb
+	parallelcols    1               0               0               0               0.0001          
+	pureliteral     1               0               0               0               0               
+
+p0291.0.u.opb
+	parallelcols    1               0               0               0               0.001           
+	pureliteral     2               50              188             100             0.0021          
+
+air02.0.s.opb
+	parallelcols    1               100             48              0               0.0282          
+	pureliteral     1               100             6774            100             0.0758          
+
+air02.0.s.opb
+	pureliteral     1               100             6774            100             0.0547          
+
+air02.0.u.opb
+	pureliteral     1               100             6774            100             0.0572          
+
+air02.0.s.opb
+	pureliteral     1               100             6774            100             0.0541          
+
+air02.0.s.opb
+	pureliteral     1               100             6774            100             0.0569          
+
+air02.0.s.opb
+	pureliteral     1               0               0               0               0.0091          
+
+diamond.0.d.opb
+	pureliteral     1               0               0               0               0.0007          
+
+air02.0.s.opb
+	pureliteral     1               0               0               0               0.009           
+
+bm23.0.u.opb
+	pureliteral     1               0               0               0               0.0003          
+
+sentoy.0.s.opb
+	pureliteral     1               0               0               0               0.0003          
+
+air02.0.u.opb
+	pureliteral     1               0               0               0               0.0076          
+
+p0040.0.s.opb
+	pureliteral     1               0               0               0               0.0001          
+
+p0040.0.u.opb
+	pureliteral     1               0               0               0               0.0001          
+
+bm23.0.s.opb
+	pureliteral     1               0               0               0               0.0002          
+
+pipex.0.u.opb
+	pureliteral     1               0               0               0               0.0003          
+
+stein9.0.s.opb
+	pureliteral     1               0               0               0               0               
+
+stein9.0.u.opb
+	pureliteral     1               0               0               0               0               
+
+p0291.0.u.opb
+	pureliteral     2               50              188             100             0.0023          
+
+sentoy.0.u.opb
+	pureliteral     1               0               0               0               0.0004          
+
+p0291.0.s.opb
+	pureliteral     2               50              188             100             0.0019          
+
+lp4l.0.u.opb
+	pureliteral     1               0               0               0               0.0018          
+
+cracpb1.0.s.opb
+	pureliteral     1               0               0               0               0.0008          
+
+cracpb1.0.u.opb
+	pureliteral     1               0               0               0               0.0009          
+
+stein15.0.s.opb
+	pureliteral     1               0               0               0               0               
+
+air01.0.u.opb
+	pureliteral     1               0               0               0               0.0018          
+
+32array_alg_ineq5.opb
+	pureliteral     2               50              64              100             0.0108          
+
+air01.0.s.opb
+	pureliteral     1               0               0               0               0.001           
+
+22array_alg_ineq7.opb
+	pureliteral     2               50              44              100             0.0058          
+
+stein15.0.u.opb
+	pureliteral     1               0               0               0               0.0001          
+
+pipex.0.s.opb
+	pureliteral     1               0               0               0               0.0003          
+
+lp4l.0.s.opb
+	pureliteral     1               0               0               0               0.0031          
+
+21array_alg_ineq7.opb
+	pureliteral     2               50              42              100             0.0076          
+
+diamond.0.d.opb
+	pureliteral     1               0               0               0               0               
+
+diamond.0.d.opb
+	pureliteral     1               0               0               0               0               
+
+air02.0.s.opb
+	pureliteral     1               0               0               0               0.0147          
+
+bm23.0.u.opb
+	pureliteral     1               0               0               0               0.0001          
+
+sentoy.0.s.opb
+	pureliteral     1               0               0               0               0.0003          
+
+diamond.0.d.opb
+	pureliteral     1               0               0               0               0               
+
+air02.0.s.opb
+	pureliteral     1               0               0               0               0.0174          
+
+bm23.0.u.opb
+	pureliteral     1               0               0               0               0.0002          
+
+sentoy.0.s.opb
+	pureliteral     1               0               0               0               0.0007          
+
+p0040.0.s.opb
+	pureliteral     1               0               0               0               0.0001          
+
+p0040.0.u.opb
+	pureliteral     1               0               0               0               0.0002          
+
+bm23.0.s.opb
+	pureliteral     1               0               0               0               0.0002          
+
+pipex.0.u.opb
+	pureliteral     1               0               0               0               0.0003          
+
+stein9.0.s.opb
+	pureliteral     1               0               0               0               0               
+
+stein9.0.u.opb
+	pureliteral     1               0               0               0               0.0001          
+
+p0291.0.u.opb
+	pureliteral     2               50              188             100             0.0027          
+
+sentoy.0.u.opb
+	pureliteral     1               0               0               0               0.0003          
+
+p0291.0.s.opb
+	pureliteral     2               50              188             100             0.0018          
+
+cracpb1.0.s.opb
+	pureliteral     1               0               0               0               0.0016          
+
+cracpb1.0.u.opb
+	pureliteral     1               0               0               0               0.0012          
+
+stein15.0.s.opb
+	pureliteral     1               0               0               0               0.0001          
+
+air01.0.u.opb
+	pureliteral     1               0               0               0               0.0021          
+
+32array_alg_ineq5.opb
+	pureliteral     2               50              64              100             0.0554          
+
+air01.0.s.opb
+	pureliteral     1               0               0               0               0.0016          
+
+22array_alg_ineq7.opb
+	pureliteral     2               50              44              100             0.0096          
+
+stein15.0.u.opb
+	pureliteral     1               0               0               0               0.0001          
+
+256ebits_0.opb
+	pureliteral     1               0               0               0               0.0002          
+
+pipex.0.s.opb
+	pureliteral     1               0               0               0               0.0002          
+
+128ebits_0.opb
+	pureliteral     1               0               0               0               0.0002          
+
+lp4l.0.s.opb
+	pureliteral     1               0               0               0               0.0029          
+
+21array_alg_ineq7.opb
+	pureliteral     2               50              42              100             0.0068          
+
+diamond.0.d.opb
+	pureliteral     1               0               0               0               0               
+
+bm23.0.u.opb
+	pureliteral     1               0               0               0               0.0002          
+
+sentoy.0.s.opb
+	pureliteral     1               0               0               0               0.0002          
+
+p0040.0.s.opb
+	pureliteral     1               0               0               0               0.0001          
+
+p0040.0.u.opb
+	pureliteral     1               0               0               0               0.0001          
+
+bm23.0.s.opb
+	pureliteral     1               0               0               0               0.0001          
+
+pipex.0.u.opb
+	pureliteral     1               0               0               0               0.0002          
+
+stein9.0.s.opb
+	pureliteral     1               0               0               0               0               
+
+stein9.0.u.opb
+	pureliteral     1               0               0               0               0               
+
+p0291.0.u.opb
+	pureliteral     2               50              188             100             0.0225          
+
+sentoy.0.u.opb
+	pureliteral     1               0               0               0               0.0002          
+
+p0291.0.s.opb
+	pureliteral     2               50              188             100             0.0229          
+
+cracpb1.0.s.opb
+	pureliteral     1               0               0               0               0.0017          
+
+cracpb1.0.u.opb
+	pureliteral     1               0               0               0               0.0012          
+
+stein15.0.s.opb
+	pureliteral     1               0               0               0               0.0001          
+
+air01.0.u.opb
+	pureliteral     1               0               0               0               0.0019          
+
+32array_alg_ineq5.opb
+	pureliteral     2               50              64              100             0.0225          
+
+air01.0.s.opb
+	pureliteral     1               0               0               0               0.0018          
+
+22array_alg_ineq7.opb
+	pureliteral     2               50              44              100             0.0066          
+
+stein15.0.u.opb
+	pureliteral     1               0               0               0               0.0001          
+
+pipex.0.s.opb
+	pureliteral     1               0               0               0               0.0003          
+
+lp4l.0.s.opb
+	pureliteral     1               0               0               0               0.003           
+
+21array_alg_ineq7.opb
+	pureliteral     2               50              42              100             0.0063          
+
