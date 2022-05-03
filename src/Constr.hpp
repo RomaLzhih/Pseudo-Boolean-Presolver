@@ -191,7 +191,7 @@ struct Graph
                   int ell );
 
    Expr<REAL>&
-   getExpr( const int& u, const int& v );
+   getExpr( int& u, int& v );
 
    int
    getNodeNum() const

@@ -16,6 +16,10 @@ class SATPreSolver
    redundancyDetection();
    void
    hyperBinaryResolution();
+   void 
+   presolve();
+   void 
+   printSolution();
    void
    writePresolvers( const std::string& inFileName );
 
@@ -23,8 +27,10 @@ class SATPreSolver
    ExprPool<REAL> exprs;
    papilo::Message msg{};
 
-   // parameter
+   // redundacy parameter
    int redCmpSize = 800;
+
+   // hyper binary resolution parameter
 
    // overall container
    int presolveStatus;
@@ -33,10 +39,13 @@ class SATPreSolver
    bool pbStatus;
    bool onlyPreSolve;
    std::string inputIns;
+   REAL origobj;
 
    // presolving information
    int redDelNum = 0;
    int redCallNum = 0;
+   int hbrAddedNum = 0;
+   int hbrCallNum = 0;
    double redElapsedTime;
    std::vector<std::pair<Expr<REAL>, Expr<REAL>>> redRelation;
 };

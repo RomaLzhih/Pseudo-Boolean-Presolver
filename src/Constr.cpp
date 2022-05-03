@@ -86,29 +86,32 @@ Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
    std::unordered_set<int> s = g[stlit];
 
    // fine elements in s are neighbor of others except ell
-   for( auto u : s )
+   int gv;
+   for( auto gu : s )
    {
       bool flag = true;
       for( auto v : lits )
       {
          if( v == ell )
             continue;
-         int gv = cols.at( v ) > 0 ? v : v + N;
-         if( !g[gv].count( u ) )
+         gv = cols.at( v ) > 0 ? v : v + N;
+         if( !g[gv].count( gu ) )
          {
             flag = false;
             break;
          }
       }
       if( flag == true )
-         ans.insert( u );
+      {
+         ans.insert( gu );
+      }
    }
    return;
 }
 
 template <typename REAL>
 Expr<REAL>&
-Graph<REAL>::getExpr( const int& u, const int& v )
+Graph<REAL>::getExpr( int& u, int& v )
 {
    std::pair<int, int> p = std::make_pair( u, v );
    return edges[p];

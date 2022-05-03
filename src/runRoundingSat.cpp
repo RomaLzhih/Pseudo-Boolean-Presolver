@@ -16,8 +16,7 @@ runRoundingSat::runforPaPILO( std::string& preInfo, std::string infile )
    std::string newInsPath = infile + "pre.opb";
    std::string roundingSat =
        "/home/mzy/thesis_project/roundingsat/build/roundingsat";
-   std::string command =
-       roundingSat + " --print-sol=1 --verbosity=0 " + newInsPath;
+   std::string command = roundingSat + " --print-sol=1 --verbosity=0 ";
 
    std::ofstream out( newInsPath );
    out << preInfo;
@@ -25,18 +24,19 @@ runRoundingSat::runforPaPILO( std::string& preInfo, std::string infile )
 
    bp::ipstream pipout;
    bp::opstream pipin;
-   bp::child c( command, bp::std_out > pipout );
-   // bp::child c(testpath, bp::std_in < pipin, bp::std_out > pipout);
-   // bp::child c(command, bp::std_out > pipout);
 
-   //    pipin << preInfo;
+   bp::child c( command, bp::std_in<pipin, bp::std_out> pipout );
+   pipin << preInfo;
+
+   pipin.flush();
+   pipin.pipe().close();
 
    std::string line;
    std::string sol = "";
    std::string status = "";
-   while( pipout && std::getline( pipout, line ) && !line.empty() )
+   while( pipout && std::getline( pipout, line ) )
    {
-      // std::cout << '\t' << line << std::endl;
+      std::cout << '\t' << line << std::endl;
       if( line.empty() || line[0] == 'c' )
          continue;
       else if( line[0] == 's' )
@@ -80,7 +80,7 @@ runRoundingSat::runforPaPILO( const std::string& infile )
 }
 
 std::string
-runRoundingSat::runforSAT( std::string& preInfo, std::string infile )
+runRoundingSat::runforRedundancy( std::string& preInfo, std::string infile )
 {
    while( *infile.rbegin() != '.' )
       infile.pop_back();
@@ -109,6 +109,43 @@ runRoundingSat::runforSAT( std::string& preInfo, std::string infile )
    }
    c.wait();
    return status;
+}
+
+strpair
+runRoundingSat::runforSAT( const std::string& preInfo )
+{
+   namespace bp = boost::process;
+
+   std::string roundingSat =
+       "/home/mzy/thesis_project/roundingsat/build/roundingsat";
+   std::string command = roundingSat + " --print-sol=1 --verbosity=0 ";
+
+   bp::ipstream pipout;
+   bp::opstream pipin;
+
+   bp::child c( command, bp::std_in<pipin, bp::std_out> pipout );
+   pipin << preInfo;
+
+   pipin.flush();
+   pipin.pipe().close();
+
+   std::string line;
+   std::string sol = "";
+   std::string status = "";
+   while( pipout && std::getline( pipout, line ) )
+   {
+      std::cout << '\t' << line << std::endl;
+      if( line.empty() || line[0] == 'c' )
+         continue;
+      else if( line[0] == 's' )
+         status = line.substr( 2 );
+      else if( line[0] == 'v' )
+         sol = line.substr( 2 );
+      else
+         continue; // may print other information
+   }
+   c.wait();
+   return std::make_pair( status, sol );
 }
 
 } // namespace pre

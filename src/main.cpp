@@ -17,21 +17,22 @@ FLOW CHART
 int
 main( int argc, char* argv[] )
 {
-   // std::string infile = argv[1];
-   // int onlyPreSolve = std::stoi(argv[2]);
-   // int solvertype = std::stoi(argv[3]);
-   std::string infile = "../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/quimper/"
-                        "SyncCodes/d_n_k/normalized-2_3_0.opb";
-   int onlyPreSolve = std::stoi( "0" );
-   int solvertype = std::stoi( "0" );
+   std::string infile = argv[1];
+   int onlyPreSolve = std::stoi( argv[2] );
+   int solvertype = std::stoi( argv[3] );
+   //    std::string infile =
+   //    "../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/quimper/"
+   //                         "SyncCodes/d_n_k/normalized-2_3_0.opb";
+   //    int onlyPreSolve = std::stoi( "0" );
+   //    int solvertype = std::stoi( "0" );
 
    if( solvertype == 0 )
    { // run SAT
       pre::SATPreSolver<pre::bigint> sSolver;
       sSolver.buildProblem( infile );
+      sSolver.presolve();
       // sSolver.redundancyDetection();
-      // sSolver.writePresolvers(infile);
-      sSolver.hyperBinaryResolution();
+      sSolver.writePresolvers( infile );
    }
    else if( solvertype == 1 )
    { // run papilo

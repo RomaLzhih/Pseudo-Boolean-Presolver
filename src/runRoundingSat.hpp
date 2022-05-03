@@ -23,6 +23,8 @@ runforPaPILO( std::string& preInfo, std::string infile );
 strpair
 runforPaPILO( const std::string& infile );
 std::string
-runforSAT( std::string& preInfo, std::string infile );
+runforRedundancy( std::string& preInfo, std::string infile );
+strpair
+runforSAT( const std::string& preInfo );
 } // namespace runRoundingSat
 } // namespace pre

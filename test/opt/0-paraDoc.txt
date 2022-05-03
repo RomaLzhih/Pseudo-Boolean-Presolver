@@ -312,3 +312,17 @@ pipex.opb
 p0033.opb
 	pureliteral     2               50              1               100             0.0003          
 
+p0033.opb
+	pureliteral     2               50              1               100             0.0002          
+
+p0033.opb
+	pureliteral     2               50              1               100             0.0003          
+
+p0033.opb
+	0 0
+	1 0
+
+p0033.opb
+	0 0
+	1 0
+

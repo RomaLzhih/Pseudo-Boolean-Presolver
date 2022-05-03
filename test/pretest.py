@@ -7,7 +7,7 @@ from unittest import case
 
 preLoc = "/home/mzy/thesis_project/pre/build/pre"
 rSLoc = "/home/mzy/thesis_project/roundingsat/build/roundingsat"
-InsLoc = "/home/mzy/thesis_project/pre/test/"
+InsLoc = "/home/mzy/thesis_project/pre/"
 
 filePathTerm = sys.argv[1]
 checkTerm = int(sys.argv[2])

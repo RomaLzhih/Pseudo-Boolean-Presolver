@@ -10,7 +10,7 @@ SATPreSolver<REAL>::buildProblem( const std::string& inFileName )
    assert( !infile.fail() );
    this->inputIns = inFileName;
    this->instanceType = parser::opb_read_to_sat( infile, this->exprs );
-   this->exprs.print();
+   //    this->exprs.print();
 
    infile.close();
 }
@@ -47,7 +47,8 @@ SATPreSolver<REAL>::redundancyDetection()
          //           << aux::Expr2String(C->getCols(), C->getDeg())
          //           << std::endl;
 
-         rsStat = pre::runRoundingSat::runforSAT( preInfo, this->inputIns );
+         rsStat =
+             pre::runRoundingSat::runforRedundancy( preInfo, this->inputIns );
 
          auto tmp = C;
          tmp++;
@@ -98,6 +99,8 @@ SATPreSolver<REAL>::hyperBinaryResolution()
          auto& cols = e.getCols();
          e.getLits( lits );
          assert( lits.size() == 2 );
+         if( cols.at( lits[0] ) == 0 || cols.at( lits[1] ) == 0 )
+            continue;
          // normalize variable
          u = cols.at( lits[0] ) > 0 ? lits[0] : lits[0] + N;
          v = cols.at( lits[1] ) > 0 ? lits[1] : lits[1] + N;
@@ -134,19 +137,22 @@ SATPreSolver<REAL>::hyperBinaryResolution()
       // divide gcd
       auto& newCol1 = e1.getCols();
       assert( newCol1.count( v ) );
-      REAL _gcd = aux::abs( newCol1.at( v ) );
+      REAL _gcd = aux::abs( e1.getDeg() );
       if( _gcd == 1 ) // special handle for 1
          return;
       for( auto c : newCol1 )
       {
          assert( c.second != 0 );
          _gcd = aux::gcd( _gcd, aux::abs( c.second ) );
+         if( _gcd == 1 )
+            break;
       }
       if( _gcd != 1 )
       {
          assert( _gcd > 1 );
          for( auto c : newCol1 )
          {
+            assert( c.second % _gcd == 0 );
             e1.setCoeff( c.first, c.second / _gcd );
          }
          e1.setDeg( e1.getDeg() / _gcd );
@@ -155,7 +161,7 @@ SATPreSolver<REAL>::hyperBinaryResolution()
       return;
    };
    auto resolve = [&]( Graph<REAL>& g, Expr<REAL>& longExp, Expr<REAL>& ansExp,
-                       int& saveLit, int& v )
+                       const int& saveLit, int& v, int& gv )
    {
       std::vector<int> lits;
       auto& cols = longExp.getCols();
@@ -164,21 +170,25 @@ SATPreSolver<REAL>::hyperBinaryResolution()
 
       int N = g.getNodeNum();
       int gu;
-      msg.info( "saveLit {} common lit {} Exp ", saveLit, v );
+      msg.info( "saveLit {} common lit v {} Exp ", saveLit, v );
       longExp.print();
 
+      //* u1 + u2 + ....
       //* u is the literal to be resolved
-      //* v is the common neighbor of u
+      //* gv is the common neighbor of u
       //* new constraint should only contains saveLit and v
       for( auto u : lits )
       {
          if( u == saveLit )
             continue;
          gu = cols.at( u ) > 0 ? u : u + N;
-         assert( g.getNeighbor( gu ).count( v ) );
-         Expr<REAL> ge = g.getExpr( gu, v );
+         assert( g.getNeighbor( gu ).count( gv ) );
+         Expr<REAL>& ge = g.getExpr( gu, gv );
          auto& gcols = ge.getCols();
+         msg.info( "\tresolve on u {} with ", u );
+         ge.print();
          assert( gcols.count( u ) && gcols.count( v ) );
+         assert( gv > N ? gcols.at( v ) < 0 : gcols.at( v ) > 0 );
          assert( gcols.at( u ) * cols.at( u ) < 0 );
          resolveWithLit( ansExp, ge, u, v );
          msg.info( "resolve on {} ", u );
@@ -198,8 +208,10 @@ SATPreSolver<REAL>::hyperBinaryResolution()
       msg.info( "no bianry edges\n" );
       return;
    }
-   //    g.print();
+   g.print();
+   msg.info( "-----end graph-----\n" );
 
+   this->hbrCallNum++;
    std::unordered_set<int> commonLits;
    for( auto D : es )
    {
@@ -212,21 +224,25 @@ SATPreSolver<REAL>::hyperBinaryResolution()
          //* u is the variable to save after resolution
          //* the common literals should have same neghbors v
          int u = i.first;
+         int v;
          g.findCommonLit( D, commonLits, u );
          if( commonLits.size() )
-            std::cout << u << ": " << commonLits << std::endl;
+            std::cout << "\nsaved lits: " << u << ": " << commonLits;
 
          if( !commonLits.empty() )
          {
-            for( auto v : commonLits ) // v is the common lit
+            for( auto gv : commonLits ) // v is the common lit in graph
             {
-               assert( !cols.count( v ) );
+               v = gv > N ? gv - N : gv;
+               assert( !cols.count( v ) || ( cols.count( v ) && u == v ) );
                Expr<REAL> e;
-               resolve( g, D, e, u, v );
-               assert( e.getVarsSize() == 2 );
-               assert( e.getCols().count( u ) && e.getCols().count( v ) );
+               resolve( g, D, e, u, v, gv );
+               assert( ( !cols.count( v ) && e.getVarsSize() == 2 &&
+                         e.getCols().count( u ) && e.getCols().count( v ) ) ||
+                       ( cols.count( v ) && e.getVarsSize() < 2 ) );
                e.setHash( aux::hashExpr( e.getCols(), e.getDeg() ) );
                addExprs.addExpr( e );
+               this->hbrAddedNum++;
             }
          }
          else
@@ -239,7 +255,65 @@ SATPreSolver<REAL>::hyperBinaryResolution()
    {
       es.insert( e );
    }
+   msg.info( "Added Num {}\n", this->hbrAddedNum );
    return;
+}
+
+template <typename REAL>
+void
+SATPreSolver<REAL>::presolve()
+{
+   this->pbStatus = 1;
+   hyperBinaryResolution();
+   std::string s = "* #variable= " + aux::tos( exprs.getVarNum() ) +
+                   " #constraint= " + aux::tos( exprs.getCosNum() ) + "\n";
+   auto& es = exprs.getExprs();
+   for( auto& e : es )
+   {
+      s += aux::Expr2String( e.getCols(), e.getDeg() ) + "\n";
+   }
+   strpair rsSol = runRoundingSat::runforSAT( s ); // status, sol
+   if( rsSol.first == "UNSATISFIABLE" )
+   {
+      this->solutionStatus = solStat::UNSATISFIABLE;
+   }
+   else
+   {
+      this->solutionStatus = solStat::SATISFIABLE;
+   }
+   this->presolveStatus = ( redDelNum || hbrAddedNum ) ? 1 : 0;
+}
+
+template <typename REAL>
+void
+SATPreSolver<REAL>::printSolution()
+{
+   std::cout << std::setw( 16 ) << "BOOLEAN " << pbStatus
+             << std::endl; // 0 fail 1 pass
+   // 0: opt, 1: dec
+   std::cout << std::setw( 16 ) << "FILE "
+             << std::log2( utils::as_integer( this->instanceType ) )
+             << std::endl;
+   // -1: already solved, 0: unchanged, 1: reduced,
+   //  2: unbounded or infeasible, 3: unbounded, 4: infeasible
+   std::cout << std::setw( 16 ) << "PRESOLVE_STAT " << this->presolveStatus
+             << std::endl;
+   if( !this->onlyPreSolve )
+   {
+      // 0: UNSAT, 1:SAT
+      std::cout << std::setw( 16 ) << "SAT "
+                << std::log2( utils::as_integer( this->solutionStatus ) )
+                << std::endl;
+      if( this->solutionStatus != solStat::UNSATISFIABLE &&
+          this->instanceType == fileType::opt )
+      {
+         std::cout << std::setw( 16 ) << "OBJ " << this->origobj << std::endl;
+      }
+      else if( this->instanceType == fileType::dec )
+      {
+         ;
+      }
+   }
 }
 
 template <typename REAL>
@@ -258,6 +332,7 @@ SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
    assert( !outfile.fail() );
    outfile << inFileName.substr( inFileName.find_last_of( "//" ) + 1 ) + '\n';
    outfile << '\t' << this->redCallNum << " " << this->redDelNum << std::endl;
+   outfile << '\t' << this->hbrCallNum << " " << this->hbrAddedNum << std::endl;
    outfile << std::endl;
 
    outfile.close();
