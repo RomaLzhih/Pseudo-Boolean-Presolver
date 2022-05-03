@@ -56,6 +56,83 @@ Expr<REAL>::print() const
    return;
 }
 
+template <typename REAL>
+void
+Graph<REAL>::addEdge( const int& u, const int& v, const Expr<REAL>& expr )
+{
+   int nu = ( ( u + N ) > 2 * N ) ? ( u - N ) : ( u + N );
+   assert( nu >= 1 && nu <= 2 * N );
+   g[nu].insert( v );
+   edges[std::make_pair( nu, v )] = expr;
+   // expr.print();
+   // msg.info( "u: {} add edge {} to {}\n", u, nu, v );
+   return;
+}
+
+template <typename REAL>
+void
+Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
+                            std::unordered_set<int>& ans, int ell )
+{
+   auto& cols = expr.getCols();
+   assert( cols.size() > 2 );
+
+   std::vector<int> lits; // ell == lits[]
+   expr.getLits( lits );
+
+   // pick the start variable except the jump one
+   int stlit = ( ell == lits[0] ) ? lits[1] : lits[0];
+   stlit = cols.at( stlit ) > 0 ? stlit : stlit + N; // normalize
+   std::unordered_set<int> s = g[stlit];
+
+   // fine elements in s are neighbor of others except ell
+   for( auto u : s )
+   {
+      bool flag = true;
+      for( auto v : lits )
+      {
+         if( v == ell )
+            continue;
+         int gv = cols.at( v ) > 0 ? v : v + N;
+         if( !g[gv].count( u ) )
+         {
+            flag = false;
+            break;
+         }
+      }
+      if( flag == true )
+         ans.insert( u );
+   }
+   return;
+}
+
+template <typename REAL>
+Expr<REAL>&
+Graph<REAL>::getExpr( const int& u, const int& v )
+{
+   std::pair<int, int> p = std::make_pair( u, v );
+   return edges[p];
+}
+
+template <typename REAL>
+void
+Graph<REAL>::print()
+{
+   msg.info( "nodes num: {} {}\n", g.size(), N );
+   for( int i = 0; i < g.size(); i++ )
+   {
+      msg.info( "For {}: ", i );
+      for( auto j : g[i] )
+      {
+         msg.info( "{} ", j );
+         getExpr( i, j ).print();
+      }
+      msg.info( "\n" );
+   }
+   return;
+}
+
 template struct Expr<bigint>;
 template struct ExprPool<bigint>;
+template struct Graph<bigint>;
 } // namespace pre

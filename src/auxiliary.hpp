@@ -38,6 +38,15 @@ operator<<( std::ostream& os, const std::unordered_map<T, U>& m )
 }
 template <typename T>
 std::ostream&
+operator<<( std::ostream& os, const std::unordered_set<T>& s )
+{
+   for( const auto& e : s )
+      os << e << " ";
+   os << std::endl;
+   return os;
+}
+template <typename T>
+std::ostream&
 operator<<( std::ostream& os, const std::vector<T>& m )
 {
    for( const auto& e : m )

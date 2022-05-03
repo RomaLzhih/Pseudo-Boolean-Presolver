@@ -4,31 +4,40 @@
 #include "parsing.hpp"
 #include "runRoundingSat.hpp"
 
-namespace pre {
+namespace pre
+{
 template <typename REAL>
-class SATPreSolver {
-   public:
-    void buildProblem(const std::string& inFileName);
-    void redundancyDetection();
-    void writePresolvers(const std::string& inFileName);
+class SATPreSolver
+{
+ public:
+   void
+   buildProblem( const std::string& inFileName );
+   void
+   redundancyDetection();
+   void
+   hyperBinaryResolution();
+   void
+   writePresolvers( const std::string& inFileName );
 
-   private:
-    ExprPool<REAL> exprs;
-    // parameter
-    int redCmpSize = 800;
+ private:
+   ExprPool<REAL> exprs;
+   papilo::Message msg{};
 
-    // overall container
-    int presolveStatus;
-    fileType instanceType;
-    solStat solutionStatus;
-    bool pbStatus;
-    bool onlyPreSolve;
-    std::string inputIns;
+   // parameter
+   int redCmpSize = 800;
 
-    // presolving information
-    int redDelNum = 0;
-    int redCallNum = 0;
-    double redElapsedTime;
-    std::vector<std::pair<Expr<REAL>, Expr<REAL>>> redRelation;
+   // overall container
+   int presolveStatus;
+   fileType instanceType;
+   solStat solutionStatus;
+   bool pbStatus;
+   bool onlyPreSolve;
+   std::string inputIns;
+
+   // presolving information
+   int redDelNum = 0;
+   int redCallNum = 0;
+   double redElapsedTime;
+   std::vector<std::pair<Expr<REAL>, Expr<REAL>>> redRelation;
 };
-}  // namespace pre
+} // namespace pre

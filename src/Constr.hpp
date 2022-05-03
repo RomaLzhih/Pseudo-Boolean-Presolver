@@ -21,23 +21,43 @@ struct Expr
 
    void
    invert();
+
    void
    negate();
+
    void
-   addition( const Expr& exp, const int& var );
+   delateCol( int u )
+   {
+      cols.erase( u );
+   };
+
    void
-   setHash( std::size_t& h )
+   setCoeff( int u, REAL val )
+   {
+      cols[u] = val;
+   }
+
+   void
+   setDeg( REAL val )
+   {
+      deg = val;
+   }
+
+   void
+   setHash( std::size_t h )
    {
       this->hashValue = h;
    }
 
    void
    print() const;
+
    const int
    getVarsSize() const
    {
       return cols.size();
    }
+
    const REAL&
    getDeg() const
    {
@@ -48,12 +68,21 @@ struct Expr
    {
       return cols;
    }
+   void
+   getLits( std::vector<int>& vec ) const
+   {
+      vec.clear();
+      auto key_selector = []( auto p ) { return p.first; };
+      vec.resize( cols.size() );
+      std::transform( cols.begin(), cols.end(), vec.begin(), key_selector );
+   }
    const std::size_t
    getHash() const
    {
       return hashValue;
    }
 
+   // hash function return
    friend std::size_t
    hash_value( Expr<REAL> const& b )
    {
@@ -137,4 +166,47 @@ struct ExprPool
    std::size_t ghostCode;
 };
 
+template <typename REAL>
+struct Graph
+{
+ public:
+   void
+   init( const int& n )
+   {
+      g.resize( 2 * n + 1 );
+      N = n;
+   };
+
+   void
+   addEdge( const int& u, const int& v, const Expr<REAL>& expr );
+
+   const std::unordered_set<int>&
+   getNeighbor( const int& u ) const
+   {
+      return g[u];
+   };
+
+   void
+   findCommonLit( const Expr<REAL>& expr, std::unordered_set<int>& ans,
+                  int ell );
+
+   Expr<REAL>&
+   getExpr( const int& u, const int& v );
+
+   int
+   getNodeNum() const
+   {
+      return N;
+   }
+
+   void
+   print();
+
+ private:
+   papilo::Message msg{};
+
+   std::vector<std::unordered_set<int>> g;
+   std::map<std::pair<int, int>, Expr<REAL>> edges;
+   int N;
+};
 } // namespace pre
