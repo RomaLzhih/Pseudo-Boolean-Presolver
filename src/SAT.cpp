@@ -86,13 +86,13 @@ template <typename REAL>
 void
 SATPreSolver<REAL>::hyperBinaryResolution()
 {
-   auto buildGraph = [&]( auto& es, Graph<REAL>& g )
+   auto buildGraph = [&]( const auto& es, Graph<REAL>& g )
    {
       int N = g.getNodeNum();
       int u, v;
       std::vector<int> lits;
       bool flag = false;
-      for( auto e : es )
+      for( auto& e : es )
       {
          if( e.getVarsSize() != 2 )
             continue;
@@ -131,16 +131,16 @@ SATPreSolver<REAL>::hyperBinaryResolution()
       REAL factor1 = _lcm / aux::abs( col1.at( u ) );
       REAL factor2 = _lcm / aux::abs( col2.at( u ) );
       assert( factor1 > 0 && factor2 > 0 );
-      e1.delateCol( u );   // resolve u, remove it
-      for( auto c : col1 ) // multiply the factor
+      e1.delateCol( u );    // resolve u, remove it
+      for( auto& c : col1 ) // multiply the factor
       {
-         e1.setCoeff( c.first, col1.at( c.first ) * factor1 );
+         e1.setCoeff( c.first, std::move( col1.at( c.first ) * factor1 ) );
       }
       if( col1.count( v ) )
-         e1.setCoeff( v, col1.at( v ) + col2.at( v ) * factor2 );
+         e1.setCoeff( v, std::move( col1.at( v ) + col2.at( v ) * factor2 ) );
       else
-         e1.setCoeff( v, col2.at( v ) * factor2 );
-      e1.setDeg( e1.getDeg() * factor1 + e2.getDeg() * factor2 );
+         e1.setCoeff( v, std::move( col2.at( v ) * factor2 ) );
+      e1.setDeg( std::move( e1.getDeg() * factor1 + e2.getDeg() * factor2 ) );
 
       // divide gcd
       auto& newCol1 = e1.getCols();
@@ -148,7 +148,7 @@ SATPreSolver<REAL>::hyperBinaryResolution()
       REAL _gcd = aux::abs( e1.getDeg() );
       if( _gcd == 1 ) // special handle for 1
          return;
-      for( auto c : newCol1 )
+      for( auto& c : newCol1 )
       {
          assert( c.second != 0 || ( c.second == 0 && c.first == v ) );
          if( _gcd == 1 )
@@ -160,23 +160,23 @@ SATPreSolver<REAL>::hyperBinaryResolution()
       if( _gcd != 1 )
       {
          assert( _gcd > 1 );
-         for( auto c : newCol1 )
+         for( auto& c : newCol1 )
          {
             assert( c.second % _gcd == 0 );
-            e1.setCoeff( c.first, c.second / _gcd );
+            e1.setCoeff( c.first, std::move( c.second / _gcd ) );
          }
-         e1.setDeg( e1.getDeg() / _gcd );
+         e1.setDeg( std::move( e1.getDeg() / _gcd ) );
       }
 
       return;
    };
-   auto resolve = [&]( Graph<REAL>& g, Expr<REAL>& longExp, Expr<REAL>& ansExp,
-                       const int& saveLit, int& v, int& gv )
+   auto resolve = [&]( Graph<REAL>& g, const Expr<REAL>& longExp,
+                       Expr<REAL>& ansExp, const int& saveLit, int& v,
+                       const int& gv )
    {
       std::vector<int> lits;
       auto& cols = longExp.getCols();
       longExp.getLits( lits );
-      ansExp = longExp;
 
       int N = g.getNodeNum();
       int gu;
@@ -187,7 +187,7 @@ SATPreSolver<REAL>::hyperBinaryResolution()
       //* u is the literal to be resolved
       //* gv is the common neighbor of u
       //* new constraint should only contains saveLit and v
-      for( auto u : lits )
+      for( auto& u : lits )
       {
          if( u == saveLit )
             continue;
@@ -218,17 +218,17 @@ SATPreSolver<REAL>::hyperBinaryResolution()
       msg.info( "no bianry edges\n" );
       return;
    }
-   g.print();
+   // g.print();
    msg.info( "-----end graph-----\n" );
 
    this->hbrCallNum++;
    std::unordered_set<int> commonLits;
-   for( auto D : es )
+   for( auto& D : es )
    {
       auto& cols = D.getCols();
       if( cols.size() <= 2 ) //* jump short cons
          continue;
-      for( auto i : cols )
+      for( auto& i : cols )
       {
          commonLits.clear();
          //* u is the variable to save after resolution
@@ -241,15 +241,16 @@ SATPreSolver<REAL>::hyperBinaryResolution()
 
          if( !commonLits.empty() )
          {
-            for( auto gv : commonLits ) // v is the common lit in graph
+            for( auto& gv : commonLits ) // v is the common lit in graph
             {
                v = gv > N ? gv - N : gv;
                assert( !cols.count( v ) || ( cols.count( v ) && u == v ) );
-               Expr<REAL> e;
+               Expr<REAL> e = D;
                resolve( g, D, e, u, v, gv );
                assert( ( !cols.count( v ) && e.getVarsSize() == 2 &&
                          e.getCols().count( u ) && e.getCols().count( v ) ) ||
                        ( cols.count( v ) && e.getVarsSize() < 2 ) );
+               e.setHash( aux::hashExpr( e.getCols(), e.getDeg() ) );
                addExprs.emplace( std::move( e ) );
                this->hbrAddedNum++;
             }
@@ -267,8 +268,9 @@ SATPreSolver<REAL>::hyperBinaryResolution()
       exprs.addExpr( e );
    }
    assert( exprs.getCosNum() == initialN + addedN );
+   assert( hbrAddedNum == addedN );
 
-   msg.info( "Added Num {}\n", this->hbrAddedNum );
+   msg.info( "Added Num {} {}\n", this->hbrAddedNum, addedN );
    return;
 }
 

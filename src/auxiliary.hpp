@@ -119,7 +119,7 @@ mod_safe( const T& p, const T& q )
       return p % q;
 }
 template <typename T>
-std::size_t
+inline std::size_t
 hashExpr( const std::unordered_map<int, T>& cols, const T& deg )
 {
    auto fibonacci_muliplier = [&]()
@@ -133,46 +133,46 @@ hashExpr( const std::unordered_map<int, T>& cols, const T& deg )
    };
 
    std::size_t seed = cols.size();
-   for( auto i : cols )
+   for( auto& i : cols )
    {
       boost::hash_combine( seed, i.first );
       boost::hash_combine( seed, i.second );
    }
    boost::hash_combine( seed, deg );
 
-   return seed;
+   return std::move( seed );
 }
 
 template <typename T>
-std::string
+inline std::string
 Expr2String( const std::unordered_map<int, T>& cols, const T& deg )
 {
    std::string stringView = "";
-   for( auto c : cols )
+   for( auto& c : cols )
    {
       stringView += ( c.second > 0 ? "+" : "" ) + aux::tos( c.second ) + " x" +
                     aux::tos( c.first ) + " ";
    }
    stringView += ">= " + aux::tos( deg ) + " ;";
-   return stringView;
+   return std::move( stringView );
 }
 
 template <typename T>
-std::string
+inline std::string
 ObjExpr2String( const std::unordered_map<int, T>& cols )
 {
    std::string stringView = "";
-   for( auto c : cols )
+   for( auto& c : cols )
    {
       stringView += ( c.second > 0 ? "+" : "" ) + aux::tos( c.second ) + " x" +
                     aux::tos( c.first ) + " ";
    }
    stringView += ";";
-   return stringView;
+   return std::move( stringView );
 }
 
 template <typename T>
-std::string
+inline std::string
 Expr2OrdString( const std::unordered_map<int, T>& cols, const T& deg )
 {
    std::string stringView = "";
@@ -180,27 +180,27 @@ Expr2OrdString( const std::unordered_map<int, T>& cols, const T& deg )
    std::vector<int> v( cols.size() );
    std::transform( cols.begin(), cols.end(), v.begin(), key_selector );
    std::sort( v.begin(), v.end() );
-   for( auto i : v )
+   for( auto& i : v )
    {
       stringView += ( cols.at( i ) > 0 ? "+" : "" ) + aux::tos( cols.at( i ) ) +
                     " x" + aux::tos( i ) + " ";
    }
    stringView += ">= " + aux::tos( deg ) + " ;";
-   return stringView;
+   return std::move( stringView );
 }
 
 template <typename T>
-std::string
+inline std::string
 Expr2NegString( const std::unordered_map<int, T>& cols, const T& deg )
 {
    std::string stringView = "";
-   for( auto c : cols )
+   for( auto& c : cols )
    {
       stringView += ( c.second < 0 ? "+" : "" ) + aux::tos( -c.second ) + " x" +
                     aux::tos( c.first ) + " ";
    }
    stringView += ">= " + aux::tos( -deg + 1 ) + " ;";
-   return stringView;
+   return std::move( stringView );
 }
 
 template <typename T>

@@ -190,7 +190,6 @@ opb_read_to_sat( std::ifstream& infile, ExprPool<REAL>& exprs )
          less++;
       }
    } while( std::getline( infile, line ) );
-   assert( exprs.getExprs().size() == less + eq * 2 ); // no collision
    return f;
 }
 

@@ -14,7 +14,7 @@ struct Expr
    bool
    operator==( const Expr& b ) const
    {
-      return hashValue == b.hashValue && cols == b.cols && deg == b.deg;
+      return hashValue == b.hashValue;
    }
    Expr() {}
    Expr( const std::string& lhs, const std::string& rhs );
@@ -58,17 +58,17 @@ struct Expr
       return cols.size();
    }
 
-   const REAL&
+   inline const REAL&
    getDeg() const
    {
       return deg;
    }
-   const std::unordered_map<int, REAL>&
+   inline const std::unordered_map<int, REAL>&
    getCols() const
    {
       return cols;
    }
-   void
+   inline void
    getLits( std::vector<int>& vec ) const
    {
       vec.clear();
@@ -101,16 +101,16 @@ struct ExprPool
 {
  public:
    ExprPool() {}
-   void
+   inline void
    addExpr( Expr<REAL>& e )
    {
-      e.setHash( ++ghostCode );
-      exprs.insert( e );
+      // e.setHash( ++ghostCode );
+      exprs.emplace( e );
    }
    void
    addObj( Expr<REAL>& _obj )
    {
-      _obj.setHash( ++ghostCode );
+      // _obj.setHash( ++ghostCode );
       this->obj = _obj;
    }
    void
@@ -191,10 +191,10 @@ struct Graph
 
    void
    findCommonLit( const Expr<REAL>& expr, std::unordered_set<int>& ans,
-                  int ell );
+                  const int& ell );
 
    Expr<REAL>&
-   getExpr( int& u, int& v );
+   getExpr( const int& u, const int& v );
 
    int
    getNodeNum() const

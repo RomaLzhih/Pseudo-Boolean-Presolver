@@ -15,14 +15,15 @@ Expr<REAL>::Expr( const std::string& lhs, const std::string& rhs )
    for( int l = 0, r = 1; l < tokens.size() && r < tokens.size();
         l += 2, r += 2 )
    {
-      this->cols[std::stoi( tokens[r].substr( 1 ) )] = to_bigint( tokens[l] );
+      this->cols[std::stoi( tokens[r].substr( 1 ) )] =
+          std::move( to_bigint( tokens[l] ) );
    }
    // add deg
    tokens.clear();
    boost::split( tokens, rhs, boost::is_any_of( " " ),
                  boost::token_compress_on );
-   this->deg = to_bigint( tokens[0] );
-   this->hashValue = aux::hashExpr( this->cols, this->deg );
+   this->deg = std::move( to_bigint( tokens[0] ) );
+   this->hashValue = std::move( aux::hashExpr( this->cols, this->deg ) );
    return;
 }
 
@@ -62,17 +63,16 @@ Graph<REAL>::addEdge( const int& u, const int& v, const Expr<REAL>& expr )
 {
    int nu = ( ( u + N ) > 2 * N ) ? ( u - N ) : ( u + N );
    assert( nu >= 1 && nu <= 2 * N );
-   g[nu].insert( v );
-   edges[std::make_pair( nu, v )] = expr;
-   // expr.print();
-   // msg.info( "u: {} add edge {} to {}\n", u, nu, v );
+   g[nu].emplace( v );
+   edges.emplace(
+       std::make_pair( std::move( std::make_pair( nu, v ) ), expr ) );
    return;
 }
 
 template <typename REAL>
 void
 Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
-                            std::unordered_set<int>& ans, int ell )
+                            std::unordered_set<int>& ans, const int& ell )
 {
    auto& cols = expr.getCols();
    assert( cols.size() > 2 );
@@ -90,10 +90,10 @@ Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
 
    // fine elements in s are neighbor of others except ell
    int gv;
-   for( auto gu : s )
+   for( auto& gu : s )
    {
       bool flag = true;
-      for( auto v : lits )
+      for( auto& v : lits )
       {
          if( v == ell || v == stlit )
             continue;
@@ -106,13 +106,12 @@ Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
       }
       if( flag == true )
       {
-         ans.insert( gu );
+         ans.emplace( gu );
       }
    }
 
    // std::unordered_set<int> common = g[stlit];
    // std::unordered_set<int> save;
-
    // for( auto v : lits )
    // {
    //    gv = cols.at( v ) > 0 ? v : v + N;
@@ -132,7 +131,7 @@ Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
 
 template <typename REAL>
 Expr<REAL>&
-Graph<REAL>::getExpr( int& u, int& v )
+Graph<REAL>::getExpr( const int& u, const int& v )
 {
    std::pair<int, int> p = std::make_pair( u, v );
    return edges[p];
