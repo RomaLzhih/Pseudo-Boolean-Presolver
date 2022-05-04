@@ -142,10 +142,12 @@ SATPreSolver<REAL>::hyperBinaryResolution()
          return;
       for( auto c : newCol1 )
       {
-         assert( c.second != 0 );
-         _gcd = aux::gcd( _gcd, aux::abs( c.second ) );
+         assert( c.second != 0 || ( c.second == 0 && c.first == v ) );
          if( _gcd == 1 )
             break;
+         if( c.second == 0 )
+            continue;
+         _gcd = aux::gcd( _gcd, aux::abs( c.second ) );
       }
       if( _gcd != 1 )
       {
@@ -265,23 +267,42 @@ SATPreSolver<REAL>::presolve()
 {
    this->pbStatus = 1;
    hyperBinaryResolution();
-   std::string s = "* #variable= " + aux::tos( exprs.getVarNum() ) +
-                   " #constraint= " + aux::tos( exprs.getCosNum() ) + "\n";
-   auto& es = exprs.getExprs();
-   for( auto& e : es )
+   this->presolveStatus = ( redDelNum || hbrAddedNum ) ? 1 : 0;
+   strpair rsSol;
+   if( 1 )
    {
-      s += aux::Expr2String( e.getCols(), e.getDeg() ) + "\n";
-   }
-   strpair rsSol = runRoundingSat::runforSAT( s ); // status, sol
-   if( rsSol.first == "UNSATISFIABLE" )
-   {
-      this->solutionStatus = solStat::UNSATISFIABLE;
+      std::string s = "* #variable= " + aux::tos( exprs.getVarNum() ) +
+                      " #constraint= " + aux::tos( exprs.getCosNum() ) + "\n";
+
+      auto& es = exprs.getExprs();
+      auto& obje = exprs.getObj();
+      if( this->instanceType == fileType::opt )
+         s += "min: " + aux::ObjExpr2String( obje.getCols() ) + "\n";
+      std::cout << s << std::endl;
+      for( auto& e : es )
+      {
+         s += aux::Expr2String( e.getCols(), e.getDeg() ) + "\n";
+      }
+      std::cout << s << std::endl;
+      rsSol = runRoundingSat::runforSAT( s, this->inputIns ); // status, obj
    }
    else
    {
-      this->solutionStatus = solStat::SATISFIABLE;
+      rsSol = runRoundingSat::runforSAT( this->inputIns );
    }
-   this->presolveStatus = ( redDelNum || hbrAddedNum ) ? 1 : 0;
+   std::cout << rsSol << std::endl;
+   this->solutionStatus = rsSol.first == "UNSATISFIABLE"
+                              ? solStat::UNSATISFIABLE
+                              : solStat::SATISFIABLE;
+   if( this->instanceType == fileType::opt &&
+       this->solutionStatus == solStat::SATISFIABLE )
+   {
+      assert( rsSol.second != "" );
+      bigint t( rsSol.second );
+      this->origobj = t;
+   }
+
+   return;
 }
 
 template <typename REAL>

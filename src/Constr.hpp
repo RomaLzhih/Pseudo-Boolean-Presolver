@@ -130,6 +130,11 @@ struct ExprPool
    {
       return exprs;
    }
+   auto&
+   getObj()
+   {
+      return obj;
+   }
    std::size_t&
    getGhostCode()
    {

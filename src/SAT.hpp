@@ -16,9 +16,9 @@ class SATPreSolver
    redundancyDetection();
    void
    hyperBinaryResolution();
-   void 
+   void
    presolve();
-   void 
+   void
    printSolution();
    void
    writePresolvers( const std::string& inFileName );
@@ -39,7 +39,7 @@ class SATPreSolver
    bool pbStatus;
    bool onlyPreSolve;
    std::string inputIns;
-   REAL origobj;
+   bigint origobj;
 
    // presolving information
    int redDelNum = 0;

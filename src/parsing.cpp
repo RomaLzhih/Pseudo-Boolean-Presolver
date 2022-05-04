@@ -156,7 +156,7 @@ opb_read_to_sat( std::ifstream& infile, ExprPool<REAL>& exprs )
          assert( line.find( ">=" ) || line.find( "=" ) );
          break;
       }
-      else if( line.find( ">=" ) || line.find( "=" ) )
+      else if( line.find( ">" ) || line.find( "=" ) )
       { // dec case's first constraint
          f = fileType::dec;
          break;
@@ -169,8 +169,8 @@ opb_read_to_sat( std::ifstream& infile, ExprPool<REAL>& exprs )
    {
       if( line.empty() || line[0] == '*' )
          continue;
-      op = line.find( ">=" ) == std::string::npos ? line.find( "=" )
-                                                  : line.find( ">=" );
+      op = line.find( ">" ) == std::string::npos ? line.find( "=" )
+                                                 : line.find( ">" );
       lhs = line.substr( 0, op - 1 );
       rhs = line[op] == '>' ? line.substr( op + 3 ) : line.substr( op + 2 );
       while( *rhs.rbegin() != ';' )

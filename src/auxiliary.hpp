@@ -159,6 +159,20 @@ Expr2String( const std::unordered_map<int, T>& cols, const T& deg )
 
 template <typename T>
 std::string
+ObjExpr2String( const std::unordered_map<int, T>& cols )
+{
+   std::string stringView = "";
+   for( auto c : cols )
+   {
+      stringView += ( c.second > 0 ? "+" : "" ) + aux::tos( c.second ) + " x" +
+                    aux::tos( c.first ) + " ";
+   }
+   stringView += ";";
+   return stringView;
+}
+
+template <typename T>
+std::string
 Expr2OrdString( const std::unordered_map<int, T>& cols, const T& deg )
 {
    std::string stringView = "";

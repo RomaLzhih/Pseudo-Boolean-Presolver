@@ -121,7 +121,7 @@ def cmpOpt(preStat, solStat, preObj, preSol, fileType, rsSolStat, rsObj, rsSol):
             flag = False
     elif fileType == 1:
         if solStat == rsSolStat:
-            res = "OK: satisfiablility pass"
+            res = "OK: satisfiablility pass " + str(solStat)
         else:
             res = "FAIL: distinct output for dec"
             flag = False
@@ -163,8 +163,6 @@ def simpleRun(file):
 if __name__ == '__main__':
     files, T, N = os.listdir(InsLoc), 60, 1300
     out, optFlag, PBFlag = "", True, True
-    # clearlog()
-    # files = files[:N]
 
     for file in files:
         if file[-4:] != '.opb' or file[-8:] == '.pre.opb':
