@@ -79,6 +79,9 @@ Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
 
    std::vector<int> lits; // ell == lits[]
    expr.getLits( lits );
+   pdqsort( lits.begin(), lits.end(),
+            [&]( const int& a, const int& b )
+            { return g[a].size() < g[b].size(); } );
 
    // pick the start variable except the jump one
    int stlit = ( ell == lits[0] ) ? lits[1] : lits[0];
@@ -92,7 +95,7 @@ Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
       bool flag = true;
       for( auto v : lits )
       {
-         if( v == ell )
+         if( v == ell || v == stlit )
             continue;
          gv = cols.at( v ) > 0 ? v : v + N;
          if( !g[gv].count( gu ) )
@@ -106,6 +109,24 @@ Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
          ans.insert( gu );
       }
    }
+
+   // std::unordered_set<int> common = g[stlit];
+   // std::unordered_set<int> save;
+
+   // for( auto v : lits )
+   // {
+   //    gv = cols.at( v ) > 0 ? v : v + N;
+   //    if( v == ell || v == stlit )
+   //       continue;
+   //    for( auto i : common )
+   //    {
+   //       if( g[gv].count( i ) )
+   //          save.insert( i );
+   //    }
+   //    common = save;
+   //    save.clear();
+   // }
+   // assert( common == ans );
    return;
 }
 

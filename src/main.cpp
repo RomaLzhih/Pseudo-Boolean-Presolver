@@ -26,10 +26,10 @@ main( int argc, char* argv[] )
    //    int onlyPreSolve = std::stoi( "0" );
    //    int solvertype = std::stoi( "0" );
 
-   infile = "../" + infile;
    if( solvertype == 0 )
    { // run SAT
       pre::SATPreSolver<pre::bigint> sSolver;
+      sSolver.setOnlyPresolve( onlyPreSolve );
       sSolver.buildProblem( infile );
       sSolver.presolve();
       sSolver.printSolution();

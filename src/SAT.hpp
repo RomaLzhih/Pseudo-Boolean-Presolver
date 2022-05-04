@@ -22,6 +22,10 @@ class SATPreSolver
    printSolution();
    void
    writePresolvers( const std::string& inFileName );
+   void 
+   setOnlyPresolve(int& v){
+      this->onlyPreSolve = v;
+   }
 
  private:
    ExprPool<REAL> exprs;
@@ -33,7 +37,7 @@ class SATPreSolver
    // hyper binary resolution parameter
 
    // overall container
-   int presolveStatus;
+   int presolveStatus = 0;
    fileType instanceType;
    solStat solutionStatus;
    bool pbStatus;

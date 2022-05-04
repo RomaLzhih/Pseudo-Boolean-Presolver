@@ -101,6 +101,14 @@ SATPreSolver<REAL>::hyperBinaryResolution()
          assert( lits.size() == 2 );
          if( cols.at( lits[0] ) == 0 || cols.at( lits[1] ) == 0 )
             continue;
+         if( (int)( cols.at( lits[0] ) > 0 ) * cols.at( lits[0] ) +
+                 (int)( cols.at( lits[1] ) > 0 ) * cols.at( lits[1] ) <
+             e.getDeg() ) //* maximum of LHS < RHS
+         {
+            this->presolveStatus = 2;
+            this->solutionStatus = solStat::UNSATISFIABLE;
+            break;
+         }
          // normalize variable
          u = cols.at( lits[0] ) > 0 ? lits[0] : lits[0] + N;
          v = cols.at( lits[1] ) > 0 ? lits[1] : lits[1] + N;
@@ -201,7 +209,7 @@ SATPreSolver<REAL>::hyperBinaryResolution()
    };
 
    auto& es = this->exprs.getExprs();
-   ExprPool<REAL> addExprs;
+   std::unordered_set<Expr<REAL>, boost::hash<Expr<REAL>>> addExprs;
    Graph<REAL> g;
    g.init( this->exprs.getVarNum() );
    int N = g.getNodeNum();
@@ -242,8 +250,7 @@ SATPreSolver<REAL>::hyperBinaryResolution()
                assert( ( !cols.count( v ) && e.getVarsSize() == 2 &&
                          e.getCols().count( u ) && e.getCols().count( v ) ) ||
                        ( cols.count( v ) && e.getVarsSize() < 2 ) );
-               e.setHash( aux::hashExpr( e.getCols(), e.getDeg() ) );
-               addExprs.addExpr( e );
+               addExprs.emplace( std::move( e ) );
                this->hbrAddedNum++;
             }
          }
@@ -253,10 +260,14 @@ SATPreSolver<REAL>::hyperBinaryResolution()
          }
       }
    }
-   for( auto e : addExprs.getExprs() )
+   int initialN = es.size();
+   int addedN = addExprs.size();
+   for( auto e : addExprs )
    {
-      es.insert( e );
+      exprs.addExpr( e );
    }
+   assert( exprs.getCosNum() == initialN + addedN );
+
    msg.info( "Added Num {}\n", this->hbrAddedNum );
    return;
 }
@@ -267,9 +278,17 @@ SATPreSolver<REAL>::presolve()
 {
    this->pbStatus = 1;
    hyperBinaryResolution();
-   this->presolveStatus = ( redDelNum || hbrAddedNum ) ? 1 : 0;
+   if( redDelNum || hbrAddedNum )
+      this->presolveStatus = 1;
+   if( onlyPreSolve )
+      return;
+
    strpair rsSol;
-   if( 1 )
+   if( this->presolveStatus == 2 )
+   {
+      return;
+   }
+   else if( this->presolveStatus == 1 )
    {
       std::string s = "* #variable= " + aux::tos( exprs.getVarNum() ) +
                       " #constraint= " + aux::tos( exprs.getCosNum() ) + "\n";
@@ -278,18 +297,20 @@ SATPreSolver<REAL>::presolve()
       auto& obje = exprs.getObj();
       if( this->instanceType == fileType::opt )
          s += "min: " + aux::ObjExpr2String( obje.getCols() ) + "\n";
-      std::cout << s << std::endl;
+      int cnt = 0;
       for( auto& e : es )
       {
+         cnt++;
          s += aux::Expr2String( e.getCols(), e.getDeg() ) + "\n";
       }
-      std::cout << s << std::endl;
+      msg.info( "write constraint number {}", cnt );
       rsSol = runRoundingSat::runforSAT( s, this->inputIns ); // status, obj
    }
-   else
+   else if( this->presolveStatus == 0 )
    {
       rsSol = runRoundingSat::runforSAT( this->inputIns );
    }
+
    std::cout << rsSol << std::endl;
    this->solutionStatus = rsSol.first == "UNSATISFIABLE"
                               ? solStat::UNSATISFIABLE

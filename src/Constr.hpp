@@ -92,9 +92,7 @@ struct Expr
 
  private:
    std::unordered_map<int, REAL> cols;
-   std::unordered_map<int, REAL> norCols;
    REAL deg;
-   std::string stringView;
    std::size_t hashValue;
 };
 
