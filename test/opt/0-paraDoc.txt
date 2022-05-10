@@ -422,3 +422,294 @@ normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
 	0 0
 	1 3128
 
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	0 0
+	1 3128
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	pureliteral     2               50              69              100             0.0302          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	parallelcols    1               0               0               0               0.0237          
+	pureliteral     2               50              69              100             0.0359          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	parallelcols    1               0               0               0               0.0246          
+	pureliteral     2               50              69              100             0.0425          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	parallelcols    1               0               0               0               0.0207          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	parallelcols    1               0               0               0               0.0221          
+	pureliteral     2               50              69              100             0.0389          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    12              16.6667         250             99.2            0.0031          
+	coefftightening 12              0               0               0               0.0373          
+	propagation     12              0               0               0               0.0335          
+	simpleprobing   4               0               0               0               0.0012          
+	parallelrows    3               66.6667         3103            100             0.1327          
+	stuffing        4               0               0               0               0.0001          
+	simplifyineq    4               0               0               0               0.0969          
+	doubletoneq     5               20              564             100             0.0184          
+	pureliteral     7               57.1429         2038            100             0.0909          
+	probing         3               66.6667         580             100             3.8303          
+	substitution    4               100             137             0               0.0052          
+	sparsify        1               0               0               0               0.0004          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    7               28.5714         250             99.2            0.003           
+	coefftightening 7               0               0               0               0.0286          
+	propagation     7               0               0               0               0.0296          
+	simpleprobing   2               0               0               0               0.0006          
+	parallelrows    2               100             3104            100             0.0979          
+	stuffing        2               0               0               0               0.0001          
+	simplifyineq    2               0               0               0               0.0657          
+	doubletoneq     3               33.3333         100             10              0.0069          
+	probing         2               50              2529            100             6.9826          
+	substitution    3               100             2621            9.53834         0.0722          
+	sparsify        1               0               0               0               0.0006          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    8               37.5            284             99.2958         0.0035          
+	coefftightening 8               0               0               0               0.0333          
+	propagation     8               0               0               0               0.0246          
+	simpleprobing   2               0               0               0               0.0006          
+	parallelrows    2               100             3102            100             0.126           
+	parallelcols    2               0               0               0               0.0786          
+	stuffing        2               0               0               0               0.0001          
+	dualfix         2               0               0               0               0.0863          
+	simplifyineq    2               0               0               0               0.0872          
+	doubletoneq     3               33.3333         100             10              0.0077          
+	pureliteral     3               33.3333         10              100             0.0534          
+	domcol          1               0               0               0               0.0343          
+	probing         3               100             2531            100             7.1401          
+	substitution    3               100             2621            9.53834         0.078           
+	sparsify        1               0               0               0               0.0004          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    8               37.5            284             99.2958         0.0033          
+	coefftightening 8               0               0               0               0.0312          
+	propagation     8               0               0               0               0.0225          
+	simpleprobing   2               0               0               0               0.0007          
+	parallelrows    2               100             3102            100             0.1303          
+	parallelcols    2               0               0               0               0.0622          
+	stuffing        2               0               0               0               0.0001          
+	dualfix         2               0               0               0               0.0827          
+	simplifyineq    2               0               0               0               0.0812          
+	doubletoneq     3               33.3333         100             10              0.0073          
+	domcol          1               0               0               0               0.0292          
+	probing         2               50              2529            100             6.962           
+	substitution    3               100             2621            9.53834         0.0696          
+	sparsify        1               0               0               0               0.0004          
+
+p0033.opb
+	colsingleton    4               0               0               0               0               
+	coefftightening 4               25              5               100             0.0002          
+	propagation     4               0               0               0               0.0002          
+	simpleprobing   2               0               0               0               0               
+	parallelrows    2               50              1               100             0.0005          
+	parallelcols    2               100             6               0               0.0005          
+	stuffing        2               0               0               0               0               
+	dualfix         2               0               0               0               0.0004          
+	simplifyineq    2               50              3               100             0.0007          
+	doubletoneq     2               0               0               0               0               
+	domcol          1               0               0               0               0.0002          
+	probing         1               0               0               0               0.001           
+	substitution    1               0               0               0               0               
+	sparsify        1               0               0               0               0               
+
+p0033.opb
+	parallelcols    1               100             6               0               0.0011          
+	pureliteral     1               0               0               0               0.0023          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	parallelcols    1               0               0               0               0.0324          
+	pureliteral     2               50              69              100             0.5082          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	parallelrows    1               100             3091            100             0.109           
+	parallelcols    1               0               0               0               0.0337          
+	pureliteral     2               50              69              100             0.3596          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	propagation     2               0               0               0               0.0135          
+	parallelrows    1               100             3091            100             0.1131          
+	parallelcols    1               0               0               0               0.0419          
+	pureliteral     2               50              69              100             0.4054          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	propagation     5               0               0               0               0.0209          
+	parallelrows    2               100             3356            100             0.1203          
+	parallelcols    2               0               0               0               0.047           
+	pureliteral     3               33.3333         69              100             0.5349          
+	probing         3               66.6667         3050            100             9.9406          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	propagation     5               0               0               0               0.0198          
+	simpleprobing   2               0               0               0               0.0007          
+	parallelrows    2               100             3356            100             0.1404          
+	parallelcols    2               0               0               0               0.0576          
+	pureliteral     3               33.3333         69              100             0.5517          
+	probing         3               66.6667         3050            100             9.3374          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	propagation     5               0               0               0               0.0203          
+	simpleprobing   2               0               0               0               0.0009          
+	parallelrows    2               100             3356            100             0.1683          
+	parallelcols    2               0               0               0               0.0718          
+	simplifyineq    2               0               0               0               0.1065          
+	pureliteral     3               33.3333         69              100             0.5498          
+	probing         3               66.6667         3050            100             9.2846          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	propagation     7               0               0               0               0.0185          
+	simpleprobing   3               0               0               0               0.001           
+	parallelrows    3               100             3361            100             0.2044          
+	parallelcols    2               0               0               0               0.0844          
+	simplifyineq    3               0               0               0               0.125           
+	pureliteral     4               25              69              100             0.6815          
+	probing         3               66.6667         3050            100             9.3533          
+	sparsify        1               0               0               0               0.0014          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	coefftightening 7               0               0               0               0.03            
+	propagation     7               0               0               0               0.0344          
+	simpleprobing   3               0               0               0               0.0009          
+	parallelrows    3               100             3361            100             0.211           
+	parallelcols    2               0               0               0               0.0974          
+	simplifyineq    3               0               0               0               0.1341          
+	pureliteral     4               25              69              100             0.6673          
+	probing         3               66.6667         3050            100             9.349           
+	sparsify        1               0               0               0               0.0012          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    10              30              284             99.2958         0.004           
+	coefftightening 10              0               0               0               0.0355          
+	propagation     10              0               0               0               0.0271          
+	simpleprobing   3               0               0               0               0.0017          
+	parallelrows    3               100             3347            100             0.2713          
+	parallelcols    2               0               0               0               0.059           
+	simplifyineq    3               0               0               0               0.1667          
+	pureliteral     3               0               0               0               0.5167          
+	probing         3               66.6667         2790            100             12.9747         
+	sparsify        1               0               0               0               0.0006          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    8               37.5            284             99.2958         0.0062          
+	coefftightening 8               0               0               0               0.0368          
+	propagation     8               0               0               0               0.0265          
+	simpleprobing   2               0               0               0               0.0018          
+	parallelrows    2               100             3342            100             0.1922          
+	parallelcols    2               0               0               0               0.1034          
+	simplifyineq    2               0               0               0               0.1292          
+	doubletoneq     3               33.3333         1492            17.4263         0.0522          
+	pureliteral     2               0               0               0               0.426           
+	probing         2               50              2529            100             7.0888          
+	sparsify        1               0               0               0               0.002           
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    8               37.5            284             99.2958         0.0033          
+	coefftightening 8               0               0               0               0.0294          
+	propagation     8               0               0               0               0.0346          
+	simpleprobing   2               0               0               0               0.0007          
+	parallelrows    2               100             3342            100             0.1761          
+	parallelcols    2               0               0               0               0.1068          
+	stuffing        2               0               0               0               0.0006          
+	simplifyineq    2               0               0               0               0.1378          
+	doubletoneq     3               33.3333         1492            17.4263         0.0424          
+	pureliteral     2               0               0               0               0.4039          
+	probing         2               50              2529            100             7.1723          
+	sparsify        1               0               0               0               0.0029          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    8               37.5            284             99.2958         0.0049          
+	coefftightening 8               0               0               0               0.035           
+	propagation     8               0               0               0               0.0316          
+	simpleprobing   2               0               0               0               0.0007          
+	parallelrows    2               100             3342            100             0.247           
+	parallelcols    2               0               0               0               0.0772          
+	stuffing        2               0               0               0               0               
+	dualfix         2               0               0               0               0.1035          
+	simplifyineq    2               0               0               0               0.1542          
+	doubletoneq     3               33.3333         1492            17.4263         0.0582          
+	pureliteral     2               0               0               0               0.4225          
+	probing         2               50              2529            100             7.0698          
+	sparsify        1               0               0               0               0.0018          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    8               37.5            284             99.2958         0.0092          
+	coefftightening 8               0               0               0               0.0502          
+	propagation     8               0               0               0               0.0395          
+	simpleprobing   2               0               0               0               0.0007          
+	parallelrows    2               100             3342            100             0.1672          
+	parallelcols    2               0               0               0               0.092           
+	stuffing        2               0               0               0               0.0008          
+	dualfix         2               0               0               0               0.1328          
+	simplifyineq    2               0               0               0               0.1235          
+	doubletoneq     3               33.3333         1492            17.4263         0.0344          
+	pureliteral     2               0               0               0               0.0445          
+	probing         2               50              2529            100             9.4075          
+	sparsify        1               0               0               0               0.0039          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    8               37.5            284             99.2958         0.0033          
+	coefftightening 8               0               0               0               0.0407          
+	propagation     8               0               0               0               0.0364          
+	simpleprobing   2               0               0               0               0.0006          
+	parallelrows    2               100             3342            100             0.1415          
+	parallelcols    2               0               0               0               0.064           
+	stuffing        2               0               0               0               0.0008          
+	dualfix         2               0               0               0               0.0888          
+	simplifyineq    2               0               0               0               0.0992          
+	doubletoneq     3               33.3333         1492            17.4263         0.0284          
+	pureliteral     2               0               0               0               0.0403          
+	probing         2               50              2529            100             8.0422          
+	sparsify        1               0               0               0               0.0016          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    8               37.5            284             99.2958         0.0047          
+	coefftightening 8               0               0               0               0.0376          
+	propagation     8               0               0               0               0.0368          
+	simpleprobing   2               0               0               0               0.0016          
+	parallelrows    2               100             3342            100             0.1346          
+	parallelcols    2               0               0               0               0.0817          
+	stuffing        2               0               0               0               0               
+	dualfix         2               0               0               0               0.0892          
+	simplifyineq    2               0               0               0               0.0993          
+	doubletoneq     3               33.3333         1492            17.4263         0.0308          
+	pureliteral     2               0               0               0               0.0469          
+	probing         2               50              2529            100             7.8696          
+	sparsify        1               0               0               0               0.0019          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    8               37.5            284             99.2958         0.0036          
+	coefftightening 8               0               0               0               0.0366          
+	propagation     8               0               0               0               0.0316          
+	simpleprobing   2               0               0               0               0.0007          
+	parallelrows    2               100             3342            100             0.1603          
+	parallelcols    2               0               0               0               0.0617          
+	stuffing        2               0               0               0               0               
+	dualfix         2               0               0               0               0.0808          
+	simplifyineq    2               0               0               0               0.0976          
+	doubletoneq     3               33.3333         1492            17.4263         0.035           
+	pureliteral     2               0               0               0               0.0443          
+	probing         2               50              2529            100             7.2781          
+	sparsify        1               0               0               0               0.0015          
+
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    8               37.5            284             99.2958         0.0044          
+	coefftightening 8               0               0               0               0.0395          
+	propagation     8               0               0               0               0.0255          
+	simpleprobing   2               0               0               0               0.0078          
+	parallelrows    2               100             3342            100             0.155           
+	parallelcols    2               0               0               0               0.0833          
+	stuffing        2               0               0               0               0               
+	dualfix         2               0               0               0               0.0784          
+	simplifyineq    2               0               0               0               0.0973          
+	doubletoneq     3               33.3333         1492            17.4263         0.0434          
+	pureliteral     2               0               0               0               0.0428          
+	probing         2               50              2529            100             7.1429          
+	sparsify        1               0               0               0               0.0016          
+

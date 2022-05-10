@@ -56,13 +56,16 @@ MIPPreSolver<REAL>::runPresolve()
 {
    auto setPara = [&]()
    {
-      // std::string paraPath = "../param/parameters.test.txt";
       std::string paraPath = "../param/onlyPure.txt";
+      // std::string paraPath = "../param/parameters.test.txt";
       std::ifstream parafile( paraPath );
       assert( !parafile.fail() );
 
       std::string line;
       papilo::ParameterSet paramset = presolve.getParameters();
+      // std::string paramDesc;
+      // paramset.printParams( std::back_inserter( paramDesc ) );
+      // puts( paramDesc.c_str() );
       while( std::getline( parafile, line ) )
       {
          if( line.empty() || line[0] == '#' )
@@ -78,9 +81,6 @@ MIPPreSolver<REAL>::runPresolve()
 
    this->presolve.addDefaultPresolvers();
    setPara();
-
-   PBCheck();
-   std::cout << "pass first PB check" << std::endl;
 
    this->result = presolve.apply( problem );
 

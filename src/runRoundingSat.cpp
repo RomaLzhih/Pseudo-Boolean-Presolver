@@ -36,7 +36,6 @@ runRoundingSat::runforPaPILO( std::string& preInfo, std::string infile )
    std::string status = "";
    while( pipout && std::getline( pipout, line ) )
    {
-      std::cout << '\t' << line << std::endl;
       if( line.empty() || line[0] == 'c' )
          continue;
       else if( line[0] == 's' )

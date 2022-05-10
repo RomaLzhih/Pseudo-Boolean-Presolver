@@ -76,25 +76,29 @@ ConstraintPropagation<REAL>::execute( const Problem<REAL>& problem,
    // small amount above the feasibility tolerance
    const REAL weaken_bounds =
        problem.getNumIntegralCols() == 0
-           ? REAL(problemUpdate.getPresolveOptions().weakenlpvarbounds) *
-                   num.getFeasTol()
+           ? REAL( problemUpdate.getPresolveOptions().weakenlpvarbounds ) *
+                 num.getFeasTol()
            : REAL{ 0.0 };
 
    // calculating the basis for variable tightening (not fixings) may lead in
    // the postsolving step to a solution that is not in a vertex. In this case a
    // crossover would be required is too expensive performance wise.
-   // Exception: for infinity bounds set a finite bound that is worse that the best possible bound
+   // Exception: for infinity bounds set a finite bound that is worse that the
+   // best possible bound
    const bool skip_variable_tightening =
        problem.getNumIntegralCols() == 0 &&
        problemUpdate.getPresolveOptions().calculate_basis_for_dual;
 
    const REAL bound_tightening_offset =
-       REAL(problemUpdate.getPresolveOptions().get_variable_bound_tightening_offset());
+       REAL( problemUpdate.getPresolveOptions()
+                 .get_variable_bound_tightening_offset() );
 
    if( problemUpdate.getPresolveOptions().runs_sequentiell() ||
        !problemUpdate.getPresolveOptions().constraint_propagation_parallel )
    {
-      auto add_boundchange = [&]( BoundChange boundChange, int col, REAL val, int row ) {
+      auto add_boundchange =
+          [&]( BoundChange boundChange, int col, REAL val, int row )
+      {
          // do not accept huge values as bounds
          if( num.isHugeVal( val ) )
             return;
@@ -137,7 +141,7 @@ ConstraintPropagation<REAL>::execute( const Problem<REAL>& problem,
             if( domains.flags[col].test( ColFlag::kLbInf ) ||
                 val - domains.lower_bounds[col] > +1000 * num.getFeasTol() )
             {
-               if(!skip_variable_tightening)
+               if( !skip_variable_tightening )
                {
                   reductions.changeColLB( col, val, row );
                   result = PresolveStatus::kReduced;
@@ -146,7 +150,7 @@ ConstraintPropagation<REAL>::execute( const Problem<REAL>& problem,
                {
                   // in case of skip_variable_tightening set bounds to an
                   // infinite value if possible
-                  REAL offset =  bound_tightening_offset * abs( val );
+                  REAL offset = bound_tightening_offset * abs( val );
                   if( offset < bound_tightening_offset )
                      offset = bound_tightening_offset;
                   reductions.changeColLB( col, val - offset, row );
@@ -193,7 +197,7 @@ ConstraintPropagation<REAL>::execute( const Problem<REAL>& problem,
             if( domains.flags[col].test( ColFlag::kUbInf ) ||
                 val - domains.upper_bounds[col] < -1000 * num.getFeasTol() )
             {
-               if(!skip_variable_tightening)
+               if( !skip_variable_tightening )
                {
                   reductions.changeColUB( col, val, row );
                   result = PresolveStatus::kReduced;
@@ -202,7 +206,7 @@ ConstraintPropagation<REAL>::execute( const Problem<REAL>& problem,
                {
                   // in case of skip_variable_tightening set bounds to an
                   // infinite value if possible
-                  REAL offset =  bound_tightening_offset * abs( val );
+                  REAL offset = bound_tightening_offset * abs( val );
                   if( offset < bound_tightening_offset )
                      offset = bound_tightening_offset;
                   reductions.changeColUB( col, val + offset, row );
@@ -249,13 +253,15 @@ ConstraintPropagation<REAL>::execute( const Problem<REAL>& problem,
       bool infeasible = false;
       tbb::parallel_for(
           tbb::blocked_range<int>( 0, changedactivities.size() ),
-          [&]( const tbb::blocked_range<int>& r ) {
+          [&]( const tbb::blocked_range<int>& r )
+          {
              for( int j = r.begin(); j < r.end(); ++j )
              {
                 PresolveStatus local_status = PresolveStatus::kUnchanged;
 
-                auto add_boundchange = [&]( BoundChange boundChange, int col,
-                                            REAL val, int row ) {
+                auto add_boundchange =
+                    [&]( BoundChange boundChange, int col, REAL val, int row )
+                {
                    // do not accept huge values as bounds
                    if( num.isHugeVal( val ) )
                       return;
@@ -311,12 +317,13 @@ ConstraintPropagation<REAL>::execute( const Problem<REAL>& problem,
                          // infinite value if possible
                          else if( domains.flags[col].test( ColFlag::kLbInf ) )
                          {
-                            // in case of skip_variable_tightening set bounds to an
-                            // infinite value if possible
-                            REAL offset =  bound_tightening_offset * abs( val );
+                            // in case of skip_variable_tightening set bounds to
+                            // an infinite value if possible
+                            REAL offset = bound_tightening_offset * abs( val );
                             if( offset < bound_tightening_offset )
                                offset = bound_tightening_offset;
-                            stored_reductions[j].changeColLB( col, val - offset, row );
+                            stored_reductions[j].changeColLB( col, val - offset,
+                                                              row );
                             result = PresolveStatus::kReduced;
                          }
                       }
@@ -371,12 +378,13 @@ ConstraintPropagation<REAL>::execute( const Problem<REAL>& problem,
                          }
                          else if( domains.flags[col].test( ColFlag::kUbInf ) )
                          {
-                            // in case of skip_variable_tightening set bounds to an
-                            // infinite value if possible
-                            REAL offset =  bound_tightening_offset * abs( val );
+                            // in case of skip_variable_tightening set bounds to
+                            // an infinite value if possible
+                            REAL offset = bound_tightening_offset * abs( val );
                             if( offset < bound_tightening_offset )
                                offset = bound_tightening_offset;
-                            stored_reductions[j].changeColUB( col, val + offset, row );
+                            stored_reductions[j].changeColUB( col, val + offset,
+                                                              row );
                             result = PresolveStatus::kReduced;
                          }
                       }
@@ -426,7 +434,7 @@ ConstraintPropagation<REAL>::execute( const Problem<REAL>& problem,
       else if( result == PresolveStatus::kUnchanged )
          return PresolveStatus::kUnchanged;
 
-      for( int i = 0; i < (int) stored_reductions.size(); ++i )
+      for( int i = 0; i < (int)stored_reductions.size(); ++i )
       {
          Reductions<REAL> reds = stored_reductions[i];
          if( reds.size() > 0 )

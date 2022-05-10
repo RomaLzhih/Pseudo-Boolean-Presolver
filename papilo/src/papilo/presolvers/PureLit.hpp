@@ -39,7 +39,7 @@ class PureLit : public PresolveMethod<REAL>
    PureLit() : PresolveMethod<REAL>()
    {
       this->setName( "pureliteral" );
-      this->setTiming( PresolverTiming::kMedium );
+      this->setTiming( PresolverTiming::kFast );
       this->setType( PresolverType::kIntegralCols );
    }
 
@@ -107,12 +107,16 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
 
       //* requires: 1: same sign for every coefficient;
       //* 2: same operator every constraint it appears
-      //* 3: fix to 1 should have <= obj, fix to 0 should have >= obj
+      //* 3: fix to 1 should have <= 0 obj, fix to 0 should have >= 0 obj
       int st = -1;
       for( int r = 0; r < len; r++ )
       {
-         if( !rflags[indices[r]].test( RowFlag::kRedundant ) &&
-             !rflags[indices[r]].test( RowFlag::kEquation ) )
+         if( rflags[indices[r]].test( RowFlag::kEquation ) )
+         {
+            st = -1;
+            break;
+         }
+         else if( !rflags[indices[r]].test( RowFlag::kRedundant ) )
          {
             st = r;
             break;
@@ -133,10 +137,12 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
       // }
       // msg.info( " op: {}, sign {} for {}\n", op, sign, i );
 
-      assert( op != rflags[indices[st]].test( RowFlag::kLhsInf ) &&
-              !rflags[indices[st]].test( RowFlag::kRedundant ) &&
-              !rflags[indices[st]].test( RowFlag::kEquation ) &&
-              !num.isFeasEq( colVals[st], 0 ) );
+      assert( !rflags[indices[st]].test( RowFlag::kRedundant ) );
+      assert( !rflags[indices[st]].test( RowFlag::kEquation ) );
+      assert( !rflags[indices[st]].test( RowFlag::kIntegral ) );
+      assert( op == false ? rflags[indices[st]].test( RowFlag::kLhsInf )
+                          : rflags[indices[st]].test( RowFlag::kRhsInf ) );
+      assert( !num.isFeasEq( colVals[st], 0 ) );
 
       bool ok = true;
       bool rop, rsign;
