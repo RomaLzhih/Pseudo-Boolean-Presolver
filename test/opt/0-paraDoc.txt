@@ -713,3 +713,42 @@ normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
 	probing         2               50              2529            100             7.1429          
 	sparsify        1               0               0               0               0.0016          
 
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb
+	colsingleton    8               37.5            284             99.2958         0.0051          
+	coefftightening 8               0               0               0               0.0325          
+	propagation     8               0               0               0               0.0377          
+	simpleprobing   2               0               0               0               0.0048          
+	parallelrows    2               100             3342            100             0.1658          
+	parallelcols    2               0               0               0               0.0873          
+	stuffing        2               0               0               0               0.0001          
+	dualfix         2               0               0               0               0.0814          
+	simplifyineq    2               0               0               0               0.1302          
+	doubletoneq     3               33.3333         1492            17.4263         0.0552          
+	pureliteral     2               0               0               0               0.0501          
+	probing         2               50              2529            100             10.4712         
+	sparsify        1               0               0               0               0.0018          
+
+p0033.opb
+	211 1
+	1 0
+
+p0033.opb
+	211 1
+	1 0
+
+p0033.opb
+	211 1
+	1 0
+
+p0033.opb
+	211 1
+	1 0
+
+p0033.opb
+	211 1
+	0 0
+
+p0033.opb
+	211 1
+	0 0
+

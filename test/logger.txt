@@ -1,0 +1,3 @@
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb 1 -1593213266 2.18278
+@ normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb 1 -1593213266 1.8362
+@ normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb 1 -1593213266 0.224572

@@ -19,6 +19,7 @@ template <typename REAL>
 void
 SATPreSolver<REAL>::redundancyDetection()
 {
+   msg.info( "running redundancy\n" );
    //* check every pair of constraint using roundingSat
    //* D implies C means D and neg C unsat, discard C then
    std::string rsStat;
@@ -67,17 +68,6 @@ SATPreSolver<REAL>::redundancyDetection()
       }
       D++;
    }
-
-   // for (int i = 0; i < redRelation.size(); i++) {
-   //     redRelation[i].first.print();
-   //     std::cout << "|= ";
-   //     redRelation[i].second.print();
-   //     std::cout << "Neg: "
-   //               << aux::Expr2NegString(redRelation[i].second.getCols(),
-   //                                      redRelation[i].second.getDeg())
-   //               << std::endl;
-   //     std::cout << std::endl;
-   // }
 
    return;
 }
@@ -208,6 +198,7 @@ SATPreSolver<REAL>::hyperBinaryResolution()
       return;
    };
 
+   msg.info( "running hbr\n" );
    auto& es = this->exprs.getExprs();
    std::unordered_set<Expr<REAL>, boost::hash<Expr<REAL>>> addExprs;
    Graph<REAL> g;
@@ -278,8 +269,42 @@ template <typename REAL>
 void
 SATPreSolver<REAL>::presolve()
 {
+   auto setPara = [&]()
+   {
+      std::string paraPath = "../param/sat.txt";
+      // std::string paraPath = "../param/parameters.test.txt";
+      std::ifstream parafile( paraPath );
+      assert( !parafile.fail() );
+
+      std::string line;
+      while( std::getline( parafile, line ) )
+      {
+         assert( std::isdigit( *line.rbegin() ) );
+         if( line[0] == 'r' )
+            this->enablered = *line.rbegin() == '0' ? 0 : 1;
+         else if( line[0] == 'h' )
+            this->enablehbr = *line.rbegin() == '0' ? 0 : 1;
+      }
+      parafile.close();
+   };
+
+   papilo::Timer* timer = new papilo::Timer( this->totTime );
    this->pbStatus = 1;
-   hyperBinaryResolution();
+   setPara();
+
+   if( this->enablered )
+   {
+      papilo::Timer* timerRed = new papilo::Timer( this->redElapsedTime );
+      redundancyDetection();
+      delete timerRed;
+   }
+   if( this->enablehbr )
+   {
+      papilo::Timer* timerHbr = new papilo::Timer( this->hbrElapsedTime );
+      hyperBinaryResolution();
+      delete timerHbr;
+   }
+
    if( redDelNum || hbrAddedNum )
       this->presolveStatus = 1;
    if( onlyPreSolve )
@@ -306,11 +331,12 @@ SATPreSolver<REAL>::presolve()
          s += aux::Expr2String( e.getCols(), e.getDeg() ) + "\n";
       }
       msg.info( "write constraint number {}", cnt );
-      rsSol = runRoundingSat::runforSAT( s, this->inputIns ); // status, obj
+      rsSol =
+          runRoundingSat::runforSAT( s, this->inputIns, rsTime ); // status, obj
    }
    else if( this->presolveStatus == 0 )
    {
-      rsSol = runRoundingSat::runforSAT( this->inputIns );
+      rsSol = runRoundingSat::runforSAT( this->inputIns, rsTime );
    }
 
    std::cout << rsSol << std::endl;
@@ -325,6 +351,7 @@ SATPreSolver<REAL>::presolve()
       this->origobj = t;
    }
 
+   delete timer;
    return;
 }
 
@@ -375,8 +402,28 @@ SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
    assert( !infile.fail() );
    assert( !outfile.fail() );
    outfile << inFileName.substr( inFileName.find_last_of( "//" ) + 1 ) + '\n';
-   outfile << '\t' << this->redCallNum << " " << this->redDelNum << std::endl;
-   outfile << '\t' << this->hbrCallNum << " " << this->hbrAddedNum << std::endl;
+   if( this->enablered )
+   {
+      outfile << '\t' << this->redCallNum << " " << this->redDelNum
+              << std::endl;
+      for( int i = 0; i < redRelation.size(); i++ )
+      {
+         redRelation[i].first.print();
+         outfile << "|= ";
+         redRelation[i].second.print();
+         outfile << "Neg: "
+                 << aux::Expr2NegString( redRelation[i].second.getCols(),
+                                         redRelation[i].second.getDeg() )
+                 << std::endl;
+         outfile << std::endl;
+      }
+   }
+   if( this->enablehbr )
+   {
+
+      outfile << '\t' << this->hbrCallNum << " " << this->hbrAddedNum
+              << std::endl;
+   }
    outfile << std::endl;
 
    outfile.close();

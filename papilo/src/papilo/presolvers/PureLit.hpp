@@ -39,7 +39,7 @@ class PureLit : public PresolveMethod<REAL>
    PureLit() : PresolveMethod<REAL>()
    {
       this->setName( "pureliteral" );
-      this->setTiming( PresolverTiming::kFast );
+      this->setTiming( PresolverTiming::kMedium );
       this->setType( PresolverType::kIntegralCols );
    }
 

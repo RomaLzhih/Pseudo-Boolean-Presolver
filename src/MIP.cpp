@@ -40,6 +40,7 @@ template <typename REAL>
 void
 MIPPreSolver<REAL>::buildProblem( const std::string& inFileName )
 {
+
    std::ifstream infile( inFileName );
    assert( !infile.fail() );
    this->inputIns = inFileName;
@@ -372,6 +373,8 @@ template <typename REAL>
 void
 MIPPreSolver<REAL>::run()
 {
+   papilo::Timer* timer = new papilo::Timer( totalTime );
+
    std::cout << "---------------Start Running PaPILO--------------"
              << std::endl;
    this->presolveStatus = runPresolve();
@@ -391,9 +394,10 @@ MIPPreSolver<REAL>::run()
                    << " running roundingSat .. " << std::endl;
          strpair rsSol;
          if( presolveStatus == 0 )
-            rsSol = runRoundingSat::runforPaPILO( inputIns );
+            rsSol = runRoundingSat::runforPaPILO( inputIns, this->RSTime );
          else if( presolveStatus == 1 )
-            rsSol = runRoundingSat::runforPaPILO( preInfo, inputIns );
+            rsSol =
+                runRoundingSat::runforPaPILO( preInfo, inputIns, this->RSTime );
 
          std::cout << "C"
                    << " start postsolve.." << std::endl;
@@ -407,6 +411,8 @@ MIPPreSolver<REAL>::run()
       std::cout << "C PaPILO detec to be infeasible or unbounded .. "
                 << std::endl;
    }
+
+   delete timer;
 }
 
 template <typename REAL>
@@ -445,30 +451,14 @@ template <typename REAL>
 void
 MIPPreSolver<REAL>::writePresolvers( const std::string& inFileName )
 {
-   std::string inpath = "../param/printPresolveNames.txt";
    std::string outpath =
        inFileName.substr( 0, inFileName.find_last_of( "//" ) + 1 ) +
        "0-paraDoc.txt";
-   std::ifstream infile( inpath );
    std::ofstream outfile( outpath, std::ios::app );
    outfile.setf( std::ios::left, std::ios::adjustfield );
 
-   assert( !infile.fail() );
    assert( !outfile.fail() );
    outfile << inFileName.substr( inFileName.find_last_of( "//" ) + 1 ) + '\n';
-
-   std::string line;
-   std::unordered_set<std::string> presolverNames;
-   bool BYNCALLS;
-   while( getline( infile, line ) )
-   {
-      if( line.empty() )
-         continue;
-      else if( line[0] == '!' && line[2] == 'T' )
-         BYNCALLS = *line.rbegin() == '0' ? false : true;
-      else if( *line.rbegin() != '*' )
-         presolverNames.insert( line );
-   }
 
    papilo::Message msg{};
    papilo::Vec<std::pair<int, int>> presolverStats =
@@ -486,37 +476,29 @@ MIPPreSolver<REAL>::writePresolvers( const std::string& inFileName )
       execTime = presolve.getPresolvers()[i]->getExecTime();
       std::pair<int, int> stats = presolverStats[i];
 
-      if( presolverNames.count( name ) )
+      if( ncalls )
       {
-         if( ( !BYNCALLS && ncalls ) || ( BYNCALLS && nsuccessCall ) )
-         {
-            // presolve.getPresolvers()[i]->printStats(msg, presolverStats[i]);
-            double success =
-                ncalls == 0
-                    ? 0.0
-                    : ( double( nsuccessCall ) / double( ncalls ) ) * 100.0;
-            double applied =
-                stats.first == 0
-                    ? 0.0
-                    : ( double( stats.second ) / double( stats.first ) ) *
-                          100.0;
+         double success =
+             ncalls == 0
+                 ? 0.0
+                 : ( double( nsuccessCall ) / double( ncalls ) ) * 100.0;
+         double applied =
+             stats.first == 0
+                 ? 0.0
+                 : ( double( stats.second ) / double( stats.first ) ) * 100.0;
 
-            outfile << '\t';
-            outfile << std::setw( 16 ) << name;
-            outfile << std::setw( 16 ) << ncalls;
-            outfile << std::setw( 16 ) << success;
-            outfile << std::setw( 16 ) << stats.first;
-            outfile << std::setw( 16 ) << applied;
-            outfile << std::setw( 16 )
-                    << std::round( execTime * 10000 ) / 10000;
-            outfile << '\n';
-         }
+         outfile << '\t';
+         outfile << std::setw( 16 ) << name;
+         outfile << std::setw( 16 ) << ncalls;
+         outfile << std::setw( 16 ) << success;
+         outfile << std::setw( 16 ) << stats.first;
+         outfile << std::setw( 16 ) << applied;
+         outfile << std::setw( 16 ) << std::round( execTime * 10000 ) / 10000;
+         outfile << '\n';
       }
    }
    outfile << std::endl;
-
    outfile.close();
-   infile.close();
    return;
 }
 

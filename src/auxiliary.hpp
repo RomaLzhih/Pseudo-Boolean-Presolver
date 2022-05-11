@@ -15,6 +15,7 @@
 
 #include "papilo/misc/MultiPrecision.hpp"
 #include "papilo/misc/Num.hpp"
+#include "papilo/misc/Timer.hpp"
 #include "papilo/misc/VectorUtils.hpp"
 #include "typedef.hpp"
 
@@ -196,8 +197,8 @@ Expr2NegString( const std::unordered_map<int, T>& cols, const T& deg )
    std::string stringView = "";
    for( auto& c : cols )
    {
-      stringView += ( c.second < 0 ? "+" : "" ) + aux::tos( -c.second ) + " x" +
-                    aux::tos( c.first ) + " ";
+      stringView += ( c.second <= 0 ? "+" : "" ) + aux::tos( -c.second ) +
+                    " x" + aux::tos( c.first ) + " ";
    }
    stringView += ">= " + aux::tos( -deg + 1 ) + " ;";
    return std::move( stringView );

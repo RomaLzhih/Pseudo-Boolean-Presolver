@@ -1,0 +1,2 @@
+redundacy = 0
+hbr = 1

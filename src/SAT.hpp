@@ -32,6 +32,8 @@ class SATPreSolver
    papilo::Message msg{};
 
    // redundacy parameter
+   int enablered = 0;
+   int enablehbr = 1;
    int redCmpSize = 800;
 
    // hyper binary resolution parameter
@@ -50,7 +52,10 @@ class SATPreSolver
    int redCallNum = 0;
    int hbrAddedNum = 0;
    int hbrCallNum = 0;
-   double redElapsedTime;
+   double redElapsedTime=0.0;
+   double hbrElapsedTime=0.0;
+   double totTime = 0.0;
+   double rsTime = 0.0;
    std::vector<std::pair<Expr<REAL>, Expr<REAL>>> redRelation;
 };
 } // namespace pre

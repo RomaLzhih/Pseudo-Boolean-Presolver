@@ -5,9 +5,12 @@ from tabnanny import check
 from timeit import default_timer as timer
 from unittest import case
 
-preLoc = "/home/mzy/thesis_project/pre/build/pre"
-rSLoc = "/home/mzy/thesis_project/roundingsat/build/roundingsat"
-InsLoc = "/home/mzy/thesis_project/pre/"
+root = os.path.dirname(os.path.abspath("thesis_project"))
+print(root)
+
+preLoc = "../build/pre"
+rSLoc = "../build/roundingsat"
+InsLoc = "../"
 
 filePathTerm = sys.argv[1]
 checkTerm = int(sys.argv[2])
@@ -76,7 +79,7 @@ def runPre(file, onlyPreSolve, solverType):
 
     try:
         preOut = subprocess.run(
-            [preLoc, file, str(onlyPreSolve), str(solverType)], stdout=subprocess.PIPE, timeout=T).stdout.decode('utf-8')
+            [preLoc, file, "../test/logger.txt", str(onlyPreSolve), str(solverType)], stdout=subprocess.PIPE, timeout=T).stdout.decode('utf-8')
     except subprocess.TimeoutExpired:
         print("timeout")
         solved = False
