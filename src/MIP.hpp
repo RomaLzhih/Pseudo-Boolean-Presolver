@@ -19,6 +19,11 @@ class MIPPreSolver
    printDetailedProblem();
    void
    setOnlyPresolve( bool flag );
+   void
+   setLoggerPath( const std::string& lp )
+   {
+      this->loggerPath = lp;
+   }
    double&
    getTotalTime()
    {
@@ -77,9 +82,11 @@ class MIPPreSolver
 
    double totalTime = 0.0;
    double RSTime = 0.0;
+   double solvingTime = 0.0;
 
    bool onlyPreSolve;
    std::string inputIns;
+   std::string loggerPath;
    const double eps = 1e-6;
 };
 

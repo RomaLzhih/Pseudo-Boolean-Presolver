@@ -22,9 +22,15 @@ class SATPreSolver
    printSolution();
    void
    writePresolvers( const std::string& inFileName );
-   void 
-   setOnlyPresolve(int& v){
+   void
+   setOnlyPresolve( int& v )
+   {
       this->onlyPreSolve = v;
+   }
+   void
+   setLoggerPath( const std::string& lp )
+   {
+      this->loggerPath = lp;
    }
 
  private:
@@ -45,6 +51,7 @@ class SATPreSolver
    bool pbStatus;
    bool onlyPreSolve;
    std::string inputIns;
+   std::string loggerPath;
    bigint origobj;
 
    // presolving information
@@ -52,10 +59,10 @@ class SATPreSolver
    int redCallNum = 0;
    int hbrAddedNum = 0;
    int hbrCallNum = 0;
-   double redElapsedTime=0.0;
-   double hbrElapsedTime=0.0;
-   double totTime = 0.0;
-   double rsTime = 0.0;
+   double redElapsedTime = 0.0;
+   double hbrElapsedTime = 0.0;
+   double totalTime = 0.0;
+   double RSTime = 0.0;
    std::vector<std::pair<Expr<REAL>, Expr<REAL>>> redRelation;
 };
 } // namespace pre

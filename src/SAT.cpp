@@ -288,7 +288,7 @@ SATPreSolver<REAL>::presolve()
       parafile.close();
    };
 
-   papilo::Timer* timer = new papilo::Timer( this->totTime );
+   papilo::Timer* timer = new papilo::Timer( this->totalTime );
    this->pbStatus = 1;
    setPara();
 
@@ -332,11 +332,11 @@ SATPreSolver<REAL>::presolve()
       }
       msg.info( "write constraint number {}", cnt );
       rsSol =
-          runRoundingSat::runforSAT( s, this->inputIns, rsTime ); // status, obj
+          runRoundingSat::runforSAT( s, this->inputIns, RSTime ); // status, obj
    }
    else if( this->presolveStatus == 0 )
    {
-      rsSol = runRoundingSat::runforSAT( this->inputIns, rsTime );
+      rsSol = runRoundingSat::runforSAT( this->inputIns, RSTime );
    }
 
    std::cout << rsSol << std::endl;
@@ -391,21 +391,25 @@ template <typename REAL>
 void
 SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
 {
-   std::string inpath = "../param/printPresolveNames.txt";
-   std::string outpath =
-       inFileName.substr( 0, inFileName.find_last_of( "//" ) + 1 ) +
-       "0-paraDoc.txt";
-   std::ifstream infile( inpath );
-   std::ofstream outfile( outpath, std::ios::app );
+   std::ofstream outfile( this->loggerPath, std::ios::app );
    outfile.setf( std::ios::left, std::ios::adjustfield );
-
-   assert( !infile.fail() );
    assert( !outfile.fail() );
-   outfile << inFileName.substr( inFileName.find_last_of( "//" ) + 1 ) + '\n';
+
+   //* filename solStat solVal RSTime presolvingTime totalTime
+   outfile << "# " << inFileName.substr( inFileName.find_last_of( "//" ) + 1 );
+   outfile << " "
+           << ( this->solutionStatus == solStat::UNSATISFIABLE ? "0" : "1" );
+   outfile << " "
+           << ( this->instanceType == fileType::opt ? aux::tos( this->origobj )
+                                                    : "-" );
+   outfile << " " << this->RSTime << " "
+           << this->redElapsedTime + this->hbrElapsedTime << " "
+           << this->totalTime << std::endl;
+
    if( this->enablered )
    {
-      outfile << '\t' << this->redCallNum << " " << this->redDelNum
-              << std::endl;
+      outfile << "*\tredundancy\t" << this->redCallNum << "\t"
+              << this->redDelNum << "\t" << this->redElapsedTime << std::endl;
       for( int i = 0; i < redRelation.size(); i++ )
       {
          redRelation[i].first.print();
@@ -420,14 +424,10 @@ SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
    }
    if( this->enablehbr )
    {
-
-      outfile << '\t' << this->hbrCallNum << " " << this->hbrAddedNum
-              << std::endl;
+      outfile << "*\thbr\t" << this->hbrCallNum << " " << this->hbrAddedNum
+              << "\t" << this->hbrElapsedTime << std::endl;
    }
-   outfile << std::endl;
-
    outfile.close();
-   infile.close();
    return;
 }
 template class SATPreSolver<bigint>;

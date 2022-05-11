@@ -26,6 +26,7 @@ main( int argc, char* argv[] )
    { // run SAT
       pre::SATPreSolver<pre::bigint> sSolver;
       sSolver.setOnlyPresolve( onlyPreSolve );
+      sSolver.setLoggerPath( logger );
       sSolver.buildProblem( infile );
       sSolver.presolve();
       sSolver.printSolution();
@@ -34,6 +35,7 @@ main( int argc, char* argv[] )
    else if( solvertype == 1 )
    { // run papilo
       pre::MIPPreSolver<papilo::Rational> mSolver;
+      mSolver.setLoggerPath( logger );
       mSolver.setOnlyPresolve( onlyPreSolve );
       mSolver.buildProblem( infile );
       mSolver.run();

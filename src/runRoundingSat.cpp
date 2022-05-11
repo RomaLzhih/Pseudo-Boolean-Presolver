@@ -10,6 +10,7 @@ runRoundingSat::runRS( std::string& infile, std::string& logger )
    strpair rsSol = runRoundingSat::runforSAT( infile, time );
    std::ofstream out( logger, std::ios::app );
    assert( !out.fail() );
+   //* filename solStat solVal time
    out << "@ " << infile.substr( infile.find_last_of( "//" ) + 1 );
    out << ( rsSol.first == "UNSATISFIABLE" ? " 0" : " 1" );
    out << " " << ( rsSol.second.size() ? rsSol.second : "-" );

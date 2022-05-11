@@ -83,7 +83,9 @@ MIPPreSolver<REAL>::runPresolve()
    this->presolve.addDefaultPresolvers();
    setPara();
 
+   papilo::Timer* timer = new papilo::Timer( this->solvingTime );
    this->result = presolve.apply( problem );
+   delete timer;
 
    this->num.setEpsilon(
        presolve.getEpsilon() ); // use same tollerance with papilo
@@ -451,14 +453,22 @@ template <typename REAL>
 void
 MIPPreSolver<REAL>::writePresolvers( const std::string& inFileName )
 {
-   std::string outpath =
-       inFileName.substr( 0, inFileName.find_last_of( "//" ) + 1 ) +
-       "0-paraDoc.txt";
-   std::ofstream outfile( outpath, std::ios::app );
+   // std::string outpath =
+   //     inFileName.substr( 0, inFileName.find_last_of( "//" ) + 1 ) +
+   //     "0-paraDoc.txt";
+   std::ofstream outfile( this->loggerPath, std::ios::app );
    outfile.setf( std::ios::left, std::ios::adjustfield );
 
    assert( !outfile.fail() );
-   outfile << inFileName.substr( inFileName.find_last_of( "//" ) + 1 ) + '\n';
+   //* filename solStat solVal rsTime presolvingTime totTime
+   outfile << "$ " << inFileName.substr( inFileName.find_last_of( "//" ) + 1 );
+   outfile << " "
+           << ( this->solutionStatus == solStat::UNSATISFIABLE ? "0" : "1" );
+   outfile << " "
+           << ( this->instanceType == fileType::opt ? aux::tos( this->origobj )
+                                                    : "-" );
+   outfile << " " << this->RSTime << " " << this->solvingTime << " "
+           << this->totalTime << std::endl;
 
    papilo::Message msg{};
    papilo::Vec<std::pair<int, int>> presolverStats =
@@ -487,7 +497,7 @@ MIPPreSolver<REAL>::writePresolvers( const std::string& inFileName )
                  ? 0.0
                  : ( double( stats.second ) / double( stats.first ) ) * 100.0;
 
-         outfile << '\t';
+         outfile << "*\t";
          outfile << std::setw( 16 ) << name;
          outfile << std::setw( 16 ) << ncalls;
          outfile << std::setw( 16 ) << success;
