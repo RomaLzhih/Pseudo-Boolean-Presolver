@@ -238,3 +238,259 @@ stein45.opb:
  	True
 air02.opb:
  	True
+air05.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.06080789999396
+		 rs: 60.07098759999644
+enigma.opb: 
+	 result: OK: optimum pass	0	0
+		 pre: 0.08907280000130413
+		 rs: 0.011827400005131494
+air01.opb: 
+	 result: 
+		 pre: 0.0730863999997382
+		 rs: 0.07058559999859426
+sentoy.opb: 
+	 result: OK: optimum pass	-7772	-7772
+		 pre: 0.1263145999982953
+		 rs: 0.06462889999966137
+lp4l.opb: 
+	 result: OK: optimum pass	2967	2967
+		 pre: 9.730270300002303
+		 rs: 53.86310819999926
+pipex.opb: 
+	 result: OK: optimum pass	788263	788263
+		 pre: 0.7167601999972248
+		 rs: 0.8270806000000448
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb: 
+	 result: OK: optimum pass	-1593213266	-1593213266
+		 pre: 12.112604200003261
+		 rs: 0.1988165000002482
+p0282.opb: 
+	 result: OK: optimum pass	258411	258411
+		 pre: 12.541607799998019
+		 rs: 54.41912720000255
+p0291.opb: 
+	 result: OK: optimum pass	7609041	7609041
+		 pre: 0.08827770000061719
+		 rs: 0.079457599997113
+p0548.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.06086470000446
+		 rs: 60.03526760000386
+air06.opb: 
+	 result: UNKNOWN: preSolved: True, rsSolved: False
+		 pre: 6.03501320000214
+		 rs: 60.063348000003316
+l152lav.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.06396010000026
+		 rs: 60.072380099998554
+stein9.opb: 
+	 result: OK: optimum pass	5	5
+		 pre: 0.021824999996169936
+		 rs: 0.004428800006280653
+stein15.opb: 
+	 result: OK: optimum pass	9	9
+		 pre: 0.02606789999845205
+		 rs: 0.012564700002258178
+diamond.opb: 
+	 result: OK: infeasible pass
+		 pre: 0.009122000003117137
+		 rs: 0.006972899995162152
+air04.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.04707150000468
+		 rs: 60.06732890000421
+air03.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.06641910000326
+		 rs: 60.09054070000275
+p2756.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.06043330000102
+		 rs: 60.064113599997654
+p0033.opb: 
+	 result: OK: optimum pass	3089	3089
+		 pre: 0.09282259999599773
+		 rs: 0.02065049999509938
+air05.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.033932400001504
+		 rs: 60.07058179999876
+enigma.opb: 
+	 result: OK: optimum pass	0	0
+		 pre: 0.08466409999527968
+		 rs: 0.012341299996478483
+air01.opb: 
+	 result: OK: optimum pass	6796	6796
+		 pre: 1.111796700002742
+		 rs: 0.07130429999961052
+sentoy.opb: 
+	 result: OK: optimum pass	-7772	-7772
+		 pre: 0.13366839999798685
+		 rs: 0.06928309999784688
+lp4l.opb: 
+	 result: OK: optimum pass	2967	2967
+		 pre: 10.090896699999576
+		 rs: 51.7285350999955
+pipex.opb: 
+	 result: OK: optimum pass	788263	788263
+		 pre: 0.7195544999995036
+		 rs: 0.8972222000011243
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb: 
+	 result: OK: optimum pass	-1593213266	-1593213266
+		 pre: 12.153410500002792
+		 rs: 0.19982829999935348
+p0282.opb: 
+	 result: OK: optimum pass	258411	258411
+		 pre: 13.16878259999794
+		 rs: 55.68367379999836
+p0291.opb: 
+	 result: OK: optimum pass	7609041	7609041
+		 pre: 0.09979749999911292
+		 rs: 0.07646050000039395
+p0548.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.01952800000436
+		 rs: 60.01690149999922
+air06.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.06546679999883
+		 rs: 60.07190989999799
+l152lav.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.05983179999748
+		 rs: 60.02344359999552
+stein9.opb: 
+	 result: OK: optimum pass	5	5
+		 pre: 0.044558499997947365
+		 rs: 0.009493099998508114
+stein15.opb: 
+	 result: OK: optimum pass	9	9
+		 pre: 0.04457869999896502
+		 rs: 0.01873860000341665
+diamond.opb: 
+	 result: OK: infeasible pass
+		 pre: 0.028393000000505708
+		 rs: 0.006589999997231644
+air04.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.061531999999715
+		 rs: 60.07854799999768
+air03.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.067111500000465
+		 rs: 60.0771700999976
+p2756.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.06880419999652
+		 rs: 60.0658104000031
+p0033.opb: 
+	 result: OK: optimum pass	3089	3089
+		 pre: 0.060609000000113156
+		 rs: 0.018103499998687766
+mod010.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.064154300001974
+		 rs: 60.08477720000519
+stein27.opb: 
+	 result: OK: optimum pass	18	18
+		 pre: 1.948652700004459
+		 rs: 1.7133127999986755
+p6000.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.09949190000043
+		 rs: 60.117315299998154
+cracpb1.opb: 
+	 result: OK: optimum pass	22199	22199
+		 pre: 9.317272100000991
+		 rs: 1.7345977000004495
+p0040.opb: 
+	 result: OK: optimum pass	62027	62027
+		 pre: 0.104806200004532
+		 rs: 0.022258099997998215
+mod008.opb: 
+	 result: OK: optimum pass	307	307
+		 pre: 3.081568599998718
+		 rs: 2.2624456000048667
+lseu.opb: 
+	 result: OK: optimum pass	1120	1120
+		 pre: 12.596758300001966
+		 rs: 0.6524426999967545
+p0201.opb: 
+	 result: OK: optimum pass	7615	7615
+		 pre: 2.7309471999978996
+		 rs: 2.0595850000026985
+bm23.opb: 
+	 result: OK: optimum pass	34	34
+		 pre: 0.33581820000108564
+		 rs: 0.2801622999977553
+stein45.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.093218900001375
+		 rs: 60.09556130000419
+air02.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: True
+		 pre: 60.121960199998284
+		 rs: 48.364908299998206
+air05.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.014567599999964
+		 rs: 60.0706838000001
+enigma.opb: 
+	 result: OK: optimum pass	0	0
+		 pre: 0.08651800000006915
+		 rs: 0.011169600000130231
+air01.opb: 
+	 result: OK: optimum pass	6796	6796
+		 pre: 1.1023695000001226
+		 rs: 0.06216160000008131
+sentoy.opb: 
+	 result: OK: optimum pass	-7772	-7772
+		 pre: 0.12361759999998867
+		 rs: 0.06695560000002843
+lp4l.opb: 
+	 result: OK: optimum pass	2967	2967
+		 pre: 9.889665699999796
+		 rs: 48.76947689999997
+pipex.opb: 
+	 result: OK: optimum pass	788263	788263
+		 pre: 0.726637299999993
+		 rs: 0.8263589000000593
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb: 
+	 result: OK: optimum pass	-1593213266	-1593213266
+		 pre: 11.971343800000113
+		 rs: 0.20983940000019174
+p0282.opb: 
+	 result: UNKNOWN: preSolved: True, rsSolved: False
+		 pre: 13.684019199999966
+		 rs: 60.06447939999998
+p0291.opb: 
+	 result: OK: optimum pass	7609041	7609041
+		 pre: 0.08176720000005844
+		 rs: 0.08594300000004296
+p0548.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.06655589999991
+		 rs: 60.06386960000009
+air06.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.060698499999944
+		 rs: 60.026791900000035
+l152lav.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.064975900000036
+		 rs: 60.09498000000008
+stein9.opb: 
+	 result: OK: optimum pass	5	5
+		 pre: 0.5601546999998845
+		 rs: 0.01538229999982832
+stein15.opb: 
+	 result: OK: optimum pass	9	9
+		 pre: 0.14904359999991357
+		 rs: 0.028833400000166876
+diamond.opb: 
+	 result: OK: infeasible pass
+		 pre: 0.02811280000014449
+		 rs: 0.017711799999915456

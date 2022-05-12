@@ -292,6 +292,7 @@ SATPreSolver<REAL>::presolve()
    this->pbStatus = 1;
    setPara();
 
+   //* run presolver
    if( this->enablered )
    {
       papilo::Timer* timerRed = new papilo::Timer( this->redElapsedTime );
@@ -307,18 +308,24 @@ SATPreSolver<REAL>::presolve()
 
    if( redDelNum || hbrAddedNum )
       this->presolveStatus = 1;
+
+   //* back to MIP
    if( onlyPreSolve )
    {
-      exprs.toString( this->instanceType );
-      std::string midfile =
-          this->inputIns.substr( 0, this->inputIns.find_last_of( '.' ) ) +
-          ".pre.opb";
-      std::ofstream out( midfile );
-      out << exprs.getStringView();
-      out.close();
+      if( this->presolveStatus == 1 ) //* reduced
+      {
+         exprs.toString( this->instanceType );
+         std::string midfile =
+             this->inputIns.substr( 0, this->inputIns.find_last_of( '.' ) ) +
+             ".pre.opb";
+         std::ofstream out( midfile );
+         out << exprs.getStringView();
+         out.close();
+      }
       return;
    }
 
+   //* run roundingSat
    strpair rsSol;
    if( this->presolveStatus == 2 )
    {
@@ -326,20 +333,6 @@ SATPreSolver<REAL>::presolve()
    }
    else if( this->presolveStatus == 1 )
    {
-      // std::string s = "* #variable= " + aux::tos( exprs.getVarNum() ) +
-      //                 " #constraint= " + aux::tos( exprs.getCosNum() ) +
-      //                 "\n";
-
-      // auto& es = exprs.getExprs();
-      // auto& obje = exprs.getObj();
-      // if( this->instanceType == fileType::opt )
-      //    s += "min: " + aux::ObjExpr2String( obje.getCols() ) + "\n";
-      // int cnt = 0;
-      // for( auto& e : es )
-      // {
-      //    cnt++;
-      //    s += aux::Expr2String( e.getCols(), e.getDeg() ) + "\n";
-      // }
       exprs.toString( this->instanceType );
       const std::string& s = exprs.getStringView();
       rsSol =
@@ -350,6 +343,7 @@ SATPreSolver<REAL>::presolve()
       rsSol = runRoundingSat::runforSAT( this->inputIns, RSTime );
    }
 
+   //* fetch and analysis result
    std::cout << rsSol << std::endl;
    this->solutionStatus = rsSol.first == "UNSATISFIABLE"
                               ? solStat::UNSATISFIABLE

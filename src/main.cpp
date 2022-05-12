@@ -44,10 +44,12 @@ main( int argc, char* argv[] )
    }
    else if( solvertype == 2 )
    { //* run both
+
       //* first SAT
       int setOnlyPre = 1;
       std::string midfile =
           infile.substr( 0, infile.find_last_of( '.' ) ) + ".pre.opb";
+
       pre::SATPreSolver<pre::bigint> sSolver;
       pre::MIPPreSolver<papilo::Rational> mSolver;
       sSolver.setOnlyPresolve( setOnlyPre );

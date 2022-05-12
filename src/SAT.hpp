@@ -50,7 +50,7 @@ class SATPreSolver
    // hyper binary resolution parameter
 
    // overall container
-   int presolveStatus = 0;
+   int presolveStatus = 0; //* 0 unchanged 1 reduced 2 UNSAT
    fileType instanceType;
    solStat solutionStatus;
    bool pbStatus;

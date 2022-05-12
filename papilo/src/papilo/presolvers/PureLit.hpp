@@ -113,8 +113,10 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
       int st = -1;
       for( int r = 0; r < len; r++ )
       {
-         if( rflags[indices[r]].test( RowFlag::kEquation ) )
-         {
+         if( rflags[indices[r]].test( RowFlag::kEquation ) ||
+             ( !rflags[indices[r]].test( RowFlag::kRhsInf ) &&
+               !rflags[indices[r]].test( RowFlag::kLhsInf ) ) )
+         { // block by equation and a<=x<=b
             st = -1;
             break;
          }
@@ -155,14 +157,16 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
          {
             continue;
          }
-         else if( rflags[indices[r]].test( RowFlag::kEquation ) )
-         {
+         else if( rflags[indices[r]].test( RowFlag::kEquation ) ||
+                  ( !rflags[indices[r]].test( RowFlag::kLhsInf ) &&
+                    !rflags[indices[r]].test( RowFlag::kRhsInf ) ) )
+         { // block equation and a<=x<=b
             ok = false;
             break;
          }
 
-         rop = rflags[indices[r]].test( RowFlag::kRhsInf ) == op;
-         rsign = num.isFeasGT( colVals[r], 0 ) == sign;
+         rop = ( rflags[indices[r]].test( RowFlag::kRhsInf ) == op );
+         rsign = ( num.isFeasGT( colVals[r], 0 ) == sign );
 
          if( rop ^ rsign )
          {
