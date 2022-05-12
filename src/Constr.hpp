@@ -160,6 +160,13 @@ struct ExprPool
       for( auto e : exprs )
          e.print();
    }
+   void
+   toString( const fileType& instanceType );
+   const std::string&
+   getStringView()
+   {
+      return this->stringView;
+   }
 
  private:
    std::unordered_set<Expr<REAL>, boost::hash<Expr<REAL>>> exprs;
@@ -167,6 +174,7 @@ struct ExprPool
    int N;
    int M;
    std::size_t ghostCode;
+   std::string stringView;
 };
 
 template <typename REAL>

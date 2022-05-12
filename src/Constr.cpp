@@ -59,6 +59,25 @@ Expr<REAL>::print() const
 
 template <typename REAL>
 void
+ExprPool<REAL>::toString( const fileType& instanceType )
+{
+   this->stringView = "* #variable= " + aux::tos( this->getVarNum() ) +
+                      " #constraint= " + aux::tos( this->getCosNum() ) + "\n";
+
+   auto& es = this->exprs;
+   auto& obje = this->obj;
+   if( instanceType == fileType::opt )
+      this->stringView +=
+          "min: " + aux::ObjExpr2String( obje.getCols() ) + "\n";
+   for( auto& e : es )
+   {
+      this->stringView += aux::Expr2String( e.getCols(), e.getDeg() ) + "\n";
+   }
+   return;
+}
+
+template <typename REAL>
+void
 Graph<REAL>::addEdge( const int& u, const int& v, const Expr<REAL>& expr )
 {
    int nu = ( ( u + N ) > 2 * N ) ? ( u - N ) : ( u + N );

@@ -118,3 +118,123 @@ air02.opb:
 	 result: UNKNOWN: preSolved: False, rsSolved: False
 		 pre: 60.062773099998594
 		 rs: 60.06822939999984
+air05.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.145243899998604
+		 rs: 60.09548720000021
+enigma.opb: 
+	 result: OK: optimum pass	0	0
+		 pre: 0.37071770000329707
+		 rs: 0.06495859999995446
+air01.opb: 
+	 result: OK: optimum pass	6796	6796
+		 pre: 4.650507300000754
+		 rs: 0.22201149999455083
+sentoy.opb: 
+	 result: OK: optimum pass	-7772	-7772
+		 pre: 0.4252132000037818
+		 rs: 0.16602289999718778
+lp4l.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.09132939999836
+		 rs: 60.08622870000545
+pipex.opb: 
+	 result: OK: optimum pass	788263	788263
+		 pre: 2.997441899999103
+		 rs: 3.6983028999966336
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb: 
+	 result: OK: optimum pass	-1593213266	-1593213266
+		 pre: 38.02593699999852
+		 rs: 0.7976669000054244
+p0282.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.07716090000031
+		 rs: 60.112172699999064
+p0291.opb: 
+	 result: OK: optimum pass	7609041	7609041
+		 pre: 0.33221729999786476
+		 rs: 0.24164400000154274
+p0548.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.075644100004865
+		 rs: 60.08526079999865
+air06.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.08246660000441
+		 rs: 60.10022160000517
+l152lav.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.060593599999265
+		 rs: 60.13495920000423
+stein9.opb: 
+	 result: OK: optimum pass	5	5
+		 pre: 0.1558934999993653
+		 rs: 0.03528369999548886
+stein15.opb: 
+	 result: OK: optimum pass	9	9
+		 pre: 0.1856331000017235
+		 rs: 0.08117869999841787
+diamond.opb: 
+	 result: OK: infeasible pass
+		 pre: 0.06984529999317601
+		 rs: 0.02725099999952363
+air05.opb:
+ 	True
+enigma.opb:
+ 	True
+air01.opb:
+ 	True
+sentoy.opb:
+ 	True
+lp4l.opb:
+ 	True
+pipex.opb:
+ 	True
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb:
+ 	True
+p0282.opb:
+ 	True
+p0291.opb:
+ 	True
+p0548.opb:
+ 	True
+air06.opb:
+ 	True
+l152lav.opb:
+ 	True
+stein9.opb:
+ 	True
+stein15.opb:
+ 	True
+diamond.opb:
+ 	True
+air04.opb:
+ 	True
+air03.opb:
+ 	True
+p2756.opb:
+ 	True
+p0033.opb:
+ 	False
+mod010.opb:
+ 	True
+stein27.opb:
+ 	True
+p6000.opb:
+ 	True
+cracpb1.opb:
+ 	True
+p0040.opb:
+ 	True
+mod008.opb:
+ 	True
+lseu.opb:
+ 	False
+p0201.opb:
+ 	True
+bm23.opb:
+ 	True
+stein45.opb:
+ 	True
+air02.opb:
+ 	True

@@ -22,6 +22,11 @@ class SATPreSolver
    printSolution();
    void
    writePresolvers( const std::string& inFileName );
+   const int&
+   getPresolveStatus()
+   {
+      return this->presolveStatus;
+   }
    void
    setOnlyPresolve( int& v )
    {

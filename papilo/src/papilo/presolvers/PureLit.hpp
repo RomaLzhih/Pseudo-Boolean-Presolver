@@ -71,6 +71,8 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
    const auto& objVec = objective.coefficients;
    const auto& lbs = problem.getLowerBounds();
    const auto& ubs = problem.getUpperBounds();
+   const papilo::Vec<REAL>& lhs = consMatrix.getLeftHandSides();
+   const papilo::Vec<REAL>& rhs = consMatrix.getRightHandSides();
    const int ncols = consMatrix.getNCols();
    const int nrow = consMatrix.getNRows();
 
@@ -126,7 +128,7 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
          continue;
 
       const bool op =
-          rflags[indices[st]].test( RowFlag::kRhsInf ); // true => >=
+          rflags[indices[st]].test( RowFlag::kRhsInf ); // true => 0<=x
       const bool sign = num.isFeasGT( colVals[st], 0 ); // true => >0
 
       // auto rowvec = consMatrix.getRowCoefficients( indices[st] );
@@ -135,7 +137,8 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
       // {
       //    msg.info( " {}", rowVals[i] );
       // }
-      // msg.info( " op: {}, sign {} for {}\n", op, sign, i );
+      msg.info( " op: {}, sign {} for {}\n", op, sign, i );
+      msg.info( " lhs: {}, rhs: {}\n", lhs[indices[st]], rhs[indices[st]] );
 
       assert( !rflags[indices[st]].test( RowFlag::kRedundant ) );
       assert( !rflags[indices[st]].test( RowFlag::kEquation ) );

@@ -456,19 +456,21 @@ MIPPreSolver<REAL>::writePresolvers( const std::string& inFileName )
    // std::string outpath =
    //     inFileName.substr( 0, inFileName.find_last_of( "//" ) + 1 ) +
    //     "0-paraDoc.txt";
-   std::ofstream outfile( this->loggerPath, std::ios::app );
-   outfile.setf( std::ios::left, std::ios::adjustfield );
+   // std::ofstream outfile( this->loggerPath, std::ios::app );
+   // outfile.setf( std::ios::left, std::ios::adjustfield );
 
-   assert( !outfile.fail() );
+   // assert( !outfile.fail() );
    //* filename solStat solVal rsTime presolvingTime totTime
-   outfile << "$ " << inFileName.substr( inFileName.find_last_of( "//" ) + 1 );
-   outfile << " "
-           << ( this->solutionStatus == solStat::UNSATISFIABLE ? "0" : "1" );
-   outfile << " "
-           << ( this->instanceType == fileType::opt ? aux::tos( this->origobj )
-                                                    : "-" );
-   outfile << " " << this->RSTime << " " << this->solvingTime << " "
-           << this->totalTime << std::endl;
+   std::cout << "$ "
+             << inFileName.substr( inFileName.find_last_of( "//" ) + 1 );
+   std::cout << " "
+             << ( this->solutionStatus == solStat::UNSATISFIABLE ? "0" : "1" );
+   std::cout << " "
+             << ( this->instanceType == fileType::opt
+                      ? aux::tos( this->origobj )
+                      : "-" );
+   std::cout << " " << this->RSTime << " " << this->solvingTime << " "
+             << this->totalTime << std::endl;
 
    papilo::Message msg{};
    papilo::Vec<std::pair<int, int>> presolverStats =
@@ -497,18 +499,18 @@ MIPPreSolver<REAL>::writePresolvers( const std::string& inFileName )
                  ? 0.0
                  : ( double( stats.second ) / double( stats.first ) ) * 100.0;
 
-         outfile << "*\t";
-         outfile << std::setw( 16 ) << name;
-         outfile << std::setw( 16 ) << ncalls;
-         outfile << std::setw( 16 ) << success;
-         outfile << std::setw( 16 ) << stats.first;
-         outfile << std::setw( 16 ) << applied;
-         outfile << std::setw( 16 ) << std::round( execTime * 10000 ) / 10000;
-         outfile << '\n';
+         std::cout << "*\t";
+         std::cout << std::setw( 16 ) << name;
+         std::cout << std::setw( 16 ) << ncalls;
+         std::cout << std::setw( 16 ) << success;
+         std::cout << std::setw( 16 ) << stats.first;
+         std::cout << std::setw( 16 ) << applied;
+         std::cout << std::setw( 16 ) << std::round( execTime * 10000 ) / 10000;
+         std::cout << '\n';
       }
    }
-   outfile << std::endl;
-   outfile.close();
+   std::cout << std::endl;
+   // outfile.close();
    return;
 }
 

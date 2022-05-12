@@ -21,15 +21,15 @@ namespace runRoundingSat
 {
 void
 runRS( std::string& infile, std::string& logger );
-strpair
+strpair // run presolved ins
 runforPaPILO( std::string& preInfo, std::string infile, double& time );
-strpair
+strpair // run initial ins
 runforPaPILO( const std::string& infile, double& time );
 std::string
 runforRedundancy( std::string& preInfo, std::string infile );
-strpair
+strpair // run presolved ins
 runforSAT( const std::string& preInfo, std::string& infile, double& time );
-strpair
+strpair // run initial ins
 runforSAT( const std::string& infile, double& time );
 
 } // namespace runRoundingSat

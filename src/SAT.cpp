@@ -308,7 +308,16 @@ SATPreSolver<REAL>::presolve()
    if( redDelNum || hbrAddedNum )
       this->presolveStatus = 1;
    if( onlyPreSolve )
+   {
+      exprs.toString( this->instanceType );
+      std::string midfile =
+          this->inputIns.substr( 0, this->inputIns.find_last_of( '.' ) ) +
+          ".pre.opb";
+      std::ofstream out( midfile );
+      out << exprs.getStringView();
+      out.close();
       return;
+   }
 
    strpair rsSol;
    if( this->presolveStatus == 2 )
@@ -317,20 +326,22 @@ SATPreSolver<REAL>::presolve()
    }
    else if( this->presolveStatus == 1 )
    {
-      std::string s = "* #variable= " + aux::tos( exprs.getVarNum() ) +
-                      " #constraint= " + aux::tos( exprs.getCosNum() ) + "\n";
+      // std::string s = "* #variable= " + aux::tos( exprs.getVarNum() ) +
+      //                 " #constraint= " + aux::tos( exprs.getCosNum() ) +
+      //                 "\n";
 
-      auto& es = exprs.getExprs();
-      auto& obje = exprs.getObj();
-      if( this->instanceType == fileType::opt )
-         s += "min: " + aux::ObjExpr2String( obje.getCols() ) + "\n";
-      int cnt = 0;
-      for( auto& e : es )
-      {
-         cnt++;
-         s += aux::Expr2String( e.getCols(), e.getDeg() ) + "\n";
-      }
-      msg.info( "write constraint number {}", cnt );
+      // auto& es = exprs.getExprs();
+      // auto& obje = exprs.getObj();
+      // if( this->instanceType == fileType::opt )
+      //    s += "min: " + aux::ObjExpr2String( obje.getCols() ) + "\n";
+      // int cnt = 0;
+      // for( auto& e : es )
+      // {
+      //    cnt++;
+      //    s += aux::Expr2String( e.getCols(), e.getDeg() ) + "\n";
+      // }
+      exprs.toString( this->instanceType );
+      const std::string& s = exprs.getStringView();
       rsSol =
           runRoundingSat::runforSAT( s, this->inputIns, RSTime ); // status, obj
    }
@@ -391,43 +402,46 @@ template <typename REAL>
 void
 SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
 {
-   std::ofstream outfile( this->loggerPath, std::ios::app );
-   outfile.setf( std::ios::left, std::ios::adjustfield );
-   assert( !outfile.fail() );
+   // std::ofstream outfile( this->loggerPath, std::ios::app );
+   // outfile.setf( std::ios::left, std::ios::adjustfield );
+   // assert( !outfile.fail() );
 
    //* filename solStat solVal RSTime presolvingTime totalTime
-   outfile << "# " << inFileName.substr( inFileName.find_last_of( "//" ) + 1 );
-   outfile << " "
-           << ( this->solutionStatus == solStat::UNSATISFIABLE ? "0" : "1" );
-   outfile << " "
-           << ( this->instanceType == fileType::opt ? aux::tos( this->origobj )
-                                                    : "-" );
-   outfile << " " << this->RSTime << " "
-           << this->redElapsedTime + this->hbrElapsedTime << " "
-           << this->totalTime << std::endl;
+   std::cout << "# "
+             << inFileName.substr( inFileName.find_last_of( "//" ) + 1 );
+   std::cout << " "
+             << ( this->solutionStatus == solStat::UNSATISFIABLE ? "0" : "1" );
+   std::cout << " "
+             << ( this->instanceType == fileType::opt
+                      ? aux::tos( this->origobj )
+                      : "-" );
+   std::cout << " " << this->RSTime << " "
+             << this->redElapsedTime + this->hbrElapsedTime << " "
+             << this->totalTime << std::endl;
 
    if( this->enablered )
    {
-      outfile << "*\tredundancy\t" << this->redCallNum << "\t"
-              << this->redDelNum << "\t" << this->redElapsedTime << std::endl;
+      std::cout << "*\tredundancy\t" << this->redCallNum << "\t"
+                << this->redDelNum << "\t" << this->redElapsedTime << std::endl;
       for( int i = 0; i < redRelation.size(); i++ )
       {
-         redRelation[i].first.print();
-         outfile << "|= ";
-         redRelation[i].second.print();
-         outfile << "Neg: "
-                 << aux::Expr2NegString( redRelation[i].second.getCols(),
-                                         redRelation[i].second.getDeg() )
-                 << std::endl;
-         outfile << std::endl;
+         std::cout << aux::Expr2String( redRelation[i].first.getCols(),
+                                        redRelation[i].first.getDeg() )
+                   << "\n\t|= ";
+         std::cout << aux::Expr2String( redRelation[i].second.getCols(),
+                                        redRelation[i].second.getDeg() );
+         std::cout << "\n\t\tNeg: "
+                   << aux::Expr2NegString( redRelation[i].second.getCols(),
+                                           redRelation[i].second.getDeg() )
+                   << std::endl;
+         std::cout << std::endl;
       }
    }
    if( this->enablehbr )
    {
-      outfile << "*\thbr\t" << this->hbrCallNum << " " << this->hbrAddedNum
-              << "\t" << this->hbrElapsedTime << std::endl;
+      std::cout << "*\thbr\t" << this->hbrCallNum << " " << this->hbrAddedNum
+                << "\t" << this->hbrElapsedTime << std::endl;
    }
-   outfile.close();
    return;
 }
 template class SATPreSolver<bigint>;

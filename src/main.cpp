@@ -43,7 +43,28 @@ main( int argc, char* argv[] )
       mSolver.writePresolvers( infile );
    }
    else if( solvertype == 2 )
-   { // run both
+   { //* run both
+      //* first SAT
+      int setOnlyPre = 1;
+      std::string midfile =
+          infile.substr( 0, infile.find_last_of( '.' ) ) + ".pre.opb";
+      pre::SATPreSolver<pre::bigint> sSolver;
+      pre::MIPPreSolver<papilo::Rational> mSolver;
+      sSolver.setOnlyPresolve( setOnlyPre );
+      sSolver.buildProblem( infile );
+      sSolver.presolve();
+
+      //* now MIP turn
+      mSolver.setLoggerPath( logger );
+      mSolver.setOnlyPresolve( onlyPreSolve );
+      if( sSolver.getPresolveStatus() == 1 )
+         mSolver.buildProblem( midfile );
+      else
+         mSolver.buildProblem( infile );
+      mSolver.run();
+      mSolver.printSolution();
+      sSolver.writePresolvers( infile );
+      mSolver.writePresolvers( infile );
    }
    else
    { // only run roundingSat
