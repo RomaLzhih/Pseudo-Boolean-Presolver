@@ -139,8 +139,8 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
       // {
       //    msg.info( " {}", rowVals[i] );
       // }
-      msg.info( " op: {}, sign {} for {}\n", op, sign, i );
-      msg.info( " lhs: {}, rhs: {}\n", lhs[indices[st]], rhs[indices[st]] );
+      // msg.info( " op: {}, sign {} for {}\n", op, sign, i );
+      // msg.info( " lhs: {}, rhs: {}\n", lhs[indices[st]], rhs[indices[st]] );
 
       assert( !rflags[indices[st]].test( RowFlag::kRedundant ) );
       assert( !rflags[indices[st]].test( RowFlag::kEquation ) );

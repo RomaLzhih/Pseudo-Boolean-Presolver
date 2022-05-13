@@ -18,26 +18,21 @@ int
 main( int argc, char* argv[] )
 {
    std::string infile = argv[1];
-   std::string logger = argv[2];
-   int onlyPreSolve = std::stoi( argv[3] );
-   int solvertype = std::stoi( argv[4] );
+   int onlyPreSolve = std::stoi( argv[2] );
+   int solvertype = std::stoi( argv[3] );
 
    if( solvertype == 0 )
    { // run SAT
-      pre::SATPreSolver<pre::bigint> sSolver;
+      pre::SATPreSolver<pre::bigint> sSolver( infile );
       sSolver.setOnlyPresolve( onlyPreSolve );
-      sSolver.setLoggerPath( logger );
-      sSolver.buildProblem( infile );
       sSolver.presolve();
       sSolver.printSolution();
       sSolver.writePresolvers( infile );
    }
    else if( solvertype == 1 )
    { // run papilo
-      pre::MIPPreSolver<papilo::Rational> mSolver;
-      mSolver.setLoggerPath( logger );
+      pre::MIPPreSolver<papilo::Rational> mSolver( infile );
       mSolver.setOnlyPresolve( onlyPreSolve );
-      mSolver.buildProblem( infile );
       mSolver.run();
       mSolver.printSolution();
       mSolver.writePresolvers( infile );
@@ -50,19 +45,17 @@ main( int argc, char* argv[] )
       std::string midfile =
           infile.substr( 0, infile.find_last_of( '.' ) ) + ".pre.opb";
 
-      pre::SATPreSolver<pre::bigint> sSolver;
+      pre::SATPreSolver<pre::bigint> sSolver( infile );
       pre::MIPPreSolver<papilo::Rational> mSolver;
       sSolver.setOnlyPresolve( setOnlyPre );
-      sSolver.buildProblem( infile );
       sSolver.presolve();
 
       //* now MIP turn
-      mSolver.setLoggerPath( logger );
       mSolver.setOnlyPresolve( onlyPreSolve );
       if( sSolver.getPresolveStatus() == 1 )
-         mSolver.buildProblem( midfile );
+         mSolver.setInputIns( midfile );
       else
-         mSolver.buildProblem( infile );
+         mSolver.setInputIns( infile );
       mSolver.run();
       mSolver.printSolution();
       sSolver.writePresolvers( infile );
@@ -70,7 +63,7 @@ main( int argc, char* argv[] )
    }
    else
    { // only run roundingSat
-      pre::runRoundingSat::runRS( infile, logger );
+      pre::runRoundingSat::runRS( infile );
    }
 
    return 0;

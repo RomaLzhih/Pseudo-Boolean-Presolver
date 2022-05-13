@@ -494,3 +494,777 @@ diamond.opb:
 	 result: OK: infeasible pass
 		 pre: 0.02811280000014449
 		 rs: 0.017711799999915456
+air04.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.060123100000055
+		 rs: 60.07680770000002
+air03.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.0719916999999
+		 rs: 60.082562800000005
+p2756.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.08197180000002
+		 rs: 60.1203022000002
+p0033.opb: 
+	 result: OK: optimum pass	3089	3089
+		 pre: 0.48584329999994225
+		 rs: 0.11640310000029785
+mod010.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.08568690000038
+		 rs: 60.10423730000002
+stein27.opb: 
+	 result: OK: optimum pass	18	18
+		 pre: 1.9717658000004121
+		 rs: 1.665215900000021
+p6000.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.07820700000002
+		 rs: 60.127855700000055
+cracpb1.opb: 
+	 result: OK: optimum pass	22199	22199
+		 pre: 8.281021600000258
+		 rs: 1.494595499999832
+p0040.opb: 
+	 result: OK: optimum pass	62027	62027
+		 pre: 0.09288229999992836
+		 rs: 0.03371710000010353
+mod008.opb: 
+	 result: OK: optimum pass	307	307
+		 pre: 2.7750631999997495
+		 rs: 2.1405958000000282
+lseu.opb: 
+	 result: OK: optimum pass	1120	1120
+		 pre: 11.495416700000078
+		 rs: 0.43604919999961567
+p0201.opb: 
+	 result: OK: optimum pass	7615	7615
+		 pre: 2.4572778000001563
+		 rs: 1.7071977999999035
+bm23.opb: 
+	 result: OK: optimum pass	34	34
+		 pre: 0.28417269999999917
+		 rs: 0.14655420000008235
+stein45.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: False
+		 pre: 60.06987100000015
+		 rs: 60.090593100000206
+air02.opb: 
+	 result: UNKNOWN: preSolved: False, rsSolved: True
+		 pre: 60.04837210000005
+		 rs: 40.261962100000346
+air05.opb:
+ 	True
+enigma.opb:
+ 	True
+air01.opb:
+ 	True
+sentoy.opb:
+ 	True
+lp4l.opb:
+ 	True
+pipex.opb:
+ 	True
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb:
+ 	True
+p0282.opb:
+ 	True
+p0291.opb:
+ 	True
+p0548.opb:
+ 	True
+air06.opb:
+ 	True
+l152lav.opb:
+ 	True
+stein9.opb:
+ 	True
+stein15.opb:
+ 	True
+diamond.opb:
+ 	True
+air04.opb:
+ 	True
+air03.opb:
+ 	True
+p2756.opb:
+ 	True
+p0033.opb:
+ 	True
+mod010.opb:
+ 	True
+stein27.opb:
+ 	True
+p6000.opb:
+ 	True
+cracpb1.opb:
+ 	True
+p0040.opb:
+ 	True
+mod008.opb:
+ 	True
+lseu.opb:
+ 	True
+p0201.opb:
+ 	True
+bm23.opb:
+ 	True
+stein45.opb:
+ 	True
+air02.opb:
+ 	True
+../test/opt/air05.opb:
+ 	False
+../test/opt/enigma.opb:
+ 	False
+../test/opt/air01.opb:
+ 	False
+../test/opt/sentoy.opb:
+ 	False
+../test/opt/lp4l.opb:
+ 	False
+../test/opt/pipex.opb:
+ 	False
+../test/opt/normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb:
+ 	False
+../test/opt/p0282.opb:
+ 	False
+../test/opt/p0291.opb:
+ 	False
+../test/opt/p0548.opb:
+ 	False
+../test/opt/air06.opb:
+ 	False
+../test/opt/l152lav.opb:
+ 	False
+../test/opt/stein9.opb:
+ 	False
+../test/opt/stein15.opb:
+ 	False
+../test/opt/diamond.opb:
+ 	False
+../test/opt/air04.opb:
+ 	False
+../test/opt/air03.opb:
+ 	False
+../test/opt/p2756.opb:
+ 	False
+../test/opt/p0033.opb:
+ 	False
+../test/opt/mod010.opb:
+ 	False
+../test/opt/stein27.opb:
+ 	False
+../test/opt/p6000.opb:
+ 	False
+../test/opt/cracpb1.opb:
+ 	False
+../test/opt/p0040.opb:
+ 	False
+../test/opt/mod008.opb:
+ 	False
+../test/opt/lseu.opb:
+ 	False
+../test/opt/p0201.opb:
+ 	False
+../test/opt/bm23.opb:
+ 	False
+../test/opt/stein45.opb:
+ 	False
+../test/opt/air02.opb:
+ 	False
+../test/dec/diamond.0.d.opb:
+ 	False
+../test/dec/air02.0.s.opb:
+ 	False
+../test/dec/bm23.0.u.opb:
+ 	False
+../test/dec/sentoy.0.s.opb:
+ 	False
+../test/dec/128ebits_any.opb:
+ 	False
+../test/dec/air02.0.u.opb:
+ 	False
+../test/dec/p0040.0.s.opb:
+ 	False
+../test/dec/p0040.0.u.opb:
+ 	False
+../test/dec/bm23.0.s.opb:
+ 	False
+../test/dec/pipex.0.u.opb:
+ 	False
+../test/dec/stein9.0.s.opb:
+ 	False
+../test/dec/stein9.0.u.opb:
+ 	False
+../test/dec/p0291.0.u.opb:
+ 	False
+../test/dec/256ebits_any.opb:
+ 	False
+../test/dec/sentoy.0.u.opb:
+ 	False
+../test/dec/p0291.0.s.opb:
+ 	False
+../test/dec/lp4l.0.u.opb:
+ 	False
+../test/dec/cracpb1.0.s.opb:
+ 	False
+../test/dec/cracpb1.0.u.opb:
+ 	False
+../test/dec/stein15.0.s.opb:
+ 	False
+../test/dec/air01.0.u.opb:
+ 	False
+../test/dec/32array_alg_ineq5.opb:
+ 	False
+../test/dec/air01.0.s.opb:
+ 	False
+../test/dec/air06.0.s.opb:
+ 	False
+../test/dec/22array_alg_ineq7.opb:
+ 	False
+../test/dec/stein15.0.u.opb:
+ 	False
+../test/dec/air06.0.u.opb:
+ 	False
+../test/dec/256ebits_0.opb:
+ 	False
+../test/dec/pipex.0.s.opb:
+ 	False
+../test/dec/128ebits_0.opb:
+ 	False
+../test/dec/lp4l.0.s.opb:
+ 	False
+../test/dec/21array_alg_ineq7.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v111-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v081-n3.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v111-n2.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v021-n3.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v051-n2.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v051-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v081-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v061-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v041-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v021-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v101-n3.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v081-n2.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v041-n3.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v111-n3.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v011-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v031-n3.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v061-n3.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v091-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v061-n2.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v031-n2.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v101-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v071-n2.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v101-n2.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v031-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v011-n3.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v051-n3.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v071-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v041-n2.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v011-n2.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v071-n3.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v091-n3.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v091-n2.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/rand6reg/normalized-rand6reg-v021-n2.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid3x60split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x130split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid3x10split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x10split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid3x100split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x120split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x60split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid3x40split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x110split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x90split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x30split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x20split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x100split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid3x30split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x50split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid3x80split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x140split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x40split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x70split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid3x20split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid3x70split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid3x90split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid3x50split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x80split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_ODD_GRIDS/normalized-ECgrid5x150split.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity3houseP128.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity5pyramidP0032.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity5houseP016.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity3pyramidP0032.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity3pyramidP0016.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity5pyramidP0064.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity4pyramidP0032.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity3houseP064.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity5pyramidP0125.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity4houseP016.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity5houseP032.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity5houseP128.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity3houseP032.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity3pyramidP0064.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity4pyramidP0016.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity4houseP032.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity4houseP128.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity3pyramidP0125.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity4houseP064.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity5houseP064.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity4pyramidP0125.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity4pyramidP0064.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity3houseP016.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/SUMINEQ/normalized-sumineqArity5pyramidP0016.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand6reg-v021-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand4regsplit-v010-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand6reg-v071-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand4regsplit-v070-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand6reg-v011-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand4regsplit-v110-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand6reg-v081-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand6reg-v051-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand4regsplit-v020-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand4regsplit-v060-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand6reg-v091-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand4regsplit-v050-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand4regsplit-v080-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand6reg-v111-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand6reg-v101-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand4regsplit-v030-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand4regsplit-v040-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand6reg-v061-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand6reg-v041-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand6reg-v031-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand4regsplit-v090-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/EC_RANDOM_GRAPHS/normalized-ECrand4regsplit-v100-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l065-r064-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-left3reg-l070-r069-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l025-r024-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l055-r054-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l010-r009-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l090-r089-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-left3reg-l100-r099-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-left3reg-l030-r029-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-left3reg-l040-r039-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-left3reg-l020-r019-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l020-r019-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l070-r069-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l045-r044-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l080-r079-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-left3reg-l010-r010-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-left3reg-l080-r079-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l100-r099-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l035-r034-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l040-r039-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-left3reg-l050-r049-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-left3reg-l060-r059-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-left3reg-l090-r089-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l050-r049-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l060-r059-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l030-r029-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/Instances3col_OPB/normalized-3col-almost3reg-l015-r014-n1.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-45.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-35.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-15.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-30.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-50.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-75.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-30.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-15.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-35.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-65.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-45.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-45.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-35.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-60.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-15.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-65.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-20.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-55.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-45.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-25.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-40.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-70.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-70.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-80.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-50.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-40.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-60.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-35.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-40.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-20.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-60.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-60.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-65.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-50.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-25.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-25.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-30.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-30.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-20.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-20.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-80.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-80.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-25.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-70.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-75.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-75.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-fixedbandwidth-80.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-50.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-55.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-65.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-15.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-40.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-75.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-eq-random4regular-55.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-fixedbandwidth-70.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/subsetcard/normalized-subsetcard-geq-random4regular-55.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid6x25.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid4x17.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid10x15.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid4x19-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid6x21.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-completegraph-33.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid6x21-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid6x15.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid10x11-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid10x17.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-completegraph-31.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid4x13.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid6x9-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid8x9.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid4x11-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid4x7.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-completegraph-43.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-completegraph-25.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid8x9-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid6x29-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid6x27-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid6x11-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid4x21.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid8x11-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid10x13.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid8x19-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid8x17-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid8x21-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid4x27-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid4x17-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-completegraph-49.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-completegraph-47.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid10x23.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid8x29-hard.opb:
+ 	False
+../test/PB16/normalized-PB16/DEC-SMALLINT-LIN/elffers/vertexcover-instances/normalized-vertexcover-grid4x7-hard.opb:
+ 	False
+../test/opt/air05.opb:
+ 	False
+../test/opt/enigma.opb:
+ 	False
+../test/opt/air01.opb:
+ 	False
+../test/opt/sentoy.opb:
+ 	False
+../test/opt/lp4l.opb:
+ 	False
+../test/opt/pipex.opb:
+ 	False
+../test/opt/normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb:
+ 	False
+../test/opt/p0282.opb:
+ 	False
+../test/opt/p0291.opb:
+ 	False
+../test/opt/p0548.opb:
+ 	False
+../test/opt/air06.opb:
+ 	False
+../test/opt/l152lav.opb:
+ 	False
+../test/opt/stein9.opb:
+ 	False
+../test/opt/stein15.opb:
+ 	False
+../test/opt/diamond.opb:
+ 	False
+../test/opt/air04.opb:
+ 	False
+../test/opt/air03.opb:
+ 	False
+../test/opt/p2756.opb:
+ 	False
+../test/opt/p0033.opb:
+ 	False
+../test/opt/mod010.opb:
+ 	False
+../test/opt/stein27.opb:
+ 	False
+../test/opt/p6000.opb:
+ 	False
+air05.opb:
+ 	True
+enigma.opb:
+ 	True
+air01.opb:
+ 	True
+sentoy.opb:
+ 	True
+lp4l.opb:
+ 	True
+pipex.opb:
+ 	True
+air05.opb:
+ 	True
+enigma.opb:
+ 	True
+air01.opb:
+ 	True
+sentoy.opb:
+ 	True
+lp4l.opb:
+ 	True
+pipex.opb:
+ 	True
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb:
+ 	UNABLE PRESOLVE
+p0282.opb:
+ 	True
+p0291.opb:
+ 	True
+p0548.opb:
+ 	True
+air06.opb:
+ 	True
+l152lav.opb:
+ 	True
+stein9.opb:
+ 	True
+stein15.opb:
+ 	True
+diamond.opb:
+ 	True
+air04.opb:
+ 	True

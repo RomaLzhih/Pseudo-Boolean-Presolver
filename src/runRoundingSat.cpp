@@ -4,18 +4,16 @@ namespace pre
 {
 
 void
-runRoundingSat::runRS( std::string& infile, std::string& logger )
+runRoundingSat::runRS( std::string& infile )
 {
    double time = 0.0;
    strpair rsSol = runRoundingSat::runforSAT( infile, time );
-   std::ofstream out( logger, std::ios::app );
-   assert( !out.fail() );
    //* filename solStat solVal time
-   out << "@ " << infile.substr( infile.find_last_of( "//" ) + 1 );
-   out << ( rsSol.first == "UNSATISFIABLE" ? " 0" : " 1" );
-   out << " " << ( rsSol.second.size() ? rsSol.second : "-" );
-   out << " " << time;
-   out << std::endl;
+   std::cout << "@ " << infile.substr( infile.find_last_of( "//" ) + 1 );
+   std::cout << ( rsSol.first == "UNSATISFIABLE" ? " 0" : " 1" );
+   std::cout << " " << ( rsSol.second.size() ? rsSol.second : "-" );
+   std::cout << " " << time;
+   std::cout << std::endl;
    return;
 }
 
@@ -92,8 +90,6 @@ runRoundingSat::runforPaPILO( const std::string& infile, double& time )
 std::string
 runRoundingSat::runforRedundancy( std::string& preInfo, std::string infile )
 {
-   while( *infile.rbegin() != '.' )
-      infile.pop_back();
    namespace bp = boost::process;
 
    std::string roundingSat = "../build/roundingsat";

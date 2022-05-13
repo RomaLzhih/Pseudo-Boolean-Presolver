@@ -1,2 +1,2 @@
-redundacy = 0
+redundacy = 1
 hbr = 1

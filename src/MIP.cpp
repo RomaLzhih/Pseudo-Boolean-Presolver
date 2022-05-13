@@ -38,15 +38,12 @@ MIPPreSolver<REAL>::setOnlyPresolve( bool flag )
 // main functionality
 template <typename REAL>
 void
-MIPPreSolver<REAL>::buildProblem( const std::string& inFileName )
+MIPPreSolver<REAL>::buildProblem()
 {
-
-   std::ifstream infile( inFileName );
+   assert( this->inputIns != "" );
+   std::ifstream infile( this->inputIns );
    assert( !infile.fail() );
-   this->inputIns = inFileName;
-
    this->instanceType = parser::opb_read_to_papilo( infile, builder );
-
    infile.close();
    this->problem = builder.build();
 }
@@ -57,7 +54,7 @@ MIPPreSolver<REAL>::runPresolve()
 {
    auto setPara = [&]()
    {
-      std::string paraPath = "../param/onlyPure.txt";
+      std::string paraPath = "../param/defaultMIP.txt";
       // std::string paraPath = "../param/parameters.test.txt";
       std::ifstream parafile( paraPath );
       assert( !parafile.fail() );
@@ -376,11 +373,10 @@ void
 MIPPreSolver<REAL>::run()
 {
    papilo::Timer* timer = new papilo::Timer( totalTime );
-
-   std::cout << "---------------Start Running PaPILO--------------"
-             << std::endl;
+   msg.info( "C start build MIP problem ..\n" );
+   this->buildProblem();
+   msg.info( "C running papilo ..\n" );
    this->presolveStatus = runPresolve();
-   std::cout << "---------------END Running PaPILO--------------" << std::endl;
 
    if( this->presolveStatus == -1 )
    { // already solved
@@ -392,8 +388,7 @@ MIPPreSolver<REAL>::run()
       if( !this->onlyPreSolve )
       {
          std::string preInfo = collectResult();
-         std::cout << "C"
-                   << " running roundingSat .. " << std::endl;
+         msg.info( "C running roundingSat ..\n" );
          strpair rsSol;
          if( presolveStatus == 0 )
             rsSol = runRoundingSat::runforPaPILO( inputIns, this->RSTime );
@@ -401,8 +396,7 @@ MIPPreSolver<REAL>::run()
             rsSol =
                 runRoundingSat::runforPaPILO( preInfo, inputIns, this->RSTime );
 
-         std::cout << "C"
-                   << " start postsolve.." << std::endl;
+         msg.info( "C start postsolve ..\n" );
          postSolve( rsSol );
       }
    }
@@ -410,8 +404,7 @@ MIPPreSolver<REAL>::run()
    {
       std::cout << this->presolveStatus << std::endl;
       this->solutionStatus = solStat::UNSATISFIABLE;
-      std::cout << "C PaPILO detec to be infeasible or unbounded .. "
-                << std::endl;
+      msg.info( "C PaPILO detec to be infeasible or unbounded .. \n" );
    }
 
    delete timer;

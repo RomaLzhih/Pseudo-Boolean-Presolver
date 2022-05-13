@@ -4,11 +4,11 @@ namespace pre
 {
 template <typename REAL>
 void
-SATPreSolver<REAL>::buildProblem( const std::string& inFileName )
+SATPreSolver<REAL>::buildProblem()
 {
-   std::ifstream infile( inFileName );
+   assert( this->inputIns != "" );
+   std::ifstream infile( this->inputIns );
    assert( !infile.fail() );
-   this->inputIns = inFileName;
    this->instanceType = parser::opb_read_to_sat( infile, this->exprs );
    //    this->exprs.print();
 
@@ -58,6 +58,71 @@ SATPreSolver<REAL>::redundancyDetection()
             this->redRelation.push_back( std::make_pair( *D, *C ) );
             es.erase( C );
             this->redDelNum++;
+            if( D->getVarsSize() == 1 )
+               this->singleSubsumption++;
+         }
+         else
+         {
+            assert( rsStat == "SATISFIABLE" || rsStat == "OPTIMUM" );
+         }
+         C = tmp;
+         this->redCallNum++;
+      }
+      D++;
+   }
+
+   return;
+}
+
+template <typename REAL>
+void
+SATPreSolver<REAL>::redundancyDetectionHeuristic()
+{
+   msg.info( "running redundancy\n" );
+   //* check a single cons D whether imply another C which contains it
+   //* D implies C means D and neg C unsat, discard C then
+   std::string rsStat;
+   auto& es = this->exprs.getExprs();
+   auto D = es.begin();
+   auto C = es.begin();
+
+   while( D != es.end() )
+   {
+      if( D->getVarsSize() != 1 )
+      {
+         D++;
+         continue;
+      }
+      C = es.begin();
+
+      auto& colD = D->getCols();
+      assert( colD.size() == 1 );
+      int lit = ( *colD.begin() ).first;
+
+      while( C != es.end() )
+      {
+         if( C == D || C->getVarsSize() == 1 || !( C->getCols().count( lit ) ) )
+         {
+            C++;
+            continue;
+         }
+         assert( C->getCols().count( lit ) );
+         std::string preInfo =
+             "* #variable= " + aux::tos( this->exprs.getVarNum() ) +
+             " #constraint= 2 \n" +
+             aux::Expr2String( D->getCols(), D->getDeg() ) + '\n' +
+             aux::Expr2NegString( C->getCols(), C->getDeg() );
+         rsStat =
+             pre::runRoundingSat::runforRedundancy( preInfo, this->inputIns );
+
+         auto tmp = C;
+         tmp++;
+         if( rsStat == "UNSATISFIABLE" )
+         {
+            // this->redRelation.push_back( std::make_pair( *D, *C ) );
+            es.erase( C );
+            this->redDelNum++;
+            this->singleSubsumption++;
          }
          else
          {
@@ -102,7 +167,6 @@ SATPreSolver<REAL>::hyperBinaryResolution()
          // normalize variable
          u = cols.at( lits[0] ) > 0 ? lits[0] : lits[0] + N;
          v = cols.at( lits[1] ) > 0 ? lits[1] : lits[1] + N;
-         // TODO: define unsatisfiable binary constraint
          g.addEdge( u, v, e ); // add edge u+N -> v
          g.addEdge( v, u, e ); // add edge v+N -> u
          flag = true;
@@ -170,7 +234,7 @@ SATPreSolver<REAL>::hyperBinaryResolution()
 
       int N = g.getNodeNum();
       int gu;
-      msg.info( "saveLit {} common lit v {} Exp ", saveLit, v );
+      // msg.info( "saveLit {} common lit v {} Exp ", saveLit, v );
       longExp.print();
 
       //* u1 + u2 + ....
@@ -185,20 +249,20 @@ SATPreSolver<REAL>::hyperBinaryResolution()
          assert( g.getNeighbor( gu ).count( gv ) );
          Expr<REAL>& ge = g.getExpr( gu, gv );
          auto& gcols = ge.getCols();
-         msg.info( "\tresolve on u {} with ", u );
+         // msg.info( "\tresolve on u {} with ", u );
          ge.print();
          assert( gcols.count( u ) && gcols.count( v ) );
          assert( gv > N ? gcols.at( v ) < 0 : gcols.at( v ) > 0 );
          assert( gcols.at( u ) * cols.at( u ) < 0 );
          resolveWithLit( ansExp, ge, u, v );
-         msg.info( "resolve on {} ", u );
+         // msg.info( "resolve on {} ", u );
          ge.print();
          ansExp.print();
       }
       return;
    };
 
-   msg.info( "running hbr\n" );
+   // msg.info( "running hbr\n" );
    auto& es = this->exprs.getExprs();
    std::unordered_set<Expr<REAL>, boost::hash<Expr<REAL>>> addExprs;
    Graph<REAL> g;
@@ -206,11 +270,11 @@ SATPreSolver<REAL>::hyperBinaryResolution()
    int N = g.getNodeNum();
    if( !buildGraph( es, g ) ) //* no binary edge
    {
-      msg.info( "no bianry edges\n" );
+      // msg.info( "no bianry edges\n" );
       return;
    }
    // g.print();
-   msg.info( "-----end graph-----\n" );
+   // msg.info( "-----end graph-----\n" );
 
    this->hbrCallNum++;
    std::unordered_set<int> commonLits;
@@ -261,7 +325,7 @@ SATPreSolver<REAL>::hyperBinaryResolution()
    assert( exprs.getCosNum() == initialN + addedN );
    assert( hbrAddedNum == addedN );
 
-   msg.info( "Added Num {} {}\n", this->hbrAddedNum, addedN );
+   // msg.info( "Added Num {} {}\n", this->hbrAddedNum, addedN );
    return;
 }
 
@@ -289,21 +353,24 @@ SATPreSolver<REAL>::presolve()
    };
 
    papilo::Timer* timer = new papilo::Timer( this->totalTime );
+   msg.info( "C start build SAT ..\n" );
+   this->buildProblem();
    this->pbStatus = 1;
    setPara();
 
    //* run presolver
-   if( this->enablered )
-   {
-      papilo::Timer* timerRed = new papilo::Timer( this->redElapsedTime );
-      redundancyDetection();
-      delete timerRed;
-   }
+   msg.info( "C start SAT presolve ..\n" );
    if( this->enablehbr )
    {
       papilo::Timer* timerHbr = new papilo::Timer( this->hbrElapsedTime );
       hyperBinaryResolution();
       delete timerHbr;
+   }
+   if( this->enablered )
+   {
+      papilo::Timer* timerRed = new papilo::Timer( this->redElapsedTime );
+      redundancyDetectionHeuristic();
+      delete timerRed;
    }
 
    if( redDelNum || hbrAddedNum )
@@ -326,6 +393,7 @@ SATPreSolver<REAL>::presolve()
    }
 
    //* run roundingSat
+   msg.info( "C start running roundingSat ..\n" );
    strpair rsSol;
    if( this->presolveStatus == 2 )
    {
@@ -416,7 +484,8 @@ SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
    if( this->enablered )
    {
       std::cout << "*\tredundancy\t" << this->redCallNum << "\t"
-                << this->redDelNum << "\t" << this->redElapsedTime << std::endl;
+                << this->redDelNum << "\t" << this->singleSubsumption << "\t"
+                << this->redElapsedTime << std::endl;
       for( int i = 0; i < redRelation.size(); i++ )
       {
          std::cout << aux::Expr2String( redRelation[i].first.getCols(),

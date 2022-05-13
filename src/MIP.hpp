@@ -10,6 +10,8 @@ template <typename REAL>
 class MIPPreSolver
 {
  public:
+   MIPPreSolver() {}
+   MIPPreSolver( const std::string& input ) { this->inputIns = input; }
    // export
    papilo::Problem<REAL>
    getOriginalProblem();
@@ -23,6 +25,11 @@ class MIPPreSolver
    setLoggerPath( const std::string& lp )
    {
       this->loggerPath = lp;
+   }
+   void
+   setInputIns( const std::string& input )
+   {
+      this->inputIns = input;
    }
    double&
    getTotalTime()
@@ -39,7 +46,7 @@ class MIPPreSolver
    void
    run();
    void
-   buildProblem( const std::string& inFileName );
+   buildProblem();
    void
    printSolution();
    void
@@ -84,8 +91,9 @@ class MIPPreSolver
    double RSTime = 0.0;
    double solvingTime = 0.0;
 
+   papilo::Message msg;
    bool onlyPreSolve;
-   std::string inputIns;
+   std::string inputIns="";
    std::string loggerPath;
    const double eps = 1e-6;
 };

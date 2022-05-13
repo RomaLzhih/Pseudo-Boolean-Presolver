@@ -20,7 +20,7 @@ namespace pre
 namespace runRoundingSat
 {
 void
-runRS( std::string& infile, std::string& logger );
+runRS( std::string& infile );
 strpair // run presolved ins
 runforPaPILO( std::string& preInfo, std::string infile, double& time );
 strpair // run initial ins

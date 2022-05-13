@@ -10,10 +10,14 @@ template <typename REAL>
 class SATPreSolver
 {
  public:
+   SATPreSolver() {}
+   SATPreSolver( const std::string& input ) { this->inputIns = input; }
    void
-   buildProblem( const std::string& inFileName );
+   buildProblem();
    void
    redundancyDetection();
+   void
+   redundancyDetectionHeuristic();
    void
    hyperBinaryResolution();
    void
@@ -55,13 +59,14 @@ class SATPreSolver
    solStat solutionStatus;
    bool pbStatus;
    bool onlyPreSolve;
-   std::string inputIns;
+   std::string inputIns = "";
    std::string loggerPath;
    bigint origobj;
 
    // presolving information
    int redDelNum = 0;
    int redCallNum = 0;
+   int singleSubsumption = 0;
    int hbrAddedNum = 0;
    int hbrCallNum = 0;
    double redElapsedTime = 0.0;

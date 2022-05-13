@@ -15,6 +15,7 @@ InsLoc = "../"
 filePathTerm = sys.argv[1]
 checkTerm = int(sys.argv[2])
 solverType = int(sys.argv[3])
+runall = int(sys.argv[4])
 
 InsLoc = InsLoc + filePathTerm + '/'
 loggerPath = InsLoc + "0-logger.txt"
@@ -79,10 +80,14 @@ def runPre(file, onlyPreSolve, solverType):
 
     try:
         preOut = subprocess.run(
-            [preLoc, file, "../test/logger.txt", str(onlyPreSolve), str(solverType)], stdout=subprocess.PIPE, timeout=T).stdout.decode('utf-8')
+            [preLoc, file, str(onlyPreSolve), str(solverType)], stdout=subprocess.PIPE, timeout=T).stdout.decode('utf-8')
     except subprocess.TimeoutExpired:
         print("timeout")
         solved = False
+
+    f = open("../test/logger.txt", "a")
+    f.write(preOut)
+    f.close()
 
     preTime = timer()-start
     lines = preOut.split('\n')
@@ -163,10 +168,23 @@ def simpleRun(file):
     runPre(InsLoc+file, 0, solverType)
 
 
+def runAll():
+    f = open("allfile.txt", "r")
+    lines = f.readlines()
+    f.close()
+    lines = list(map(lambda x: x[0:len(x)-1] if x[-1] == '\n' else x, lines))
+    lines = list(map(lambda x: x[x.rfind('/')+1:], lines))
+    return lines
+
+
 if __name__ == '__main__':
     files, T, N = os.listdir(InsLoc), 60, 1300
     out, optFlag, PBFlag = "", True, True
 
+    if runall:
+        files = runAll()
+
+    print(files)
     for file in files:
         if file[-4:] != '.opb' or file[-8:] == '.pre.opb':
             continue
