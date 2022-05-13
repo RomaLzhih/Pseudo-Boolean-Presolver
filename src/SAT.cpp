@@ -19,7 +19,7 @@ template <typename REAL>
 void
 SATPreSolver<REAL>::redundancyDetection()
 {
-   msg.info( "running redundancy\n" );
+   // msg.info( "running redundancy\n" );
    //* check every pair of constraint using roundingSat
    //* D implies C means D and neg C unsat, discard C then
    std::string rsStat;
@@ -78,7 +78,7 @@ template <typename REAL>
 void
 SATPreSolver<REAL>::redundancyDetectionHeuristic()
 {
-   msg.info( "running redundancy\n" );
+   // msg.info( "running redundancy\n" );
    //* check a single cons D whether imply another C which contains it
    //* D implies C means D and neg C unsat, discard C then
    std::string rsStat;
@@ -467,6 +467,8 @@ SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
    // std::ofstream outfile( this->loggerPath, std::ios::app );
    // outfile.setf( std::ios::left, std::ios::adjustfield );
    // assert( !outfile.fail() );
+   std::cout << std::fixed << std::showpoint;
+   std::cout << std::setprecision( 5 );
 
    //* filename solStat solVal RSTime presolvingTime totalTime
    std::cout << "# "

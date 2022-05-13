@@ -27,7 +27,7 @@ def runPre(file):
     info = ""
     try:
         info = subprocess.run(
-            [preLoc, file, loggerPath, str(onlyPreSolve), str(solverType)],
+            [preLoc, file, str(onlyPreSolve), str(solverType)],
             stdout=subprocess.PIPE, timeout=T).stdout.decode('utf-8')
     except subprocess.TimeoutExpired:
         print("timeout")

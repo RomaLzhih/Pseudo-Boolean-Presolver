@@ -1268,3 +1268,95 @@ diamond.opb:
  	True
 air04.opb:
  	True
+air05.opb:
+ 	True
+enigma.opb:
+ 	True
+air01.opb:
+ 	True
+sentoy.opb:
+ 	True
+lp4l.opb:
+ 	True
+pipex.opb:
+ 	True
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb:
+ 	UNABLE PRESOLVE
+p0282.opb:
+ 	True
+p0291.opb:
+ 	True
+p0548.opb:
+ 	True
+air05.opb:
+ 	True
+enigma.opb:
+ 	True
+air01.opb:
+ 	True
+sentoy.opb:
+ 	True
+lp4l.opb:
+ 	True
+pipex.opb:
+ 	True
+normalized-single-obj-f47-DC-Side1.seq-B-2-1-EDCBAir.opb:
+ 	UNABLE PRESOLVE
+p0282.opb:
+ 	True
+p0291.opb:
+ 	True
+p0548.opb:
+ 	True
+air06.opb:
+ 	True
+l152lav.opb:
+ 	True
+stein9.opb:
+ 	True
+stein15.opb:
+ 	True
+diamond.opb:
+ 	True
+air04.opb:
+ 	True
+air03.opb:
+ 	UNABLE PRESOLVE
+p2756.opb:
+ 	True
+p0033.opb:
+ 	True
+mod010.opb:
+ 	True
+stein27.opb:
+ 	True
+p6000.opb:
+ 	True
+cracpb1.opb:
+ 	True
+p0040.opb:
+ 	True
+mod008.opb:
+ 	True
+lseu.opb:
+ 	True
+p0201.opb:
+ 	True
+bm23.opb:
+ 	True
+stein45.opb:
+ 	True
+air02.opb:
+ 	True
+air05.opb:
+ 	True
+enigma.opb:
+ 	True
+air01.opb:
+ 	True
+sentoy.opb:
+ 	True
+lp4l.opb:
+ 	True
+pipex.opb:
+ 	True

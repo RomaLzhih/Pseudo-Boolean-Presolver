@@ -502,7 +502,7 @@ MIPPreSolver<REAL>::writePresolvers( const std::string& inFileName )
          std::cout << '\n';
       }
    }
-   std::cout << std::endl;
+   std::cout << std::endl << std::endl;
    // outfile.close();
    return;
 }

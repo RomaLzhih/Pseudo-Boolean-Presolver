@@ -72,4 +72,4 @@ substitution.binarieswithints = 0
 
 substitution.enabled = 0
 
-message.verbosity = 3
+message.verbosity = 0
