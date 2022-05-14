@@ -54,9 +54,7 @@ MIPPreSolver<REAL>::runPresolve()
 {
    auto setPara = [&]()
    {
-      std::string paraPath = "../param/defaultMIP.txt";
-      // std::string paraPath = "../param/parameters.test.txt";
-      std::ifstream parafile( paraPath );
+      std::ifstream parafile( this->paramFile );
       assert( !parafile.fail() );
 
       std::string line;

@@ -20,6 +20,8 @@ implint.enabled = 0
 parallelcols.enabled = 0
 
 pureliteral.enabled = 1
+pureliteral.parallel = 1
+
 
 parallelrows.enabled = 0
 

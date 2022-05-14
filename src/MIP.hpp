@@ -11,7 +11,11 @@ class MIPPreSolver
 {
  public:
    MIPPreSolver() {}
-   MIPPreSolver( const std::string& input ) { this->inputIns = input; }
+   MIPPreSolver( const std::string& input, const std::string& param )
+   {
+      this->inputIns = input;
+      this->paramFile = param;
+   }
    // export
    papilo::Problem<REAL>
    getOriginalProblem();
@@ -93,7 +97,8 @@ class MIPPreSolver
 
    papilo::Message msg;
    bool onlyPreSolve;
-   std::string inputIns="";
+   std::string inputIns = "";
+   std::string paramFile = "";
    std::string loggerPath;
    const double eps = 1e-6;
 };

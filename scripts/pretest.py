@@ -13,9 +13,11 @@ rSLoc = "../build/roundingsat"
 InsLoc = "../"
 
 filePathTerm = sys.argv[1]
-checkTerm = int(sys.argv[2])
-solverType = int(sys.argv[3])
-runall = int(sys.argv[4])
+SATparam = sys.argv[2]
+MIPparam = sys.argv[3]
+checkTerm = int(sys.argv[4])
+solverType = int(sys.argv[5])
+runall = int(sys.argv[6])
 
 InsLoc = InsLoc + filePathTerm + '/'
 loggerPath = InsLoc + "0-logger.txt"
@@ -80,7 +82,7 @@ def runPre(file, onlyPreSolve, solverType):
 
     try:
         preOut = subprocess.run(
-            [preLoc, file, str(onlyPreSolve), str(solverType)], stdout=subprocess.PIPE, timeout=T).stdout.decode('utf-8')
+            [preLoc, file, SATparam, MIPparam, str(onlyPreSolve), str(solverType)], stdout=subprocess.PIPE, timeout=T).stdout.decode('utf-8')
     except subprocess.TimeoutExpired:
         print("timeout")
         solved = False

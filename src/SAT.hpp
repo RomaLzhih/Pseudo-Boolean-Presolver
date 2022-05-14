@@ -11,15 +11,19 @@ class SATPreSolver
 {
  public:
    SATPreSolver() {}
-   SATPreSolver( const std::string& input ) { this->inputIns = input; }
+   SATPreSolver( const std::string& input, const std::string& param )
+   {
+      this->inputIns = input;
+      this->paramFile = param;
+   }
    void
    buildProblem();
    void
-   redundancyDetection();
+   redundancyDetection( papilo::Timer*& timer);
    void
-   redundancyDetectionHeuristic();
+   redundancyDetectionHeuristic( papilo::Timer*& timer);
    void
-   hyperBinaryResolution();
+   hyperBinaryResolution( papilo::Timer*& timer);
    void
    presolve();
    void
@@ -55,7 +59,6 @@ class SATPreSolver
    int enablehbr = 0;
    bool parallelHbr = 0;
 
-
    // overall container
    int presolveStatus = 0; //* 0 unchanged 1 reduced 2 UNSAT
    fileType instanceType;
@@ -63,6 +66,7 @@ class SATPreSolver
    bool pbStatus;
    bool onlyPreSolve;
    std::string inputIns = "";
+   std::string paramFile = "";
    std::string loggerPath;
    bigint origobj;
 
@@ -74,6 +78,7 @@ class SATPreSolver
    int hbrCallNum = 0;
    double redElapsedTime = 0.0;
    double hbrElapsedTime = 0.0;
+   double timelimit = 0.0;
    double totalTime = 0.0;
    double RSTime = 0.0;
    std::vector<std::pair<Expr<REAL>, Expr<REAL>>> redRelation;

@@ -19,7 +19,8 @@ implint.enabled = 0
 
 parallelcols.enabled = 0
 
-pureliteral.enabled = 0
+pureliteral.enabled = 1
+pureliteral.parallel = 1
 
 parallelrows.enabled = 1
 
@@ -73,3 +74,5 @@ substitution.binarieswithints = 0
 substitution.enabled = 0
 
 message.verbosity = 0
+
+presolve.tlim = 400

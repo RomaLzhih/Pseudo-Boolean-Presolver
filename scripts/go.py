@@ -14,9 +14,11 @@ preLoc = "../build/pre"
 
 start = int(sys.argv[1])
 token = sys.argv[2]
-onlyPreSolve = int(sys.argv[3])
-solverType = int(sys.argv[4])
-T = int(sys.argv[5])
+SATparam = sys.argv[3]
+MIPparam = sys.argv[4]
+onlyPreSolve = int(sys.argv[5])
+solverType = int(sys.argv[6])
+T = int(sys.argv[7])
 
 loggerPath = "../test/loggers/" + token + "/"
 
@@ -28,7 +30,8 @@ def runPre(file):
     info = ""
     try:
         info = subprocess.run(
-            [preLoc, file, str(onlyPreSolve), str(solverType)],
+            [preLoc, file, SATparam, MIPparam, str(
+                onlyPreSolve), str(solverType)],
             stdout=subprocess.PIPE, timeout=T).stdout.decode('utf-8')
     except subprocess.TimeoutExpired:
         print("timeout")

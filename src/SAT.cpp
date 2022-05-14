@@ -17,7 +17,7 @@ SATPreSolver<REAL>::buildProblem()
 
 template <typename REAL>
 void
-SATPreSolver<REAL>::redundancyDetection()
+SATPreSolver<REAL>::redundancyDetection( papilo::Timer*& timer )
 {
    // msg.info( "running redundancy\n" );
    //* check every pair of constraint using roundingSat
@@ -29,9 +29,13 @@ SATPreSolver<REAL>::redundancyDetection()
 
    while( D != es.end() )
    {
+      if( timer->getTime() > this->timelimit )
+         break;
       C = es.begin();
       while( C != es.end() )
       {
+         if( timer->getTime() > this->timelimit )
+            break;
          if( C == D || ( C->getVarsSize() > this->redCmpSize &&
                          D->getVarsSize() > this->redCmpSize ) )
          {
@@ -76,7 +80,7 @@ SATPreSolver<REAL>::redundancyDetection()
 
 template <typename REAL>
 void
-SATPreSolver<REAL>::redundancyDetectionHeuristic()
+SATPreSolver<REAL>::redundancyDetectionHeuristic( papilo::Timer*& timer )
 {
    // msg.info( "running redundancy\n" );
    //* check a single cons D whether imply another C which contains it
@@ -88,6 +92,8 @@ SATPreSolver<REAL>::redundancyDetectionHeuristic()
 
    while( D != es.end() )
    {
+      if( timer->getTime() > this->timelimit )
+         break;
       if( D->getVarsSize() != 1 )
       {
          D++;
@@ -101,6 +107,8 @@ SATPreSolver<REAL>::redundancyDetectionHeuristic()
 
       while( C != es.end() )
       {
+         if( timer->getTime() > this->timelimit )
+            break;
          if( C == D || C->getVarsSize() == 1 || !( C->getCols().count( lit ) ) )
          {
             C++;
@@ -139,7 +147,7 @@ SATPreSolver<REAL>::redundancyDetectionHeuristic()
 
 template <typename REAL>
 void
-SATPreSolver<REAL>::hyperBinaryResolution()
+SATPreSolver<REAL>::hyperBinaryResolution( papilo::Timer*& timer )
 {
    auto buildGraph = [&]( const auto& es, Graph<REAL>& g )
    {
@@ -282,6 +290,8 @@ SATPreSolver<REAL>::hyperBinaryResolution()
          continue;
       for( auto& i : cols )
       {
+         if( timer->getTime() > this->timelimit )
+            break;
          commonLits.clear();
          //* u is the variable to save after resolution
          //* the common literals should have same neghbors v
@@ -304,7 +314,6 @@ SATPreSolver<REAL>::hyperBinaryResolution()
                        ( cols.count( v ) && e.getVarsSize() < 2 ) );
                e.setHash( aux::hashExpr( e.getCols(), e.getDeg() ) );
                addExprs.emplace( std::move( e ) );
-               this->hbrAddedNum++;
             }
          }
          else
@@ -317,12 +326,10 @@ SATPreSolver<REAL>::hyperBinaryResolution()
    int addedN = addExprs.size();
    for( auto e : addExprs )
    {
+      this->hbrAddedNum++;
       exprs.addExpr( e );
    }
-   // assert( exprs.getCosNum() == initialN + addedN );
-   assert( hbrAddedNum == addedN );
 
-   // msg.info( "Added Num {} {}\n", this->hbrAddedNum, addedN );
    return;
 }
 
@@ -332,14 +339,14 @@ SATPreSolver<REAL>::presolve()
 {
    auto setPara = [&]()
    {
-      std::string paraPath = "../param/sat.txt";
-      // std::string paraPath = "../param/parameters.test.txt";
-      std::ifstream parafile( paraPath );
+      std::ifstream parafile( this->paramFile );
       assert( !parafile.fail() );
 
       std::string line;
       while( std::getline( parafile, line ) )
       {
+         if( line.empty() )
+            continue;
          assert( std::isdigit( *line.rbegin() ) );
          if( line.substr( 0, line.find( '=' ) - 1 ) == "redundacy" )
             this->enablered = *line.rbegin() == '0' ? 0 : 1;
@@ -350,6 +357,8 @@ SATPreSolver<REAL>::presolve()
             this->parallelRed = *line.rbegin() == '0' ? 0 : 1;
          else if( line.substr( 0, line.find( '=' ) - 1 ) == "hbr.parallel" )
             this->parallelHbr = *line.rbegin() == '0' ? 0 : 1;
+         else if( line.substr( 0, line.find( '=' ) - 1 ) == "timelimit" )
+            this->timelimit = std::stod( line.substr( line.find( '=' ) + 2 ) );
       }
       parafile.close();
    };
@@ -365,13 +374,13 @@ SATPreSolver<REAL>::presolve()
    if( this->enablehbr )
    {
       papilo::Timer* timerHbr = new papilo::Timer( this->hbrElapsedTime );
-      hyperBinaryResolution();
+      hyperBinaryResolution( timerHbr );
       delete timerHbr;
    }
    if( this->enablered )
    {
       papilo::Timer* timerRed = new papilo::Timer( this->redElapsedTime );
-      redundancyDetectionHeuristic();
+      redundancyDetectionHeuristic( timerRed );
       delete timerRed;
    }
 

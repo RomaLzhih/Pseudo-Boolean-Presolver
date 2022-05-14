@@ -18,12 +18,14 @@ int
 main( int argc, char* argv[] )
 {
    std::string infile = argv[1];
-   int onlyPreSolve = std::stoi( argv[2] );
-   int solvertype = std::stoi( argv[3] );
+   std::string SATparam = argv[2];
+   std::string MIPparam = argv[3];
+   int onlyPreSolve = std::stoi( argv[4] );
+   int solvertype = std::stoi( argv[5] );
 
    if( solvertype == 0 )
    { // run SAT
-      pre::SATPreSolver<pre::bigint> sSolver( infile );
+      pre::SATPreSolver<pre::bigint> sSolver( infile, SATparam );
       sSolver.setOnlyPresolve( onlyPreSolve );
       sSolver.presolve();
       sSolver.printSolution();
@@ -31,7 +33,7 @@ main( int argc, char* argv[] )
    }
    else if( solvertype == 1 )
    { // run papilo
-      pre::MIPPreSolver<papilo::Rational> mSolver( infile );
+      pre::MIPPreSolver<papilo::Rational> mSolver( infile, MIPparam );
       mSolver.setOnlyPresolve( onlyPreSolve );
       mSolver.run();
       mSolver.printSolution();
@@ -45,8 +47,8 @@ main( int argc, char* argv[] )
       std::string midfile =
           infile.substr( 0, infile.find_last_of( '.' ) ) + ".pre.opb";
 
-      pre::SATPreSolver<pre::bigint> sSolver( infile );
-      pre::MIPPreSolver<papilo::Rational> mSolver;
+      pre::SATPreSolver<pre::bigint> sSolver( infile, SATparam );
+      pre::MIPPreSolver<papilo::Rational> mSolver( "", MIPparam );
       sSolver.setOnlyPresolve( setOnlyPre );
       sSolver.presolve();
 

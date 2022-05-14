@@ -95,6 +95,8 @@ struct PresolveOptions
 
    bool validation_after_every_postsolving_step = false;
 
+   bool pureliteral_parallel = false;
+
    void
    addParameters( ParameterSet& paramSet )
    {
@@ -207,16 +209,17 @@ struct PresolveOptions
           simplify_inequalities_parallel );
       paramSet.addParameter(
           "calculate_basis_for_dual",
-          "#if basis for LP should be calculated presolving steps tightening the variable bounds can not be applied.",
+          "#if basis for LP should be calculated presolving steps tightening "
+          "the variable bounds can not be applied.",
           calculate_basis_for_dual );
-      paramSet.addParameter(
-          "validation_after_every_postsolving_step",
-          "# should the primal/dual solution be validated during after every postsolving step? ",
-          validation_after_every_postsolving_step );
-      paramSet.addParameter(
-          "bound_tightening_offset",
-          "# defines the offset for bound tightening ",
-          bound_tightening_offset );
+      paramSet.addParameter( "validation_after_every_postsolving_step",
+                             "# should the primal/dual solution be validated "
+                             "during after every postsolving step? ",
+                             validation_after_every_postsolving_step );
+      paramSet.addParameter( "bound_tightening_offset",
+                             "# defines the offset for bound tightening ",
+                             bound_tightening_offset );
+      paramSet.addParameter( "pureliteral.parallel", "", pureliteral_parallel );
    }
 
    bool
