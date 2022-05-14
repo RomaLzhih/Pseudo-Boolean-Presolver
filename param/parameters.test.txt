@@ -44,13 +44,14 @@ numerics.epsilon = 1.0000000000000001e-09
 numerics.feastol = 9.9999999999999995e-07
 
 # absolute bound value that is considered too huge for activitity based calculations  [Numerical: [0,1.7976931348623157e+308]]
-numerics.hugeval = 100000000
+numerics.hugeval = 1.0e+100
 
 # is presolver parallelcols enabled  [Boolean: {0,1}]
-parallelcols.enabled = 1
+parallelcols.enabled = 0
 
 # pureliteral
-pureliteral.enabled = 1
+pureliteral.enabled = 0
+pureliteral.parallel = 1
 
 # is presolver parallelrows enabled  [Boolean: {0,1}]
 parallelrows.enabled = 1
@@ -68,10 +69,10 @@ presolve.componentsmaxint = 0
 presolve.compressfac = 0.84999999999999998
 
 # detect and remove linearly dependent equations and free columns (0: off, 1: for LPs, 2: always)  [Integer: [0,2]]
-presolve.detectlindep = 1
+presolve.detectlindep = 0
 
 # 0: disable dual reductions, 1: allow dual reductions that never cut off optimal solutions, 2: allow all dual reductions  [Integer: [0,2]]
-presolve.dualreds = 2
+presolve.dualreds = 0
 
 # abort factor of weighted number of reductions for presolving LPs  [Numerical: [0,1]]
 presolve.lpabortfac = 0.01
@@ -119,7 +120,7 @@ propagation.parallel = 1
 simpleprobing.enabled = 1
 
 # is the iteration over the rows in simpleprobing parallelised? [Boolean: {0,1}]
-simpleprobing.parallel = 0
+simpleprobing.parallel = 1
 
 # is presolver simplifyineq enabled  [Boolean: {0,1}]
 simplifyineq.enabled = 1
@@ -152,7 +153,7 @@ substitution.maxfillin = 10
 substitution.maxshiftperrow = 10
 
 # should the basis be calculated during postsolve? Deactivates variable bound tightening due to computational overhead.
-calculate_basis_for_dual = 1
+calculate_basis_for_dual = 0
 
 # should the primal/dual solution be validated during after every postsolving step?
 validation_after_every_postsolving_step = 0

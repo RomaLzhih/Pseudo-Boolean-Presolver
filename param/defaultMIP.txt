@@ -3,7 +3,7 @@ coefftightening.parallel = 1
 
 colsingleton.enabled = 1
 
-domcol.enabled = 0
+domcol.enabled = 1
 
 doubletoneq.enabled = 1
 doubletoneq.parallel = 1
@@ -24,11 +24,9 @@ pureliteral.parallel = 1
 
 parallelrows.enabled = 1
 
-presolve.abortfac = 0.0
-
 presolve.boundrelax = 0
 
-presolve.componentsmaxint = -1
+presolve.componentsmaxint = 0
 
 presolve.compressfac = 0.84999999999999998
 
@@ -36,7 +34,7 @@ presolve.detectlindep = 0
 
 presolve.dualreds = 0
 
-presolve.lpabortfac = 0.0
+presolve.lpabortfac = 0.01
 
 presolve.minabscoeff = 1e-10
 
@@ -45,7 +43,7 @@ presolve.randomseed = 0
 propagation.enabled = 1
 propagation.parallel = 1
 
-presolve.threads = 7
+presolve.threads = 6
 
 presolve.weakenlpvarbounds = 0
 probing.enabled = 1
@@ -62,7 +60,6 @@ simpleprobing.parallel = 1
 simplifyineq.enabled = 1
 simplifyineq.parallel = 1
 
-
 sparsify.enabled = 1
 
 sparsify.maxscale = 1000
@@ -71,8 +68,13 @@ stuffing.enabled = 1
 
 substitution.binarieswithints = 0
 
+calculate_basis_for_dual = 0
+
 substitution.enabled = 0
 
 message.verbosity = 0
 
-presolve.tlim = 400
+presolve.tlim = 300
+
+validation_after_every_postsolving_step = 0
+

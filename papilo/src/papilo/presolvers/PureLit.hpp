@@ -221,6 +221,7 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
    PresolveStatus result = PresolveStatus::kUnchanged;
 
    Message msg;
+   // msg.info( "start purelit/n" );
 
    if( problemUpdate.getPresolveOptions().runs_sequentiell() ||
        !problemUpdate.getPresolveOptions().pureliteral_parallel )
@@ -287,7 +288,7 @@ PureLit<REAL>::execute( const Problem<REAL>& problem,
       }
    }
 
-   // msg.info( "finish pure literal" );
+   // msg.info( "finish pure literal\n" );
    // msg.info( "\n\n" );
    return result;
 }
