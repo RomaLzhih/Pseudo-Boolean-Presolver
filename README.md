@@ -1,68 +1,41 @@
+## Introduction
+
+`Pre` is a parallel Pseudo-Boolean presolver integrated with MIP solver [PaPILO](https://github.com/scipopt/papilo)(git version: 60ab076) and some novel implemented SAT presolving techniques 💖.
+
 ## Pre-Request
 
-1. (ignore now) download PaPILO(https://github.com/scipopt/papilo), unzip and rename it to 'papilo', put it into the source folder: ../pre/
-2. install TBB (required by PaPILO).
+1. TBB (required by PaPILO).
+2. C++17
+3. Boost library
 
-PaPILO now is on git version 60ab076
+Please not update the PaPILO version since some contents have been modified.
 
 ## To build 
 
-```
+In the root directory of `Pre`:
+
+```bash
 mkdir build 
 cd build 
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make
 ```
 
+Replace above `Release` to `Debug` to launch a `Debug` build.
+
 ## Usage
-program + file_path + only_pre_solve(0: no, 1: yes only presolve), e.g.,
-```
-./pre ../test/opt/p0033.opb 0
-```
-a quick test (may need to change the path of roundingSat and instances manually in runRoundingSat.cpp and pretest):
-```
-cd test
-python pretest.py 0
-```
-you can find the result on the logger in the folder then.
+To run `Pre`, one need to pass five parameters to the binary file, namely:
 
-## Customized API added in PaPILO:
-1. in Presolve.hpp: PreSolve<REAL>(line 249): add getPresolver() and getPresolverStat()
-```
-///! access presolvers and states
-   const Vec<std::unique_ptr<PresolveMethod<REAL>>>&
-   getPresolvers() const
-   {
-      return presolvers;
-   }
+1. `filePath`: the path where the input instance located, now only supports pseudo-Boolean [PBO](http://www.cril.univ-artois.fr/PB16/format.pdf) format;
+2. `SATparam`: the parameter configuration for SAT presolving techniques, please find the sample file in `../param/defaultSAT.txt`;
+3. `MIPparam`: provide the same utility for MIP as the previous one, a sample file is `../param/defaultMIP.txt`;
+4. `onlyPreSolve`: whether only presolve the instance. Boolean $[0, 1]$;
+5. `solverType`: Specify the presolver type. Integer `0`: only run SAT presolver, `1`:only run MIP presolver, `2`: run both, `3`: run [roundingSat](https://gitlab.com/MIAOresearch/roundingsat) only.
 
-   const Vec<std::pair<int, int>>&
-   getPresolverStats() const
-   {
-      return presolverStats;
-   }
-```
-2. In PresolveMethod.hpp (line 223): add getSuccessfulCalls() and getExectime()
-```
-/// ! add NSuccessCalls and ExecTime
-   unsigned int
-   getNSuccessCalls() const
-   {
-      return nsuccessCall;
-   }
+For example:
 
-   double
-   getExecTime() const
-   {
-      return execTime;
-   }
+```bash
+cd build
+./pre ../test/opt/p0033.opb ../param/defaultSAT ../param/defaultMIP 0 2
 ```
-3. In PreSolve.hpp (line 210): add getHugeVal()
-```
-/// get huge value
-   const REAL&
-   getHugeVal() const
-   {
-      return num.getHugeVal();
-   }
-```
+
