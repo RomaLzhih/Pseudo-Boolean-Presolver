@@ -48,10 +48,13 @@ class SATPreSolver
 
    // redundacy parameter
    int enablered = 0;
-   int enablehbr = 1;
    int redCmpSize = 800;
+   bool parallelRed = 0;
 
    // hyper binary resolution parameter
+   int enablehbr = 0;
+   bool parallelHbr = 0;
+
 
    // overall container
    int presolveStatus = 0; //* 0 unchanged 1 reduced 2 UNSAT

@@ -199,7 +199,7 @@ struct Graph
 
    void
    findCommonLit( const Expr<REAL>& expr, std::unordered_set<int>& ans,
-                  const int& ell );
+                  const int& ell, const bool& parallel );
 
    Expr<REAL>&
    getExpr( const int& u, const int& v );

@@ -1,3 +1,4 @@
+from cgi import test
 from mailbox import linesep
 import subprocess
 import os
@@ -11,13 +12,13 @@ import time
 
 preLoc = "../build/pre"
 
-file = sys.argv[1]
+start = int(sys.argv[1])
 token = sys.argv[2]
 onlyPreSolve = int(sys.argv[3])
 solverType = int(sys.argv[4])
 T = int(sys.argv[5])
 
-loggerPath = "../test/loggers/" + token
+loggerPath = "../test/loggers/" + token + "/"
 
 
 def runPre(file):
@@ -36,15 +37,17 @@ def runPre(file):
     return str(info)
 
 
-def clearlog():
-    f1 = open(loggerPath, "w")
-    f1.truncate()
-    f1.close()
+def fetchFile():
+    f = open("../test/allfile.txt", "r")
+    lines = f.readlines()
+    file = lines[start]
+    if file[-1] == '\n':
+        file = file[0:len(file)-1]
+    return file
 
 
 if __name__ == '__main__':
-    if file[-1] == '\n':
-        file = file[0:len(file)-1]
+    file = fetchFile()
     info = runPre(file)
     name = file[file.rfind('/'):file.rfind('.')]
     # print(info)

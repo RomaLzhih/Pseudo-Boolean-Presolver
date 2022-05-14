@@ -137,8 +137,9 @@ def cmpOpt(preStat, solStat, preObj, preSol, fileType, rsSolStat, rsObj, rsSol):
 
 
 def checkOpt(file):
-    preSol, pre01, preTime, preSolved = runPre(InsLoc+file, 0, solverType)
-    rsSol, rsTime, rsSolved = runRs(InsLoc+file)
+    target = InsLoc+file if not runall else file
+    preSol, pre01, preTime, preSolved = runPre(target, 0, solverType)
+    rsSol, rsTime, rsSolved = runRs(target)
     if(preSolved and rsSolved):
         res, optflag = cmpOpt(*preSol, *rsSol)
     else:
@@ -154,7 +155,8 @@ def checkOpt(file):
 
 
 def checkPseudoBoolean(file):
-    preAns, pre01, preTime, preSolved = runPre(InsLoc+file, 1, solverType)
+    target = InsLoc+file if not runall else file
+    preAns, pre01, preTime, preSolved = runPre(target, 1, solverType)
     if preSolved:
         out = file + ":\n " + "\t" + str(pre01) + "\n"
     else:
@@ -169,11 +171,10 @@ def simpleRun(file):
 
 
 def runAll():
-    f = open("allfile.txt", "r")
+    f = open("../test/allfile.txt", "r")
     lines = f.readlines()
     f.close()
     lines = list(map(lambda x: x[0:len(x)-1] if x[-1] == '\n' else x, lines))
-    lines = list(map(lambda x: x[x.rfind('/')+1:], lines))
     return lines
 
 

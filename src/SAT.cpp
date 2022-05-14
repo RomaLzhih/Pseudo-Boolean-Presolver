@@ -55,7 +55,7 @@ SATPreSolver<REAL>::redundancyDetection()
          tmp++;
          if( rsStat == "UNSATISFIABLE" )
          {
-            this->redRelation.push_back( std::make_pair( *D, *C ) );
+            // this->redRelation.push_back( std::make_pair( *D, *C ) );
             es.erase( C );
             this->redDelNum++;
             if( D->getVarsSize() == 1 )
@@ -235,7 +235,7 @@ SATPreSolver<REAL>::hyperBinaryResolution()
       int N = g.getNodeNum();
       int gu;
       // msg.info( "saveLit {} common lit v {} Exp ", saveLit, v );
-      longExp.print();
+      // longExp.print();
 
       //* u1 + u2 + ....
       //* u is the literal to be resolved
@@ -250,19 +250,18 @@ SATPreSolver<REAL>::hyperBinaryResolution()
          Expr<REAL>& ge = g.getExpr( gu, gv );
          auto& gcols = ge.getCols();
          // msg.info( "\tresolve on u {} with ", u );
-         ge.print();
+         // ge.print();
          assert( gcols.count( u ) && gcols.count( v ) );
          assert( gv > N ? gcols.at( v ) < 0 : gcols.at( v ) > 0 );
          assert( gcols.at( u ) * cols.at( u ) < 0 );
          resolveWithLit( ansExp, ge, u, v );
          // msg.info( "resolve on {} ", u );
-         ge.print();
-         ansExp.print();
+         // ge.print();
+         // ansExp.print();
       }
       return;
    };
 
-   // msg.info( "running hbr\n" );
    auto& es = this->exprs.getExprs();
    std::unordered_set<Expr<REAL>, boost::hash<Expr<REAL>>> addExprs;
    Graph<REAL> g;
@@ -270,11 +269,9 @@ SATPreSolver<REAL>::hyperBinaryResolution()
    int N = g.getNodeNum();
    if( !buildGraph( es, g ) ) //* no binary edge
    {
-      // msg.info( "no bianry edges\n" );
       return;
    }
    // g.print();
-   // msg.info( "-----end graph-----\n" );
 
    this->hbrCallNum++;
    std::unordered_set<int> commonLits;
@@ -290,9 +287,9 @@ SATPreSolver<REAL>::hyperBinaryResolution()
          //* the common literals should have same neghbors v
          int u = i.first;
          int v;
-         g.findCommonLit( D, commonLits, u );
-         if( commonLits.size() )
-            std::cout << "\nsaved lits: " << u << ": " << commonLits;
+         g.findCommonLit( D, commonLits, u, this->parallelHbr );
+         // if( commonLits.size() )
+         //    std::cout << "\nsaved lits: " << u << ": " << commonLits;
 
          if( !commonLits.empty() )
          {
@@ -322,7 +319,7 @@ SATPreSolver<REAL>::hyperBinaryResolution()
    {
       exprs.addExpr( e );
    }
-   assert( exprs.getCosNum() == initialN + addedN );
+   // assert( exprs.getCosNum() == initialN + addedN );
    assert( hbrAddedNum == addedN );
 
    // msg.info( "Added Num {} {}\n", this->hbrAddedNum, addedN );
@@ -344,10 +341,15 @@ SATPreSolver<REAL>::presolve()
       while( std::getline( parafile, line ) )
       {
          assert( std::isdigit( *line.rbegin() ) );
-         if( line[0] == 'r' )
+         if( line.substr( 0, line.find( '=' ) - 1 ) == "redundacy" )
             this->enablered = *line.rbegin() == '0' ? 0 : 1;
-         else if( line[0] == 'h' )
+         else if( line.substr( 0, line.find( '=' ) - 1 ) == "hbr" )
             this->enablehbr = *line.rbegin() == '0' ? 0 : 1;
+         else if( line.substr( 0, line.find( '=' ) - 1 ) ==
+                  "redundancy.parallel" )
+            this->parallelRed = *line.rbegin() == '0' ? 0 : 1;
+         else if( line.substr( 0, line.find( '=' ) - 1 ) == "hbr.parallel" )
+            this->parallelHbr = *line.rbegin() == '0' ? 0 : 1;
       }
       parafile.close();
    };

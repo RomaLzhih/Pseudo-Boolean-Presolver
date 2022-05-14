@@ -1,4 +1,8 @@
-#!/bin/bash
+export NB_of_jobs=1056
+export name="a"
+loggerPath=../test/loggers/$name
+workerPath=../scripts/workers
 
-export id=$1
-echo $id
+mkdir $loggerPath
+rm -r $workerPath
+mkdir workers

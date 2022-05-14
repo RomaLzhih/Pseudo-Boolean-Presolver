@@ -91,7 +91,8 @@ Graph<REAL>::addEdge( const int& u, const int& v, const Expr<REAL>& expr )
 template <typename REAL>
 void
 Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
-                            std::unordered_set<int>& ans, const int& ell )
+                            std::unordered_set<int>& ans, const int& ell,
+                            const bool& parallel )
 {
    auto& cols = expr.getCols();
    assert( cols.size() > 2 );
@@ -105,27 +106,57 @@ Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
    // pick the start variable except the jump one
    int stlit = ( ell == lits[0] ) ? lits[1] : lits[0];
    stlit = cols.at( stlit ) > 0 ? stlit : stlit + N; // normalize
-   std::unordered_set<int> s = g[stlit];
+   std::unordered_set<int>& s = g[stlit];
 
    // fine elements in s are neighbor of others except ell
-   int gv;
-   for( auto& gu : s )
+   if( !parallel )
    {
-      bool flag = true;
-      for( auto& v : lits )
+      int gv;
+      for( auto& gu : s )
       {
-         if( v == ell || v == stlit )
-            continue;
-         gv = cols.at( v ) > 0 ? v : v + N;
-         if( !g[gv].count( gu ) )
+         bool flag = true;
+         for( auto& v : lits )
          {
-            flag = false;
-            break;
+            if( v == ell || v == stlit )
+               continue;
+            gv = cols.at( v ) > 0 ? v : v + N;
+            if( !g[gv].count( gu ) )
+            {
+               flag = false;
+               break;
+            }
+         }
+         if( flag == true )
+         {
+            ans.emplace( gu );
          }
       }
-      if( flag == true )
+   }
+   else if( parallel )
+   {
+      for( auto& gu : s )
       {
-         ans.emplace( gu );
+         std::vector<bool> flag( lits.size(), true );
+         tbb::parallel_for( tbb::blocked_range<int>( 0, lits.size() ),
+                            [&]( tbb::blocked_range<int> r )
+                            {
+                               for( int i = r.begin(); i < r.end(); ++i )
+                               {
+                                  if( lits[i] == ell || lits[i] == stlit )
+                                     continue;
+                                  int gv = cols.at( lits[i] ) > 0 ? lits[i]
+                                                                  : lits[i] + N;
+                                  if( !g[gv].count( gu ) )
+                                  {
+                                     flag[i] = false;
+                                     break;
+                                  }
+                               }
+                            } );
+         bool ones = std::all_of( flag.begin(), flag.end(),
+                                  []( int i ) { return i == true; } );
+         if( ones )
+            ans.emplace( gu );
       }
    }
 
@@ -133,7 +164,7 @@ Graph<REAL>::findCommonLit( const Expr<REAL>& expr,
    // std::unordered_set<int> save;
    // for( auto v : lits )
    // {
-   //    gv = cols.at( v ) > 0 ? v : v + N;
+   //    int gv = cols.at( v ) > 0 ? v : v + N;
    //    if( v == ell || v == stlit )
    //       continue;
    //    for( auto i : common )

@@ -10,7 +10,7 @@
 
 #SBATCH -N 50
 #SBATCH --tasks-per-node=1
-#SBATCH -c 7
+#SBATCH -c 6
 
 module load foss/2020a
 module load CMake
@@ -18,19 +18,19 @@ module load Boost
 module load GMP
 
 cat $0
-export ID=0
-export name=$1
+export NB_of_jobs=1056
+export name="all"
 
 rm -r ../test/loggers/$name/
 mkdir ../test/loggers/$name
 rm -r ../scripts/workers/
 mkdir ../scripts/workers
 
-while IFS= read -r line; do
-    srun --exclusive -n 1 -N 1 -c 7 python3 runPre.py $line $name 0 3 5000 &> ../scripts/workers/worker_${SLURM_JOB_ID}_${ID} &
-    ID=`expr $ID + 1`
+for ((i=0; i<$NB_of_jobs; i++))
+do
+    srun --exclusive -n 1 -N 1 -c 6 python3 go.py $i $name 0 3 1 &> ../scripts/workers/worker_${SLURM_JOB_ID}_${i} &
     sleep 1
-done < ../test/allfile.txt
+done
 
 wait
 

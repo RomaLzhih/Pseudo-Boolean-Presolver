@@ -1,2 +1,4 @@
-redundacy = 1
+redundacy = 0
+redundacy.parallel = 0
 hbr = 1
+hbr.parallel = 0
