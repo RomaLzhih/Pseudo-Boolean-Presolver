@@ -1,0 +1,13 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+Solution passed validation
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 1
+            SAT 1
+$ normalized-sha1-size112-round21-3.opb 1 - 162.035 0.0759054 162.271
+*	    colsingleton               2              50              80             100          0.0007
+
+

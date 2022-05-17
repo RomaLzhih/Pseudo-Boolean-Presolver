@@ -1,0 +1,11 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 0
+            SAT 0
+$ normalized-3col-left3reg-l060-r059-n1.opb 0 - 10.4647 0.0487078 10.6038
+
+

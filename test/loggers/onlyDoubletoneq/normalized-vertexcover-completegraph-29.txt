@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 0
+            SAT 0
+$ normalized-vertexcover-completegraph-29.opb 0 - 0.0430424 0.0254335 0.0962346
+*	     doubletoneq               1               0               0               0               0
+
+

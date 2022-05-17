@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+4
+C PaPILO detec to be infeasible or unbounded .. 
+        BOOLEAN 127
+           FILE 1
+  PRESOLVE_STAT 4
+            SAT 0
+$ normalized-2_3_3.opb 0 - 0 0.0353537 0.0485025
+*	         probing               1             100               0               0          0.0031
+
+

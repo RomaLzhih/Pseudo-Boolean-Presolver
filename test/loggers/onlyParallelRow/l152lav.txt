@@ -1,0 +1,14 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+Solution passed validation
+        BOOLEAN 1
+           FILE 0
+  PRESOLVE_STAT 0
+            SAT 1
+            OBJ 4722
+$ l152lav.opb 1 4722 261.547 0.0348837 261.633
+*	    parallelrows               1               0               0               0          0.0033
+
+

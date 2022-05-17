@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 0
+  PRESOLVE_STAT 1
+            SAT 0
+$ diamond.opb 0 0 0.0408767 0.025864 0.0768635
+*	    parallelrows               1             100               2             100          0.0028
+
+

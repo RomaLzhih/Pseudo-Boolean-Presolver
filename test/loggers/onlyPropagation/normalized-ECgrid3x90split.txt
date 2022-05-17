@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 0
+            SAT 0
+$ normalized-ECgrid3x90split.opb 0 - 2.27028 0.0243826 2.31088
+*	     propagation               1               0               0               0          0.0017
+
+

@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 0
+            SAT 0
+$ normalized-vertexcover-grid8x9-hard.opb 0 - 0.059085 0.0224342 0.0952037
+*	 coefftightening               1               0               0               0          0.0019
+
+

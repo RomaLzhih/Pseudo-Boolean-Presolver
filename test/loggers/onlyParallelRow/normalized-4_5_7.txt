@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 1
+            SAT 0
+$ normalized-4_5_7.opb 0 - 0.0610514 0.030869 0.112179
+*	    parallelrows               1               0               0               0           0.002
+
+

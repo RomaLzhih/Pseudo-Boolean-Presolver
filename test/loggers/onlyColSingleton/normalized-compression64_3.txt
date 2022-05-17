@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 1
+            SAT 0
+$ normalized-compression64_3.opb 0 - 0.128235 0.355181 1.4543
+*	    colsingleton               1               0               0               0               0
+
+

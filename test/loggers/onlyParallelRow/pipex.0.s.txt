@@ -1,0 +1,13 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+Solution passed validation
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 1
+            SAT 1
+$ pipex.0.s.opb 1 - 0.0460923 0.0298144 0.0871546
+*	    parallelrows               1             100               3             100          0.0028
+
+

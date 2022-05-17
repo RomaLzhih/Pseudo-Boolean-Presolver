@@ -496,27 +496,40 @@ SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
 
    if( this->enablered )
    {
-      std::cout << "*\tredundancy\t" << this->redCallNum << "\t"
-                << this->redDelNum << "\t" << this->singleSubsumption << "\t"
-                << this->redElapsedTime << std::endl;
-      for( int i = 0; i < redRelation.size(); i++ )
-      {
-         std::cout << aux::Expr2String( redRelation[i].first.getCols(),
-                                        redRelation[i].first.getDeg() )
-                   << "\n\t|= ";
-         std::cout << aux::Expr2String( redRelation[i].second.getCols(),
-                                        redRelation[i].second.getDeg() );
-         std::cout << "\n\t\tNeg: "
-                   << aux::Expr2NegString( redRelation[i].second.getCols(),
-                                           redRelation[i].second.getDeg() )
-                   << std::endl;
-         std::cout << std::endl;
-      }
+      std::cout << "*\t";
+      std::cout << std::setw( 16 ) << "redundancy";
+      std::cout << std::setw( 16 ) << 1;
+      std::cout << std::setw( 16 ) << ( this->redDelNum == 0 ? 0 : 1 );
+      std::cout << std::setw( 16 ) << this->singleSubsumption;
+      std::cout << std::setw( 16 ) << this->redDelNum;
+      std::cout << std::setw( 16 )
+                << std::round( this->redElapsedTime * 10000 ) / 10000;
+      std::cout << '\n';
+      // for( int i = 0; i < redRelation.size(); i++ )
+      // {
+      //    std::cout << aux::Expr2String( redRelation[i].first.getCols(),
+      //                                   redRelation[i].first.getDeg() )
+      //              << "\n\t|= ";
+      //    std::cout << aux::Expr2String( redRelation[i].second.getCols(),
+      //                                   redRelation[i].second.getDeg() );
+      //    std::cout << "\n\t\tNeg: "
+      //              << aux::Expr2NegString( redRelation[i].second.getCols(),
+      //                                      redRelation[i].second.getDeg() )
+      //              << std::endl;
+      //    std::cout << std::endl;
+      // }
    }
    if( this->enablehbr )
    {
-      std::cout << "*\thbr\t" << this->hbrCallNum << " " << this->hbrAddedNum
-                << "\t" << this->hbrElapsedTime << std::endl;
+      std::cout << "*\t";
+      std::cout << std::setw( 16 ) << "hbr";
+      std::cout << std::setw( 16 ) << 1;
+      std::cout << std::setw( 16 ) << ( this->hbrAddedNum == 0 ? 0 : 1 );
+      std::cout << std::setw( 16 ) << 1;
+      std::cout << std::setw( 16 ) << this->hbrAddedNum;
+      std::cout << std::setw( 16 )
+                << std::round( this->hbrElapsedTime * 10000 ) / 10000;
+      std::cout << '\n';
    }
    return;
 }

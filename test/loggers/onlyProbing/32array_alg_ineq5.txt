@@ -1,0 +1,13 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+Solution passed validation
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 1
+            SAT 1
+$ 32array_alg_ineq5.opb 1 - 0.0567357 1.81616 1.9881
+*	         probing               3             100            1137             100          1.6737
+
+

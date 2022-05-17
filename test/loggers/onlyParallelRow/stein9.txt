@@ -1,0 +1,14 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+Solution passed validation
+        BOOLEAN 1
+           FILE 0
+  PRESOLVE_STAT 0
+            SAT 1
+            OBJ 5
+$ stein9.opb 1 5 0.0407677 0.0267977 0.0772972
+*	    parallelrows               1               0               0               0          0.0029
+
+

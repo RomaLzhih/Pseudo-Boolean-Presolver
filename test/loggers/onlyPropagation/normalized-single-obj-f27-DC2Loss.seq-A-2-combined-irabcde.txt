@@ -1,0 +1,14 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+Solution passed validation
+        BOOLEAN 1
+           FILE 0
+  PRESOLVE_STAT 1
+            SAT 1
+            OBJ 728064
+$ normalized-single-obj-f27-DC2Loss.seq-A-2-combined-irabcde.opb 1 728064 0.0430393 0.030719 0.0898968
+*	     propagation               1               0               0               0           0.001
+
+

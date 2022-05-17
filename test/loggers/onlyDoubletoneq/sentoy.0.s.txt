@@ -1,0 +1,13 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+Solution passed validation
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 0
+            SAT 1
+$ sentoy.0.s.opb 1 - 0.0461682 0.0270113 0.0897719
+*	     doubletoneq               1               0               0               0               0
+
+

@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 0
+            SAT 0
+$ normalized-subsetcard-eq-fixedbandwidth-65.opb 0 - 0.0464139 0.0226742 0.0817751
+*	    parallelrows               1               0               0               0          0.0027
+
+

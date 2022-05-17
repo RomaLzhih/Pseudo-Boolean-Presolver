@@ -1,0 +1,14 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+Solution passed validation
+        BOOLEAN 1
+           FILE 0
+  PRESOLVE_STAT 0
+            SAT 1
+            OBJ 3089
+$ p0033.opb 1 3089 0.0442579 0.0233516 0.0773305
+*	     propagation               1               0               0               0          0.0019
+
+

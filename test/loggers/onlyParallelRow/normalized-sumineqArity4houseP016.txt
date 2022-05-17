@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 0
+            SAT 0
+$ normalized-sumineqArity4houseP016.opb 0 - 0.0460615 0.0262099 0.0951694
+*	    parallelrows               1               0               0               0          0.0026
+
+

@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 0
+            SAT 0
+$ normalized-ECrand4regsplit-v060-n1.opb 0 - 0.155855 0.0275919 0.197187
+*	     propagation               1               0               0               0          0.0018
+
+

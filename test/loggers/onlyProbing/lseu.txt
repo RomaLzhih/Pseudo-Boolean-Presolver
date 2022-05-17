@@ -1,0 +1,14 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+Solution passed validation
+        BOOLEAN 1
+           FILE 0
+  PRESOLVE_STAT 0
+            SAT 1
+            OBJ 1120
+$ lseu.opb 1 1120 1.47688 0.0227986 1.51363
+*	         probing               1               0               0               0          0.0034
+
+

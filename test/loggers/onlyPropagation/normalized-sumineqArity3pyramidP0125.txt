@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 0
+            SAT 0
+$ normalized-sumineqArity3pyramidP0125.opb 0 - 1.08887 0.113963 1.4457
+*	     propagation               1               0               0               0          0.0113
+
+

@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH -t 24:00:00
+#SBATCH -t 12:00:00
 #SBATCH -J pre
 #SBATCH -A lu2022-2-31
 #SBATCH --reservation=lu2022-2-31
@@ -8,7 +8,7 @@
 #SBATCH --mail-user=mzy791191656@gmail.com
 #SBATCH --mail-type=ALL
 
-#SBATCH -N 50
+#SBATCH -N 20
 #SBATCH --tasks-per-node=1
 #SBATCH -c 6
 
@@ -26,13 +26,8 @@ export onlyPreSolve=$4
 export solverType=$5
 export timelimit=$6
 
-SATparam=../param/$SATparam
-MIPparam=../param/$MIPparam
-
-rm -r ../test/loggers/$name/
-mkdir ../test/loggers/$name
-rm -r ../scripts/workers/
-mkdir ../scripts/workers
+SATparam=../param/${SATparam}.txt
+MIPparam=../param/${MIPparam}.txt
 
 for ((i=0; i<$NB_of_jobs; i++))
 do

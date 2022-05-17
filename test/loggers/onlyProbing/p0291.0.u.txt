@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 1
+            SAT 0
+$ p0291.0.u.opb 0 - 0.0445652 0.0505677 0.136451
+*	         probing               4              75             135             100          0.0272
+
+

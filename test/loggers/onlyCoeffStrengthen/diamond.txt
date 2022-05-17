@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 0
+  PRESOLVE_STAT 1
+            SAT 0
+$ diamond.opb 0 0 0.0400827 0.022935 0.0719923
+*	 coefftightening               2              50               4             100          0.0019
+
+

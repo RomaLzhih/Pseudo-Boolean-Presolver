@@ -13,6 +13,8 @@ runRoundingSat::runRS( std::string& infile )
    std::cout << ( rsSol.first == "UNSATISFIABLE" ? " 0" : " 1" );
    std::cout << " " << ( rsSol.second.size() ? rsSol.second : "-" );
    std::cout << " " << time;
+   std::cout << " " << 0;
+   std::cout << " " << time;
    std::cout << std::endl;
    return;
 }

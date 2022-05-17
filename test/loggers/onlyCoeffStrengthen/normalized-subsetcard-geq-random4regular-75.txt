@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 0
+            SAT 0
+$ normalized-subsetcard-geq-random4regular-75.opb 0 - 0.0441701 0.0243909 0.0827525
+*	 coefftightening               1               0               0               0          0.0018
+
+

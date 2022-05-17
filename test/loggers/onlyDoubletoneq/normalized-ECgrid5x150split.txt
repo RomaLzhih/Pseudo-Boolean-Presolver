@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 1
+            SAT 0
+$ normalized-ECgrid5x150split.opb 0 - 2958.44 0.0296018 2958.5
+*	     doubletoneq               2              50               1             100          0.0003
+
+

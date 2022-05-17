@@ -1,0 +1,12 @@
+C start build MIP problem ..
+C running papilo ..
+4
+C PaPILO detec to be infeasible or unbounded .. 
+        BOOLEAN 215
+           FILE 1
+  PRESOLVE_STAT 4
+            SAT 0
+$ normalized-vertexcover-completegraph-35.opb 0 - 0 0.0244091 0.0380067
+*	         probing               2             100              20             100           0.005
+
+

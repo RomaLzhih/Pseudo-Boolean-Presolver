@@ -1,0 +1,13 @@
+C start build MIP problem ..
+C running papilo ..
+C running roundingSat ..
+C start postsolve ..
+Solution passed validation
+        BOOLEAN 1
+           FILE 1
+  PRESOLVE_STAT 1
+            SAT 1
+$ normalized-compression8_20.opb 1 - 0.477045 0.0499506 0.597081
+*	    parallelrows               1               0               0               0          0.0039
+
+
