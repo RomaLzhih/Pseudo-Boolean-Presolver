@@ -314,6 +314,7 @@ SATPreSolver<REAL>::hyperBinaryResolution( papilo::Timer*& timer )
                        ( cols.count( v ) && e.getVarsSize() < 2 ) );
                e.setHash( aux::hashExpr( e.getCols(), e.getDeg() ) );
                addExprs.emplace( std::move( e ) );
+               this->hbrFindNum++;
             }
          }
          else
@@ -482,7 +483,7 @@ SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
    std::cout << std::setprecision( 5 );
 
    //* filename solStat solVal RSTime presolvingTime totalTime
-   std::cout << "# "
+   std::cout << "$ "
              << inFileName.substr( inFileName.find_last_of( "//" ) + 1 );
    std::cout << " "
              << ( this->solutionStatus == solStat::UNSATISFIABLE ? "0" : "1" );
@@ -524,8 +525,9 @@ SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
       std::cout << "*\t";
       std::cout << std::setw( 16 ) << "hbr";
       std::cout << std::setw( 16 ) << 1;
-      std::cout << std::setw( 16 ) << ( this->hbrAddedNum == 0 ? 0 : 1 );
-      std::cout << std::setw( 16 ) << 1;
+      std::cout << std::setw( 16 ) << ( this->hbrFindNum == 0 ? 0 : 1 );
+      std::cout << std::setw( 16 )
+                << ( 1.0 * this->hbrAddedNum ) / this->hbrFindNum;
       std::cout << std::setw( 16 ) << this->hbrAddedNum;
       std::cout << std::setw( 16 )
                 << std::round( this->hbrElapsedTime * 10000 ) / 10000;

@@ -32,7 +32,7 @@ presolve.compressfac = 0.84999999999999998
 
 presolve.detectlindep = 0
 
-presolve.dualreds = 0
+presolve.dualreds = 1
 
 presolve.lpabortfac = 0.01
 

@@ -13,6 +13,8 @@ _deps
 /build
 /build/CMakeFiles
 /test/PB16
-/test/loggers
+/test/loggers/
+/test/newOPTloggers/
+/test/otheropt/
 .DS_Store
 .vscode/settings.json

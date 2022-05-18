@@ -389,10 +389,10 @@ MIPPreSolver<REAL>::run()
          msg.info( "C running roundingSat ..\n" );
          strpair rsSol;
          if( presolveStatus == 0 )
-            rsSol = runRoundingSat::runforPaPILO( inputIns, this->RSTime );
+            rsSol = runRoundingSat::runforPaPILO( this->inputIns, this->RSTime );
          else if( presolveStatus == 1 )
             rsSol =
-                runRoundingSat::runforPaPILO( preInfo, inputIns, this->RSTime );
+                runRoundingSat::runforPaPILO( preInfo, this->inputIns, this->RSTime );
 
          msg.info( "C start postsolve ..\n" );
          postSolve( rsSol );
