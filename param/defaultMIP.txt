@@ -74,7 +74,7 @@ substitution.enabled = 0
 
 message.verbosity = 0
 
-presolve.tlim = 300
+presolve.tlim = 30
 
 validation_after_every_postsolving_step = 0
 

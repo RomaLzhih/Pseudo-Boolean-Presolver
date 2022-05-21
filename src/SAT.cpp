@@ -522,13 +522,17 @@ SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
    }
    if( this->enablehbr )
    {
-      std::cout << "*\t";
-      std::cout << std::setw( 16 ) << "hbr";
-      std::cout << std::setw( 16 ) << 1;
-      std::cout << std::setw( 16 ) << ( this->hbrFindNum == 0 ? 0 : 1 );
+      std::cout << "*\t";                    // status
+      std::cout << std::setw( 16 ) << "hbr"; // file
+      std::cout << std::setw( 16 ) << 1;     // ncall
       std::cout << std::setw( 16 )
-                << ( 1.0 * this->hbrAddedNum ) / this->hbrFindNum;
-      std::cout << std::setw( 16 ) << this->hbrAddedNum;
+                << ( this->hbrFindNum == 0 ? 0 : 1 ); // succe
+      std::cout << std::setw( 16 )                    // tsx %
+                << this->hbrFindNum;
+      std::cout << std::setw( 16 )
+                << ( this->hbrFindNum != 0
+                         ? 1.0 * this->hbrAddedNum / this->hbrFindNum
+                         : 0 ); // tsxapplied
       std::cout << std::setw( 16 )
                 << std::round( this->hbrElapsedTime * 10000 ) / 10000;
       std::cout << '\n';

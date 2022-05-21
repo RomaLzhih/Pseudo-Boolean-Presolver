@@ -20,7 +20,7 @@ onlyPreSolve = int(sys.argv[5])
 solverType = int(sys.argv[6])
 T = int(sys.argv[7])
 
-loggerPath = "../test/otheropt/loggers/" + token + "/"
+loggerPath = "../test/otherdec/loggers/" + token + "/"
 
 
 def runPre(file):
@@ -41,7 +41,7 @@ def runPre(file):
 
 
 def fetchFile():
-    f = open("../test/otheropt/allOPB.txt", "r")
+    f = open("../test/otherdec/allDEC.txt", "r")
     lines = f.readlines()
     file = lines[start]
     if file[-1] == '\n':

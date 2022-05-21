@@ -19,11 +19,11 @@ class SATPreSolver
    void
    buildProblem();
    void
-   redundancyDetection( papilo::Timer*& timer);
+   redundancyDetection( papilo::Timer*& timer );
    void
-   redundancyDetectionHeuristic( papilo::Timer*& timer);
+   redundancyDetectionHeuristic( papilo::Timer*& timer );
    void
-   hyperBinaryResolution( papilo::Timer*& timer);
+   hyperBinaryResolution( papilo::Timer*& timer );
    void
    presolve();
    void

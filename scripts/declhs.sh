@@ -29,7 +29,7 @@ MIPparam=../param/${MIPparam}.txt
 
 for ((i=0; i<$NB_of_jobs; i++))
 do
-    srun --exclusive -n 1 -N 1 -c 6 python3 go-opt.py $i $name $SATparam $MIPparam $onlyPreSolve $solverType $timelimit &> ../scripts/workers/worker_${SLURM_JOB_ID}_${i} &
+    srun --exclusive -n 1 -N 1 -c 6 python3 go-dec.py $i $name $SATparam $MIPparam $onlyPreSolve $solverType $timelimit &> ../scripts/workers/worker_${SLURM_JOB_ID}_${i} &
     sleep 1
 done
 

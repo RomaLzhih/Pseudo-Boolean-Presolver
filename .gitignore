@@ -16,5 +16,6 @@ _deps
 /test/loggers/
 /test/newOPTloggers/
 /test/otheropt/
+/test/otherdec/
 .DS_Store
 .vscode/settings.json

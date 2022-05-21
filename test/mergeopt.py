@@ -9,20 +9,17 @@ from unittest import case
 import math
 import csv
 
-emptyList = [
-    "9vliw_m_9stages_iq3_C1_bug1.opb"
-]
-
 summaryName = sys.argv[1]
-filePathTerm = "../test/otherdec/loggers/"+summaryName+'/'
+filePathTerm = "../test/otheropt/loggers/"+summaryName+'/'
 
 
-csvFile = "../test/otherdec/loggers/analysis/"+summaryName+'.csv'
+csvFile = "../test/otheropt/loggers/analysis/"+summaryName+'.csv'
 header = ['status', 'file', 'sol', 'obj', 'rsTime',
           'preTime', 'totTime', 'variables', 'Constraints']
 f = open(csvFile, "w", newline='')
 f.truncate()
-allFile = open("../test/otherdec/allDEC.txt", "r").readlines()
+
+allFile = open("../test/otheropt/allOPB.txt", "r").readlines()
 
 files = os.listdir(filePathTerm)
 writer = csv.writer(f)
@@ -32,16 +29,11 @@ writer.writerow(header)
 def findPath(file):
     for path in allFile:
         if path.find(file) != -1:
-            # print(path)
             f = open(path[:path.rfind('\n')], "r")
             line = f.readline()
             f.close()
-            # print(line)
-            l = " ".join(line.split())
-            l = l.split(' ')
-            N = int(l[2])
-            M = int(l[4])
-            # print(N, M)
+            N = int(line[line.find('=')+2:line.rfind('#')-1])
+            M = int(line[line.rfind('=')+2:])
             return N, M
 
 
@@ -56,11 +48,11 @@ def mergeinfo(l, N, M, file):
         nl[3:5] = l[3:5]
         nl[5] = 0
         nl[6] = l[4]
-    # elif summaryName == 'onlyhbr' and l[0] == '*':
-    #     nl[3] = l[3]
-    #     nl[4] = 0 if l[4] == '-nan' else math.ceil(float(l[5])/float(l[4]))
-    #     nl[5] = 0 if l[4] == '-nan' else 100*float(l[4])
-    #     nl[6] = l[6]
+    elif summaryName == 'onlyhbr' and l[0] == '*':
+        nl[3] = l[3]
+        nl[4] = 0 if l[4] == '-nan' else math.ceil(float(l[5])/float(l[4]))
+        nl[5] = 0 if l[4] == '-nan' else 100*float(l[4])
+        nl[6] = l[6]
     else:
         nl[3:7] = l[3:7]
     nl[7:9] = [N, M]
@@ -76,8 +68,6 @@ for file in files:
         l = " ".join(line.split())
         l = l.split(' ')
         if l[0] == '@' or l[0] == '*' or line[0] == '&' or line[0] == '$' or line[0] == '#':
-            if l[1] in emptyList:
-                break
             if summaryName == 'onlyPaPILO' and l[0] == '*':
                 continue
             if l[0] != '*':
@@ -88,4 +78,3 @@ for file in files:
     f1.close()
 
 f.close()
-print("done")
