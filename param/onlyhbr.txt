@@ -6,4 +6,4 @@ hbr = 1
 
 hbr.parallel = 0
 
-timelimit = 50
+timelimit = 180

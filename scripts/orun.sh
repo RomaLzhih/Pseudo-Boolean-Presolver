@@ -1,15 +1,15 @@
 #!/bin/bash
 
-export name=roundingSat
-export SATparam=offSAT
+export name=onlyredundancy
+export SATparam=onlyredundancy
 export MIPparam=offMIP
-export onlyPreSolve=0
-export solverType=3
-export timelimit=500
+export onlyPreSolve=1
+export solverType=0
+export timelimit=1800
 
 module restore pre
-rm -r ../test/otheropt/loggers/$name/
-mkdir ../test/otheropt/loggers/$name
+rm -r ../test/otheropt/1800loggers/$name/
+mkdir ../test/otheropt/1800loggers/$name
 
 sbatch -J ${name}_1 optlhs.sh $name $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 sbatch -J ${name}_2 optrhs.sh $name $SATparam $MIPparam $onlyPreSolve $solverType $timelimit

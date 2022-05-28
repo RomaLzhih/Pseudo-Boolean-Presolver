@@ -381,7 +381,7 @@ SATPreSolver<REAL>::presolve()
    if( this->enablered )
    {
       papilo::Timer* timerRed = new papilo::Timer( this->redElapsedTime );
-      redundancyDetectionHeuristic( timerRed );
+      redundancyDetection( timerRed );
       delete timerRed;
    }
 

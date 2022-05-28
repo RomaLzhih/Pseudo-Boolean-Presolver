@@ -5,7 +5,7 @@ export SATparam=offSAT
 export MIPparam=offMIP
 export onlyPreSolve=0
 export solverType=3
-export timelimit=500
+export timelimit=1800
 
 names=(onlyCoeffStrengthen onlyColSingleton onlyDoubletoneq onlyDualFix onlyParallelRow onlyProbing onlyPropagation onlyPureLit onlySimpleProbing onlySimplifyIneq onlySparsify onlyStuffing offMIP)
 
@@ -15,15 +15,15 @@ module restore pre
 SATparam=offSAT
 MIPparam=offMIP
 solverType=3
-rm -r ../test/otheropt/loggers/roundingSat/
-mkdir ../test/otheropt/loggers/roundingSat
+rm -r ../test/otheropt/1800loggers/roundingSat/
+mkdir ../test/otheropt/1800loggers/roundingSat
 sbatch -J roundingSat_1 optlhs.sh roundingSat $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 sbatch -J roundingSat_2 optrhs.sh roundingSat $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 
 for name in "${names[@]}"
 do
-    rm -r ../test/otheropt/loggers/$name/
-    mkdir ../test/otheropt/loggers/$name
+    rm -r ../test/otheropt/1800loggers/$name/
+    mkdir ../test/otheropt/1800loggers/$name
     SATparam=offSAT
     MIPparam=$name
     solverType=1
@@ -35,8 +35,8 @@ done
 SATparam=onlyhbr
 MIPparam=offMIP
 solverType=0
-rm -r ../test/otheropt/loggers/onlyhbr/
-mkdir ../test/otheropt/loggers/onlyhbr
+rm -r ../test/otheropt/1800loggers/onlyhbr/
+mkdir ../test/otheropt/1800loggers/onlyhbr
 sbatch -J onlyhbr_1 optlhs.sh onlyhbr $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 sbatch -J onlyhbr_2 optrhs.sh onlyhbr $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 
@@ -44,8 +44,8 @@ sbatch -J onlyhbr_2 optrhs.sh onlyhbr $SATparam $MIPparam $onlyPreSolve $solverT
 SATparam=defaultSAT
 MIPparam=defaultMIP
 solverType=2
-rm -r ../test/otheropt/loggers/all/
-mkdir ../test/otheropt/loggers/all
+rm -r ../test/otheropt/1800loggers/all/
+mkdir ../test/otheropt/1800loggers/all
 sbatch -J all_1 optlhs.sh all $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 sbatch -J all_2 optrhs.sh all $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 

@@ -20,7 +20,7 @@ onlyPreSolve = int(sys.argv[5])
 solverType = int(sys.argv[6])
 T = int(sys.argv[7])
 
-loggerPath = "../test/otherdec/loggers/" + token + "/"
+loggerPath = "../test/otherdec/1800loggers/" + token + "/"
 
 
 def runPre(file):

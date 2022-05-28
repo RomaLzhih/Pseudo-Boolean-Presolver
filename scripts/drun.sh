@@ -1,16 +1,16 @@
 #!/bin/bash
 
-export name=roundingSat
-export SATparam=offSAT
+export name=onlyredundancy
+export SATparam=onlyredundacy
 export MIPparam=offMIP
-export onlyPreSolve=0
-export solverType=3
-export timelimit=500
+export onlyPreSolve=1
+export solverType=0
+export timelimit=1800
 
 module restore pre
 
-rm -r ../test/otherdec/loggers/$name/
-mkdir ../test/otherdec/loggers/$name
+rm -r ../test/otherdec/1800loggers/$name/
+mkdir ../test/otherdec/1800loggers/$name
 
 sbatch -J ${name}_1 declhs.sh $name $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 sbatch -J ${name}_2 decmid.sh $name $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
