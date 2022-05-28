@@ -1,0 +1,482 @@
+---
+title: "plot data analysis"
+output:
+  pdf_document: default
+  html_notebook: default
+---
+```{r setup, include=FALSE}
+
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(xtable)
+library(gsubfn)
+library(fmtr)
+
+library(ggthemes)
+theme_set(theme_light())
+'%!in%' <- function(x,y)!('%in%'(x,y))
+options(scipen = 999)
+options(digits = 4, nsmall = 3)
+```
+
+#roundingSat DEC
+
+```{R}
+t <- data.frame()
+rsDEC <- read.csv("roundingSat-dec.csv", header = TRUE)
+rsDEC$obj<-ifelse(rsDEC$obj=='-',as.double(0.00),as.double(rsDEC$obj))
+
+solvedIns <- rsDEC %>% filter(sol!='timeout') %>% summarise(solvedIns = n())
+solveTime <- rsDEC %>% filter(sol!='timeout') %>% summarise(solveTime=mean(rsTime))
+preTime <- data.frame(NA)
+decfasterNum <- data.frame(NA)
+decfasterMean<- data.frame(NA)
+decfasterMedian<- data.frame(NA)
+decslowerNum<- data.frame(NA)
+decslowerMean<- data.frame(NA)
+decslowerMedian<- data.frame(NA)
+nCall<- data.frame(NA)
+nApplied<- data.frame(NA)
+red<- data.frame(NA)
+
+rsTable <- data.frame(row.names = 'roundingSat-Dec')
+
+rsTable <- bind_cols(
+    solvedIns,
+    solveTime,
+    preTime,
+    decfasterNum,
+    decfasterMean,
+    decfasterMedian,
+    decslowerNum,
+    decslowerMean,
+    decslowerMedian,
+    nCall,
+    nApplied,
+    red
+)
+rsTable <- rsTable %>% setNames(nm = c('solvedIns','solveTime','preTime','decfasterNum','up mean(%)', 'up median(%)','decslowerNum','down mean(%)','down median(%)','nCall','nApplied(%)','red%'))
+rownames(rsTable)<-c('roundingSat-DEC')
+
+t <- t %>% bind_rows(rsTable)
+t
+```
+
+#roundingSat OPT
+
+```{R}
+rsOPT <- read.csv("roundingSat-opt.csv", header = TRUE)
+rsOPT$obj<-ifelse(rsOPT$obj=='-',as.double(0.00),as.double(rsOPT$obj))
+
+solvedIns <- rsOPT %>% filter(sol!='timeout') %>% summarise(solvedIns = n())
+solveTime <- rsOPT %>% filter(sol!='timeout') %>% summarise(solveTime=mean(rsTime))
+preTime <- data.frame(NA)
+decfasterNum <- data.frame(NA)
+decfasterMean<- data.frame(NA)
+decfasterMedian<- data.frame(NA)
+decslowerNum<- data.frame(NA)
+decslowerMean<- data.frame(NA)
+decslowerMedian<- data.frame(NA)
+nCall<- data.frame(NA)
+nApplied<- data.frame(NA)
+red<- data.frame(NA)
+
+rsTable <- data.frame(row.names = 'roundingSat-OPT')
+
+rsTable <- bind_cols(
+    solvedIns,
+    solveTime,
+    preTime,
+    decfasterNum,
+    decfasterMean,
+    decfasterMedian,
+    decslowerNum,
+    decslowerMean,
+    decslowerMedian,
+    nCall,
+    nApplied,
+    red
+)
+rsTable <- rsTable %>% setNames(nm = c('solvedIns','solveTime','preTime','decfasterNum','up mean(%)', 'up median(%)','decslowerNum','down mean(%)','down median(%)','nCall','nApplied(%)','red%'))
+rownames(rsTable)<-c('roundingSat-OPT')
+
+t <- t %>% bind_rows(rsTable)
+t
+```
+
+
+# helper functions
+```{r}
+analysis <- function(a,b,name,redType){
+  paramB <- b %>% filter(status=='*') %>% setNames(nm = c("status", "file", "ncalls", "succe", "tsx", "tsxapp", "time", "variables", "constraints"))
+  
+  appliedB <- paramB %>% filter(as.double(tsxapp)!=0) %>% pull(file) 
+  unique(appliedB)
+  
+  b <- b %>% filter(status!='*')
+  timeoutA <- a %>% filter(sol=='timeout')
+  timeoutB <- b %>% filter(sol=='timeout')
+  solvedA <- a %>% filter(sol!='timeout')
+  solvedB <- b %>% filter(sol!='timeout')
+  commonFile <- intersect(solvedA %>% pull(file), solvedB %>% pull(file))
+  bothSolvedA <- solvedA %>% filter(file%in%commonFile& file%in%appliedB) # where tech applied
+  bothSolvedB <- solvedB %>% filter(file%in%commonFile& file%in%appliedB) # where tech applied
+  extraSlower <- solvedA %>% filter(file%!in%solvedB$file)
+  extraFaster <- solvedB %>% filter(file%!in%solvedA$file)
+  speedTable <- bind_rows(bothSolvedA, bothSolvedB) %>%
+    group_by(file) %>%
+    arrange(desc(status), by_group = TRUE) %>%
+    summarise(
+      diff = as.double(first(rsTime) - last(rsTime)), # diff>0 faster
+      diffRatio = 100 * abs(as.double(first(rsTime) - last(rsTime))) / as.double(first(rsTime))
+    )
+
+  # print(solvedB)
+  print(speedTable %>% filter(is.na(speedTable$diffRatio)))
+  #print(extraSlower)
+  #print(extraFaster)
+  
+  #correct
+  correct_ans <-
+    all(bothSolvedA %>% pull(sol) == bothSolvedB %>% pull(sol)) &&
+      all(bothSolvedA %>% filter(sol == "1") %>% pull(obj)
+      == bothSolvedB %>% filter(sol == "1") %>% pull(obj))
+  print(correct_ans)
+  #time
+  solvedIns<- solvedB %>% summarise(solvedIns=n())
+  solveTime<- solvedB %>% summarise(solveTime=mean(as.double(rsTime)))
+  preTime<- solvedB %>% summarise(preTime=mean(as.double(preTime)))
+  
+  #faster
+  decfasterNum<- speedTable %>% filter(diff>0.0) %>%summarise(decfasterNum = n()+nrow(extraFaster))
+  decfasterMean<- speedTable %>% filter(diff>0.0) %>%summarise('up mean(%)'=mean(diffRatio))
+  decfasterMedian<- speedTable %>% filter(diff>0.0) %>%summarise('up median(%)'=median(diffRatio))
+  
+  #slower
+  decslowerNum<- speedTable %>% filter(diff<0.0) %>%summarise(decslowerNum = n()+nrow(extraSlower))
+  decslowerMean<- speedTable %>% filter(diff<0.0) %>%summarise('down mean(%)'=mean(diffRatio))
+  decslowerMedian<- speedTable %>% filter(diff<0.0) %>%summarise('down median(%)'=median(diffRatio))
+  
+  #param
+  nCall<- paramB %>% filter(ncalls!=0) %>% summarise(nCall=mean(as.double(ncalls))) 
+  nApplied <- paramB %>% filter(ncalls!=0) %>%summarise('nApplied(%)'=100*sum(tsx!=0)/n())
+  nred <- paramB %>% filter(tsx != 0) %>% mutate(red = (tsx * tsxapp / 100) / variables) %>% summarise("red%" = mean(red) * 100)
+  mred <- paramB %>% filter(tsx != 0) %>% mutate(red = (tsx * tsxapp / 100) / constraints) %>% summarise("red%" = mean(red) * 100)
+
+  #summarise
+  table <- data.frame(row.names = name)
+  table <- table %>% bind_cols(
+    solvedIns,
+    solveTime,
+    preTime,
+    decfasterNum,
+    decfasterMean,
+    decfasterMedian,
+    decslowerNum,
+    decslowerMean,
+    decslowerMedian,
+    nCall,
+    nApplied,
+    if(!redType){nred}else{mred}
+  )
+  table
+}
+```
+
+#all DEC
+```{R}
+allDEC <- read.csv("dec/all.csv", header = TRUE)
+allDEC <- allDEC %>% filter(abs(totTime)>1e-7)
+allDEC$obj<-ifelse(allDEC$obj=='-',as.double(0.00),as.double(allDEC$obj))
+resDEC <- analysis(rsDEC,allDEC,'all-DEC',1)
+t<- t %>% bind_rows(resDEC)
+t
+```
+#withhbr DEC
+```{R}
+withhbr <- read.csv("dec/withhbr.csv", header = TRUE)
+withhbr <- withhbr %>% filter(abs(totTime)>1e-7)
+withhbr$obj<-ifelse(withhbr$obj=='-',as.double(0.00),as.double(withhbr$obj))
+resDEC <- analysis(rsDEC,withhbr,'withhbr-DEC',1)
+t<- t %>% bind_rows(resDEC)
+t
+```
+#withouthbr DEC
+```{R}
+withouthbr <- read.csv("dec/withouthbr.csv", header = TRUE)
+withouthbr <- withouthbr %>% filter(abs(totTime)>1e-7)
+withouthbr$obj<-ifelse(withouthbr$obj=='-',as.double(0.00),as.double(withouthbr$obj))
+resDEC <- analysis(rsDEC,withouthbr,'withouthbr-DEC',1)
+t<- t %>% bind_rows(resDEC)
+t
+```
+#withhbrmix DEC
+```{R}
+withhbrmix <- read.csv("dec/withhbrmix.csv", header = TRUE)
+withhbrmix <- withhbrmix %>% filter(abs(totTime)>1e-7)
+withhbrmix$obj<-ifelse(withhbrmix$obj=='-',as.double(0.00),as.double(withhbrmix$obj))
+resDEC <- analysis(rsDEC,withhbrmix,'withhbrmix-DEC',1)
+t<- t %>% bind_rows(resDEC)
+t
+```
+#withouthbrmix DEC
+```{R}
+withouthbrmixdec <- read.csv("dec/withouthbrmix.csv", header = TRUE)
+withouthbrmixdec <- withouthbrmixdec %>% filter(abs(totTime)>1e-7)
+withouthbrmixdec$obj<-ifelse(withouthbrmixdec$obj=='-',as.double(0.00),as.double(withouthbrmixdec$obj))
+resDEC <- analysis(rsDEC,withouthbrmixdec,'withouthbrmix-DEC',1)
+t<- t %>% bind_rows(resDEC)
+t
+```
+#withhbrmix2 DEC
+```{R}
+withhbrmix2 <- read.csv("dec/withhbrmix2.csv", header = TRUE)
+withhbrmix2 <- withhbrmix2 %>% filter(abs(totTime)>1e-7)
+withhbrmix2$obj<-ifelse(withhbrmix2$obj=='-',as.double(0.00),as.double(withhbrmix2$obj))
+resDEC <- analysis(rsDEC,withhbrmix2,'withhbrmix2-DEC',1)
+t<- t %>% bind_rows(resDEC)
+t
+```
+#withouthbrmix2 DEC
+```{R}
+withouthbrmix2 <- read.csv("dec/withouthbrmix2.csv", header = TRUE)
+withouthbrmix2 <- withouthbrmix2 %>% filter(abs(totTime)>1e-7)
+withouthbrmix2$obj<-ifelse(withouthbrmix2$obj=='-',as.double(0.00),as.double(withouthbrmix2$obj))
+resDEC <- analysis(rsDEC,withouthbrmix2,'withouthbrmix2-DEC',1)
+t<- t %>% bind_rows(resDEC)
+t
+```
+
+#all OPT
+```{R}
+allOPT <- read.csv("opt/all.csv", header = TRUE)
+
+allOPT <- allOPT %>% filter(abs(totTime)>1e-7)
+allOPT$obj<-ifelse(allOPT$obj=='-',as.double(0.00),as.double(allOPT$obj))
+
+resOPT <- analysis(rsOPT,allOPT,'all-OPT',1)
+
+t<- t %>% bind_rows(resOPT)
+t
+```
+#withhbr OPT
+```{R}
+withhbr <- read.csv("opt/withhbr.csv", header = TRUE)
+withhbr <- withhbropt %>% filter(abs(totTime)>1e-7)
+withhbr$obj<-ifelse(withhbr$obj=='-',as.double(0.00),as.double(withhbr$obj))
+resOPT <- analysis(rsOPT,withhbr,'withhbr-OPT',1)
+t<- t %>% bind_rows(resOPT)
+t
+```
+#withouthbr OPT
+```{R}
+withouthbr <- read.csv("opt/withouthbr.csv", header = TRUE)
+withouthbr <- withouthbr %>% filter(abs(totTime)>1e-7)
+withouthbr$obj<-ifelse(withouthbr$obj=='-',as.double(0.00),as.double(withouthbr$obj))
+resOPT <- analysis(rsOPT,withouthbr,'withouthbr-OPT',1)
+t<- t %>% bind_rows(resOPT)
+t
+```
+#withhbrmix OPT
+```{R}
+withhbrmix <- read.csv("opt/withhbrmix.csv", header = TRUE)
+withhbrmix <- withhbrmix %>% filter(abs(totTime)>1e-7)
+withhbrmix$obj<-ifelse(withhbrmix$obj=='-',as.double(0.00),as.double(withhbrmix$obj))
+resOPT <- analysis(rsOPT,withhbrmix,'withhbrmix-OPT',1)
+t<- t %>% bind_rows(resOPT)
+t
+```
+#withouthbrmix OPT
+```{R}
+withouthbrmix <- read.csv("opt/withouthbrmix.csv", header = TRUE)
+withouthbrmix <- withouthbrmix %>% filter(abs(totTime)>1e-7)
+withouthbrmix$obj<-ifelse(withouthbrmix$obj=='-',as.double(0.00),as.double(withouthbrmix$obj))
+resOPT <- analysis(rsOPT,withouthbrmix,'withouthbrmix-OPT',1)
+t<- t %>% bind_rows(resOPT)
+t
+```
+#withhbrmix2 OPT
+```{R}
+withhbrmix2opt <- read.csv("opt/withhbrmix2.csv", header = TRUE)
+withhbrmix2opt <- withhbrmix2opt %>% filter(abs(totTime)>1e-7)
+withhbrmix2opt$obj<-ifelse(withhbrmix2opt$obj=='-',as.double(0.00),as.double(withhbrmix2opt$obj))
+resOPT <- analysis(rsOPT,withhbrmix2opt,'withhbrmix2-OPT',1)
+t<- t %>% bind_rows(resOPT)
+t
+```
+#withouthbrmix2 OPT
+```{R}
+withouthbrmix2 <- read.csv("opt/withouthbrmix2.csv", header = TRUE)
+withouthbrmix2 <- withouthbrmix2 %>% filter(abs(totTime)>1e-7)
+withouthbrmix2$obj<-ifelse(withouthbrmix2$obj=='-',as.double(0.00),as.double(withouthbrmix2$obj))
+resOPT <- analysis(rsOPT,withouthbrmix2,'withouthbrmix2-OPT',1)
+t<- t %>% bind_rows(resOPT)
+t
+```
+# View t
+```{R}
+#t %>% View()
+```
+
+#Cummulative Plot
+withouthbrmix-dec
+withhbrmix2-opt
+```{r}
+decA<-rsDEC
+decB<- withouthbrmixdec%>% filter(status!='*') 
+decA$status<-'Without_Presolve'
+decB$status<-'With_Presolve'
+dec<-bind_rows(decA,decB) %>% cbind(family='PBS')
+dec
+
+optA<-rsOPT
+optB<-withhbrmix2opt %>% filter(status!='*')
+optA$status<-'Without_Presolve'
+optB$status<-'With_Presolve'
+opt<-bind_rows(optA,optB) %>% cbind(family='PBO')
+
+# dec
+df <- dec %>% 
+  filter(sol!='timeout') %>%
+  arrange(status, rsTime) %>% 
+  group_by(status) %>% 
+  mutate(nsolved=rank(rsTime))  %>%
+  slice(seq(1,nrow(dec),18)) %>%
+  select(status, rsTime, nsolved)
+
+ggplot(df, aes(x = rsTime, y = nsolved, color = status, shape = status)) +
+  geom_point(size=2) +
+  geom_line() + 
+  scale_x_log10() + 
+  xlab("running time of roundingSat") +
+  ylab("number of solved instances") +
+  labs(color = "status", shape = "status", title = "Number of solved PBS instances with/without presolving")+ 
+  theme(
+    plot.title = element_text(hjust = 0.5,size = 12),
+    aspect.ratio=1,
+    legend.position = c(.95, .05),
+    legend.justification = c("right", "bottom"),
+    legend.box.just = "right",
+    legend.margin = margin(6, 6, 6, 6),
+    legend.key.size = unit(0.2, "cm")
+    )
+
+ggsave('dec.eps',dpi=1600)
+
+#opt
+df <- opt %>% 
+  filter(sol!='timeout') %>%
+  arrange(status, rsTime) %>% 
+  group_by(status) %>% 
+  mutate(nsolved=rank(rsTime))  %>%
+  slice(seq(1,nrow(opt),13)) %>%
+  select(status, rsTime, nsolved)
+
+ggplot(df, aes(x = rsTime, y = nsolved, color = status, shape = status)) +
+  geom_point(size=2) +
+  geom_line() + 
+  scale_x_log10() + 
+  xlab("running time of roundingSat") +
+  ylab("number of solved instances") +
+  labs(color = "status", shape = "status", title = "Number of solved PBO instances with/without presolving")+
+  theme(
+    plot.title = element_text(hjust = 0.5,size=12),
+    aspect.ratio = 1,
+    legend.position = c(.95, .05),
+    legend.justification = c("right", "bottom"),
+    legend.box.just = "right",
+    legend.margin = margin(6, 6, 6, 6)
+    )
+
+ggsave('opt.eps',dpi=1600)
+```
+
+# Scatter Plot
+
+```{r}
+timeout <- 1800
+
+#opt$rsTime[abs(opt$rsTime-0.0)<1e-6]<-0.00001
+commonDEC<-intersect(decA%>%pull(file),decB%>%pull(file))
+ndec<-bind_rows(
+  decA%>%filter(file%in%commonDEC)%>%slice(seq(1,nrow(decA),3)),
+  decB%>%filter(file%in%commonDEC)%>%slice(seq(1,nrow(decB),3)),
+)%>%cbind(family='PBS')
+
+commonOPT<-intersect(optA%>%pull(file),optB%>%pull(file))
+nopt<-bind_rows(
+  optA%>%filter(file%in%commonOPT)%>%slice(seq(1,nrow(optA),2)),
+  optB%>%filter(file%in%commonOPT)%>%slice(seq(1,nrow(optB),2)),
+)%>% cbind(family='PBO')
+
+
+data<-bind_rows(ndec,nopt)
+#data
+
+
+df <- data %>%
+  arrange(rsTime) %>% 
+  mutate(time=ifelse(sol=='timeout',2*timeout, rsTime)) %>%
+  select(family,file,status,time) %>%
+  pivot_wider(names_from = status, values_from = time)
+
+#df
+
+ggplot(df, aes(x = With_Presolve, y = Without_Presolve, color = family)) +
+  geom_point(aes(shape=family),size=2.5) +
+  scale_x_log10() +
+  scale_y_log10() +
+  coord_fixed(ratio = 1) +
+  geom_vline(xintercept = timeout, linetype="dashed") +
+  geom_hline(yintercept = timeout, linetype="dashed") +
+  geom_abline(slope = 1, intercept = 0, linetype="dashed")+
+  xlab("With Presolve") +
+  ylab("Without Presolve") +
+  # Note that we need to redefine the label for color AND shape
+  labs(color = "benchmark family", shape = "benchmark family", title = "Instances solving time with/without presolving")+
+  theme(
+   plot.title = element_text(hjust = 0.5,size=12)
+   )
+  ggsave('scatter.eps',dpi=1600)
+```
+
+# param analysis
+```{R}
+analysisParam<-function(b){
+  param<-b %>% filter(status=='*') %>% setNames(nm = c("status", "name", "ncalls", "succe", "tsx", "tsxapp", "time", "variables", "constraints"))
+  
+  mred <- c('parallelrows','simplifyineq','hbr')
+  table <- param %>% group_by(name) %>%
+    summarise(nCalls = mean(as.double(ncalls)),
+              'nApplied(%)'=100*sum(tsx!=0)/n(),
+              presolveTime=mean(time)
+              ) 
+
+  table2 <- param %>% group_by(name) %>%
+    filter(tsx!=0) %>%
+    summarise(
+      red=ifelse(name%!in%mred,mean(tsx*tsxapp/variables), mean(tsx*tsxapp/constraints))
+    )
+  Stuffing <- data.frame(c('stuffing'),c(0.0)) %>% setNames(nm=c('name','red'))
+  table<-unique(table)
+  table2<-unique(table2)
+  
+  merge(table,table2,by='name')
+}
+```
+
+## save param info.
+```{R}
+allDECparam<-read.csv("dec/withouthbrmix-param.csv",header=TRUE)
+paramDEC <- analysisParam(allDECparam)
+paramDEC<-paramDEC %>% arrange(name)
+paramDEC
+write.csv(paramDEC,"decparam.csv",row.names = TRUE)
+
+allOPTparam<-read.csv("opt/withhbrmix2-param.csv",header=TRUE)
+paramOPT <- analysisParam(allOPTparam)
+paramOPT<-paramOPT %>% arrange(name)
+paramOPT
+write.csv(paramOPT,"optparam.csv",row.names = TRUE)
+```
