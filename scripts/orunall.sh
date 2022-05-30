@@ -18,7 +18,8 @@ solverType=3
 rm -r ../test/otheropt/1800loggers/roundingSat/
 mkdir ../test/otheropt/1800loggers/roundingSat
 sbatch -J roundingSat_1 optlhs.sh roundingSat $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
-sbatch -J roundingSat_2 optrhs.sh roundingSat $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
+sbatch -J roundingSat_2 optmid.sh roundingSat $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
+sbatch -J roundingSat_3 optrhs.sh roundingSat $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 
 for name in "${names[@]}"
 do
@@ -28,7 +29,8 @@ do
     MIPparam=$name
     solverType=1
     sbatch -J ${name}_1 optlhs.sh $name $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
-    sbatch -J ${name}_2 optrhs.sh $name $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
+    sbatch -J ${name}_2 optmid.sh $name $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
+    sbatch -J ${name}_3 optrhs.sh $name $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 done
 
 #hbr
@@ -38,7 +40,8 @@ solverType=0
 rm -r ../test/otheropt/1800loggers/onlyhbr/
 mkdir ../test/otheropt/1800loggers/onlyhbr
 sbatch -J onlyhbr_1 optlhs.sh onlyhbr $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
-sbatch -J onlyhbr_2 optrhs.sh onlyhbr $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
+sbatch -J onlyhbr_2 optmid.sh onlyhbr $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
+sbatch -J onlyhbr_3 optrhs.sh onlyhbr $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 
 #all
 SATparam=defaultSAT
@@ -47,7 +50,8 @@ solverType=2
 rm -r ../test/otheropt/1800loggers/all/
 mkdir ../test/otheropt/1800loggers/all
 sbatch -J all_1 optlhs.sh all $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
-sbatch -J all_2 optrhs.sh all $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
+sbatch -J all_2 optmid.sh all $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
+sbatch -J all_3 optrhs.sh all $SATparam $MIPparam $onlyPreSolve $solverType $timelimit
 
 
 

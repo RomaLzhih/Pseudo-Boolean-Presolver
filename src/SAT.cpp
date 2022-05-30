@@ -60,10 +60,12 @@ SATPreSolver<REAL>::redundancyDetection( papilo::Timer*& timer )
          if( rsStat == "UNSATISFIABLE" )
          {
             // this->redRelation.push_back( std::make_pair( *D, *C ) );
-            es.erase( C );
+            // es.erase( C );
             this->redDelNum++;
-            if( D->getVarsSize() == 1 )
+            if( D->getVarsSize() == 1 || C->getVarsSize() == 1 )
                this->singleSubsumption++;
+            else
+               this->noneSingleSubsumption++;
          }
          else
          {
@@ -500,7 +502,7 @@ SATPreSolver<REAL>::writePresolvers( const std::string& inFileName )
       std::cout << "*\t";
       std::cout << std::setw( 16 ) << "redundancy";
       std::cout << std::setw( 16 ) << 1;
-      std::cout << std::setw( 16 ) << ( this->redDelNum == 0 ? 0 : 1 );
+      std::cout << std::setw( 16 ) << this->noneSingleSubsumption;
       std::cout << std::setw( 16 ) << this->singleSubsumption;
       std::cout << std::setw( 16 ) << this->redDelNum;
       std::cout << std::setw( 16 )

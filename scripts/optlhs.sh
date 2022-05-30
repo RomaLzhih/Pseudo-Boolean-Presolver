@@ -16,7 +16,7 @@ module load Boost
 module load GMP
 
 cat $0
-export NB_of_jobs=800
+export NB_of_jobs=500
 export name=$1
 export SATparam=$2
 export MIPparam=$3

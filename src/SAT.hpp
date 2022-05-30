@@ -74,6 +74,7 @@ class SATPreSolver
    int redDelNum = 0;
    int redCallNum = 0;
    int singleSubsumption = 0;
+   int noneSingleSubsumption = 0;
    int hbrAddedNum = 0;
    int hbrFindNum = 0;
    int hbrCallNum = 0;

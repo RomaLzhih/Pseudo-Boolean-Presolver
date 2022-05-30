@@ -16,7 +16,7 @@ module load Boost
 module load GMP
 
 cat $0
-export NB_of_jobs=1600
+export NB_of_jobs=1000
 export name=$1
 export SATparam=$2
 export MIPparam=$3
@@ -27,7 +27,7 @@ export timelimit=$6
 SATparam=../param/${SATparam}.txt
 MIPparam=../param/${MIPparam}.txt
 
-for ((i=1000; i<$NB_of_jobs; i++))
+for ((i=500; i<$NB_of_jobs; i++))
 do
     srun --exclusive -n 1 -N 1 -c 6 python3 go-opt.py $i $name $SATparam $MIPparam $onlyPreSolve $solverType $timelimit &> ../scripts/workers/worker_${SLURM_JOB_ID}_${i} &
     sleep 1

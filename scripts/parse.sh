@@ -6,7 +6,7 @@ rcp -r ziyang@aurora.lunarc.lu.se:/home/ziyang/pre/test/otherdec/1800loggers/$na
 echo finish fetch
 ls -l ../test/otherdec/1800loggers/$name | wc -l
 
-python3 ../test/merge.py $name 
-echo finish merge
+python3 ../test/merge.py $name 1
+echo finish merge 
 cp ../test/otherdec/1800loggers/analysis/$name.csv /mnt/d/aMain/4-pre/datacollection/
 echo finish paste
