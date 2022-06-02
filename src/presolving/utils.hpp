@@ -17,15 +17,15 @@
 #include <vector>
 
 // pre
-#include "presolving/Auxiliary.hpp"
+#include "presolving/auxiliary.hpp"
 
-namespace rs{
 namespace pre {
 namespace utils {
 
 template <typename Enumeration>
-auto as_integer(Enumeration const value) -> typename std::underlying_type<Enumeration>::type {
-  return static_cast<typename std::underlying_type<Enumeration>::type>(value);
+auto as_integer(Enumeration const value)
+    -> typename std::underlying_type<Enumeration>::type {
+    return static_cast<typename std::underlying_type<Enumeration>::type>(value);
 }
 
 template <typename REAL>
@@ -39,4 +39,3 @@ void printVector(papilo::Vec<REAL> const& input);
 
 }  // namespace utils
 }  // namespace pre
-} // rs

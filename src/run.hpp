@@ -53,7 +53,6 @@ struct LazyVar {
   LazyVar(Solver& slvr, const Ce32 cardCore, int cardUpperBound, Var startVar);
   ~LazyVar();
 
-  //! May here
   void addVar(Var v, bool reified);
   ID addAtLeastConstraint(bool reified);
   ID addAtMostConstraint(bool reified);
@@ -116,7 +115,6 @@ class Optimization {
 
   void checkLazyVariables() {
     bool reified = options.cgEncoding.is("reified");
-    // std::cout << "--- Var number: " << (int)lazyVars.size() << std::endl;
     for (int i = 0; i < (int)lazyVars.size(); ++i) {
       LazyVar& lv = *lazyVars[i].lv;
       if (reformObj->getLit(lv.currentVar) == 0) {
@@ -138,7 +136,6 @@ class Optimization {
           solver.setNbVars(newN);
           Var oldvar = lv.currentVar;
           lv.addVar(newN, reified);
-          // std::cout << "solver's number of Vars: " << newN << std::endl;
           // reformulate the objective
           reformObj->addLhs(lazyVars[i].m, newN);
           // add necessary lazy constraints

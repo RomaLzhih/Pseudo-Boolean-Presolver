@@ -38,7 +38,7 @@ namespace rs {
 Solver run::solver;
 
 run::LazyVar::LazyVar(Solver& slvr, const Ce32 cardCore, int cardUpperBound, Var startVar)
-  : solver(slvr), coveredVars(cardCore->getDegree()), upperBound(cardUpperBound) {
+    : solver(slvr), coveredVars(cardCore->getDegree()), upperBound(cardUpperBound) {
   assert(cardCore->isCardinality());
   cardCore->toSimple()->copyTo(atLeast);
   atLeast.toNormalFormLit();
@@ -116,6 +116,7 @@ std::ostream& run::operator<<(std::ostream& o, const std::shared_ptr<LazyVar> lv
   return o;
 }
 
+//! partiall used as a library
 void run::decide() {
   while (true) {
     SolveState reply = aux::timeCall<SolveState>([&] { return solver.solve().state; }, stats.SOLVETIME);
@@ -129,7 +130,7 @@ void run::decide() {
 
 void run::run(CeArb objective) {
   stats.RUNSTARTTIME = aux::cpuTime();
-  if (options.verbosity.get() >= 0)
+  if (options.verbosity.get() > 0)
     std::cout << "c #variables " << solver.getNbOrigVars() << " #constraints " << solver.getNbConstraints()
               << std::endl;
   try {

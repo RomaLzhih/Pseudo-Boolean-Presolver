@@ -102,8 +102,6 @@ class ProblemUpdate
    Vec<Flags<State>> row_state;
    Vec<Flags<State>> col_state;
 
-
-
    template <typename... Args>
    void
    setColState( int col, Args... flags )
@@ -167,10 +165,10 @@ class ProblemUpdate
    changeLB( int col, REAL val );
 
    void
-   merge_parallel_columns(
-       int col1, int col2, REAL col2scale,
-       ConstraintMatrix<REAL>& constraintMatrix, Vec<REAL>& lbs, Vec<REAL>& ubs,
-       Vec<ColFlags>& cflags );
+   merge_parallel_columns( int col1, int col2, REAL col2scale,
+                           ConstraintMatrix<REAL>& constraintMatrix,
+                           Vec<REAL>& lbs, Vec<REAL>& ubs,
+                           Vec<ColFlags>& cflags );
 
    ConstraintMatrix<REAL>&
    getConstraintMatrix()
@@ -308,11 +306,11 @@ class ProblemUpdate
       return singletonColumns;
    }
 
-    void
-    addDeletedVar(int col)
-    {
-        deleted_cols.push_back(col);
-    }
+   void
+   addDeletedVar( int col )
+   {
+      deleted_cols.push_back( col );
+   }
 
    const Vec<int>&
    getRandomColPerm() const
@@ -375,7 +373,6 @@ class ProblemUpdate
       return presolveOptions;
    }
 
-
    std::pair<int, int>
    removeRedundantBounds()
    {
@@ -409,9 +406,6 @@ class ProblemUpdate
    void
    print_detailed( const Reduction<REAL>* first,
                    const Reduction<REAL>* last ) const;
-
-
-
 };
 
 #ifdef PAPILO_USE_EXTERN_TEMPLATES
@@ -478,9 +472,8 @@ ProblemUpdate<REAL>::fixCol( int col, REAL val )
       return PresolveStatus::kUnchanged;
 
    auto updateActivity = [this]( ActivityChange actChange, int rowid,
-                                 RowActivity<REAL>& activity ) {
-      update_activity( actChange, rowid, activity );
-   };
+                                 RowActivity<REAL>& activity )
+   { update_activity( actChange, rowid, activity ); };
 
    bool lbchanged = cflags[col].test( ColFlag::kLbInf ) || val != lbs[col];
    bool ubchanged = cflags[col].test( ColFlag::kUbInf ) || val != ubs[col];
@@ -609,9 +602,8 @@ ProblemUpdate<REAL>::changeLB( int col, REAL val )
    REAL newbound = val;
 
    auto updateActivity = [this]( ActivityChange actChange, int rowid,
-                                 RowActivity<REAL>& activity ) {
-      update_activity( actChange, rowid, activity );
-   };
+                                 RowActivity<REAL>& activity )
+   { update_activity( actChange, rowid, activity ); };
 
    if( cflags[col].test( ColFlag::kIntegral, ColFlag::kImplInt ) )
       newbound = num.feasCeil( newbound );
@@ -701,9 +693,8 @@ ProblemUpdate<REAL>::changeUB( int col, REAL val )
    REAL newbound = val;
 
    auto updateActivity = [this]( ActivityChange actChange, int rowid,
-                                 RowActivity<REAL>& activity ) {
-      update_activity( actChange, rowid, activity );
-   };
+                                 RowActivity<REAL>& activity )
+   { update_activity( actChange, rowid, activity ); };
 
    if( cflags[col].test( ColFlag::kIntegral, ColFlag::kImplInt ) )
       newbound = num.feasFloor( newbound );
@@ -784,9 +775,10 @@ ProblemUpdate<REAL>::compress( bool full )
    if( problem.getNCols() == getNActiveCols() &&
        problem.getNRows() == getNActiveRows() && !full )
       return;
-   // TODO: do not compress if ActiveRows are zero because rowmapping in Postsolve is deleted.
-//   if(getNActiveRows() <= 0)
-//      return;
+   // TODO: do not compress if ActiveRows are zero because rowmapping in
+   // Postsolve is deleted.
+   //   if(getNActiveRows() <= 0)
+   //      return;
 
    Message::debug( this,
                    "compressing problem ({} rows, {} cols) to active problem "
@@ -805,32 +797,36 @@ ProblemUpdate<REAL>::compress( bool full )
    col_state.resize( problem.getNCols() );
 
    tbb::parallel_invoke(
-       [this, &mappings, full]() {
+       [this, &mappings, full]()
+       {
           compress_index_vector( mappings.first, random_row_perm );
           if( full )
              random_row_perm.shrink_to_fit();
        },
-       [this, &mappings, full]() {
+       [this, &mappings, full]()
+       {
           compress_index_vector( mappings.second, random_col_perm );
           if( full )
              random_col_perm.shrink_to_fit();
        },
-       [this, &mappings, full]() {
-          postsolve.compress( mappings.first, mappings.second, full );
-       },
-       [this, &mappings, full]() {
+       [this, &mappings, full]()
+       { postsolve.compress( mappings.first, mappings.second, full ); },
+       [this, &mappings, full]()
+       {
           // update row index sets
           compress_index_vector( mappings.first, changed_activities );
           if( full )
              changed_activities.shrink_to_fit();
        },
-       [this, &mappings, full]() {
+       [this, &mappings, full]()
+       {
           compress_index_vector( mappings.first, singletonRows );
           if( full )
              singletonRows.shrink_to_fit();
        },
        // update column index sets
-       [this, &mappings, full]() {
+       [this, &mappings, full]()
+       {
           int numNewSingletonCols =
               static_cast<int>( singletonColumns.size() ) -
               firstNewSingletonCol;
@@ -841,12 +837,14 @@ ProblemUpdate<REAL>::compress( bool full )
           if( full )
              singletonColumns.shrink_to_fit();
        },
-       [this, &mappings, full]() {
+       [this, &mappings, full]()
+       {
           compress_index_vector( mappings.second, emptyColumns );
           if( full )
              emptyColumns.shrink_to_fit();
        },
-       [this, &mappings]() {
+       [this, &mappings]()
+       {
           for( PresolveMethod<REAL>* observer : compress_observers )
              observer->compress( mappings.first, mappings.second );
        } );
@@ -916,7 +914,8 @@ ProblemUpdate<REAL>::flushChangedCoeffs()
       Vec<RowActivity<REAL>>& activities = problem.getRowActivities();
 
       auto coeffChanged = [this, &lbs, &cflags, &ubs, &activities](
-                              int row, int col, REAL oldval, REAL newval ) {
+                              int row, int col, REAL oldval, REAL newval )
+      {
          auto rowvec = problem.getConstraintMatrix().getRowCoefficients( row );
          update_activity_after_coeffchange(
              lbs[col], ubs[col], cflags[col], oldval, newval, activities[row],
@@ -974,9 +973,8 @@ ProblemUpdate<REAL>::flush( bool reset_changed_activities )
    {
       auto iter =
           std::remove_if( changed_activities.begin(), changed_activities.end(),
-                          [&rflags]( int row ) {
-                             return rflags[row].test( RowFlag::kRedundant );
-                          } );
+                          [&rflags]( int row )
+                          { return rflags[row].test( RowFlag::kRedundant ); } );
 
       changed_activities.erase( iter, changed_activities.end() );
    }
@@ -1044,10 +1042,9 @@ ProblemUpdate<REAL>::clearStates()
 
    dirty_row_states.clear();
 
-   assert(
-       std::all_of( row_state.begin(), row_state.end(), []( Flags<State> s ) {
-          return s.equal( State::kUnmodified );
-       } ) );
+   assert( std::all_of( row_state.begin(), row_state.end(),
+                        []( Flags<State> s )
+                        { return s.equal( State::kUnmodified ); } ) );
 
    // clear states of columns
    for( int col : dirty_col_states )
@@ -1055,10 +1052,9 @@ ProblemUpdate<REAL>::clearStates()
 
    dirty_col_states.clear();
 
-   assert(
-       std::all_of( col_state.begin(), col_state.end(), []( Flags<State> s ) {
-          return s.equal( State::kUnmodified );
-       } ) );
+   assert( std::all_of( col_state.begin(), col_state.end(),
+                        []( Flags<State> s )
+                        { return s.equal( State::kUnmodified ); } ) );
 }
 
 template <typename REAL>
@@ -1093,13 +1089,13 @@ ProblemUpdate<REAL>::removeFixedCols()
       if( !cflags[col].test( ColFlag::kFixed ) )
          continue;
 
-      if( cflags[col].test( ColFlag::kLbInf ) || cflags[col].test( ColFlag::kUbInf ) )
+      if( cflags[col].test( ColFlag::kLbInf ) ||
+          cflags[col].test( ColFlag::kUbInf ) )
          continue;
 
-      assert(
-          num.isEq( lbs[col], problem.getUpperBounds()[col] ) && !problem.getColFlags()[col]
-              .test( ColFlag::kUbInf ) &&
-          !problem.getColFlags()[col].test( ColFlag::kLbInf ) );
+      assert( num.isEq( lbs[col], problem.getUpperBounds()[col] ) &&
+              !problem.getColFlags()[col].test( ColFlag::kUbInf ) &&
+              !problem.getColFlags()[col].test( ColFlag::kLbInf ) );
 
       auto colvec = consMatrix.getColumnCoefficients( col );
       postsolve.storeFixedCol( col, lbs[col], colvec, obj.coefficients );
@@ -1109,15 +1105,14 @@ ProblemUpdate<REAL>::removeFixedCols()
       if( lbs[col] == 0 )
          continue;
 
-       // update objective offset
-       if( obj.coefficients[col] != 0 )
-       {
-           obj.offset += lbs[col] * obj.coefficients[col];
-           obj.coefficients[col] = 0;
-       }
+      // update objective offset
+      if( obj.coefficients[col] != 0 )
+      {
+         obj.offset += lbs[col] * obj.coefficients[col];
+         obj.coefficients[col] = 0;
+      }
 
-
-       // fixed to nonzero value, so update sides and activities
+      // fixed to nonzero value, so update sides and activities
       int collen = colvec.getLength();
       const int* colrows = colvec.getIndices();
       const REAL* colvals = colvec.getValues();
@@ -1712,7 +1707,8 @@ ProblemUpdate<REAL>::removeEmptyColumns()
          if( colsize[col] != 0 )
             continue;
 
-         if( presolveOptions.dualreds == 1 && num.isZero(obj.coefficients[col]) )
+         if( presolveOptions.dualreds == 1 &&
+             num.isZero( obj.coefficients[col] ) )
             continue;
 
          if( !domains.flags[col].test( ColFlag::kInactive ) )
@@ -1721,15 +1717,15 @@ ProblemUpdate<REAL>::removeEmptyColumns()
 
             REAL fixval;
 
-            if( num.isZero(obj.coefficients[col]) )
+            if( num.isZero( obj.coefficients[col] ) )
             {
                fixval = 0;
 
                if( !domains.flags[col].test( ColFlag::kUbInf ) &&
-                   num.isLT(domains.upper_bounds[col], 0) )
+                   num.isLT( domains.upper_bounds[col], 0 ) )
                   fixval = domains.upper_bounds[col];
                else if( !domains.flags[col].test( ColFlag::kLbInf ) &&
-                        num.isGT(domains.lower_bounds[col], 0) )
+                        num.isGT( domains.lower_bounds[col], 0 ) )
                   fixval = domains.lower_bounds[col];
 
                // notify for storing the bound for recalculation
@@ -1785,7 +1781,7 @@ ProblemUpdate<REAL>::removeEmptyColumns()
                --problem.getNumContinuousCols();
          }
 
-         assert( num.isZero(obj.coefficients[col]) );
+         assert( num.isZero( obj.coefficients[col] ) );
 
          colsize[col] = -1;
       }
@@ -1874,7 +1870,7 @@ ProblemUpdate<REAL>::checkTransactionConflicts( const Reduction<REAL>* first,
             if( postponeSubstitutions )
                return ConflictType::kPostpone;
          default:
-           break;
+            break;
          }
       }
    }
@@ -1898,9 +1894,8 @@ ProblemUpdate<REAL>::applyTransaction( const Reduction<REAL>* first,
    Vec<RowFlags>& rflags = constraintMatrix.getRowFlags();
 
    auto updateActivity = [this]( ActivityChange actChange, int rowid,
-                                 RowActivity<REAL>& activity ) {
-      update_activity( actChange, rowid, activity );
-   };
+                                 RowActivity<REAL>& activity )
+   { update_activity( actChange, rowid, activity ); };
 
    // check if transaction conflicts with current state
    ConflictType conflictType = checkTransactionConflicts( first, last );
@@ -2060,7 +2055,6 @@ ProblemUpdate<REAL>::applyTransaction( const Reduction<REAL>* first,
 
             auto eqRHS = constraintMatrix.getLeftHandSides()[equalityrow];
 
-
             // make the changes in the constraint matrix
             constraintMatrix.aggregate(
                 num, col, rowvec, eqRHS, problem.getVariableDomains(),
@@ -2168,12 +2162,8 @@ ProblemUpdate<REAL>::applyTransaction( const Reduction<REAL>* first,
                 cflags[col2].test( ColFlag::kInactive ) )
                return ApplyResult::kRejected;
 
-            setColState( col1, State::kBoundsModified );
-            setColState( col2, State::kBoundsModified );
-
             auto col1vec = constraintMatrix.getColumnCoefficients( col1 );
             auto col2vec = constraintMatrix.getColumnCoefficients( col2 );
-
 
             const REAL* vals1 = col1vec.getValues();
             const REAL* vals2 = col2vec.getValues();
@@ -2185,6 +2175,14 @@ ProblemUpdate<REAL>::applyTransaction( const Reduction<REAL>* first,
             assert( num.isEq( objective.coefficients[col1],
                               objective.coefficients[col2] * col2scale ) );
 
+            assert( lbs[col1] == 0 && ubs[col1] == 1 );
+            assert( lbs[col2] == 0 && ubs[col2] == 1 );
+
+            if( num.isGE( abs( col2scale ), 1 ) )
+               return ApplyResult::kRejected;
+
+            setColState( col1, State::kBoundsModified );
+            setColState( col2, State::kBoundsModified );
 
             ++stats.ndeletedcols;
 
@@ -2299,7 +2297,7 @@ ProblemUpdate<REAL>::applyTransaction( const Reduction<REAL>* first,
                msg.detailed( "\n" );
 
                // perform changes in matrix and sides
-               //TODO:
+               // TODO:
                postsolve.storeSubstitution( col1, equalityLHS, offset );
 
                constraintMatrix.aggregate(
@@ -2547,7 +2545,6 @@ ProblemUpdate<REAL>::applyTransaction( const Reduction<REAL>* first,
                constraintMatrix.template modifyLeftHandSide<true>(
                    reduction.row, num, REAL{ 0 } );
 
-
                ++stats.nsidechgs;
             }
             break;
@@ -2648,8 +2645,10 @@ ProblemUpdate<REAL>::merge_parallel_columns(
     ConstraintMatrix<REAL>& constraintMatrix, Vec<REAL>& lbs, Vec<REAL>& ubs,
     Vec<ColFlags>& cflags )
 {
-   const SparseVectorView<REAL>& col1vec = constraintMatrix.getColumnCoefficients(col1);
-   const SparseVectorView<REAL>& col2vec = constraintMatrix.getColumnCoefficients(col2);
+   const SparseVectorView<REAL>& col1vec =
+       constraintMatrix.getColumnCoefficients( col1 );
+   const SparseVectorView<REAL>& col2vec =
+       constraintMatrix.getColumnCoefficients( col2 );
 
    bool col1lbinf = cflags[col1].test( ColFlag::kLbInf );
    bool col1ubinf = cflags[col1].test( ColFlag::kUbInf );
@@ -2663,10 +2662,8 @@ ProblemUpdate<REAL>::merge_parallel_columns(
                                 col2ubinf, ubs[col2], col2scale );
 
    auto updateActivity = [this]( ActivityChange actChange, int rowid,
-       RowActivity<REAL>& activity ) {
-      update_activity( actChange, rowid, activity );
-   };
-
+                                 RowActivity<REAL>& activity )
+   { update_activity( actChange, rowid, activity ); };
 
    const int* inds = col1vec.getIndices();
    const REAL* vals1 = col1vec.getValues();
@@ -2855,7 +2852,7 @@ ProblemUpdate<REAL>::print_detailed( const Reduction<REAL>* first,
       {
          const auto& reduction = *iter;
          msg.detailed( "row {} col {} val {}\n", reduction.row, reduction.col,
-                       (double) reduction.newval );
+                       (double)reduction.newval );
       }
       msg.detailed( "tsx\n" );
    }

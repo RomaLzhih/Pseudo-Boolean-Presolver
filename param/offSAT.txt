@@ -1,0 +1,9 @@
+redundacy = 0
+
+redundacy.parallel = 0
+
+hbr = 0
+
+hbr.parallel = 0
+
+timelimit = 200

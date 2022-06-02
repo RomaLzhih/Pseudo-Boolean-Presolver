@@ -51,7 +51,9 @@ struct Logger {
     ++last_proofID;
   }
 
-  void flush() { proof_out.flush(); }
+  void flush() {
+    proof_out.flush();
+  }
 
   void logComment([[maybe_unused]] const std::string& comment, [[maybe_unused]] const Stats& sts) {
 #if !NDEBUG

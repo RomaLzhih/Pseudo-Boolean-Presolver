@@ -97,6 +97,8 @@ set(source_files
     src/run.cpp
     src/presolving/utils.cpp
     src/presolving/parsing.cpp
+    src/presolving/Constr.cpp
+    src/presolving/SAT.cpp
     src/presolving/MIP.cpp
     src/presolving/runRoundingSat.cpp
     src/presolving/presolve.cpp
@@ -118,11 +120,13 @@ set(source_files
     src/IntSet.hpp
     src/Solver.hpp
     src/parsing.hpp
-    src/presolving/Typedef.hpp
+    src/presolving/typedef.hpp
     src/presolving/runRoundingSat.hpp
-    src/presolving/Auxiliary.hpp
+    src/presolving/auxiliary.hpp
+    src/presolving/Constr.hpp
     src/presolving/utils.hpp
     src/presolving/parsing.hpp
+    src/presolving/SAT.hpp
     src/presolving/MIP.hpp
     src/presolving/presolve.hpp
     src/quit.hpp

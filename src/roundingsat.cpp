@@ -35,6 +35,7 @@ WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "auxiliary.hpp"
 #include "globals.hpp"
 #include "parsing.hpp"
+#include "presolving/presolve.hpp"
 #include "run.hpp"
 
 namespace rs {
@@ -71,19 +72,37 @@ int main(int argc, char** argv) {
   rs::run::solver.init();
   rs::CeArb objective = rs::run::solver.cePools.takeArb();
 
-  //* presolve
-  std::string preSolvedIns = "";
-  rs::pre::PreSolver pre;
-  pre.setInputPath(rs::options.formulaName);
-  pre.MIPSolve();
-  preSolvedIns = pre.getPreSolvedPath();
+  std::cout << "-----------------START PRESOLVE--------------------" << std::endl;
+  int setOnlyPre = 1;
+  std::string infile = rs::options.formulaName;
+  std::string midfile = infile.substr(0, infile.find_last_of('.')) + ".pre.opb";
+  std::string SATparam = "../param/defaultSAT.txt";
+  std::string MIPparam = "../param/defaultMIP.txt";
+  pre::SATPreSolver<pre::bigint> sSolver(infile, SATparam);
+  pre::MIPPreSolver<papilo::Rational> mSolver("", MIPparam);
+  // first SAT
+  sSolver.setOnlyPresolve(setOnlyPre);
+  sSolver.presolve();
+  // now MIP turn
+  mSolver.setOnlyPresolve(setOnlyPre);
+  if (sSolver.getPresolveStatus() == 1)
+    mSolver.setInputIns(midfile);
+  else
+    mSolver.setInputIns(infile);
+  mSolver.run();
+  rs::options.formulaName = midfile;
+  sSolver.writePresolvers(infile);
+  mSolver.writePresolvers(infile);
+  std::cout << " ------------------END PRESOLVE---------------------" << std::endl;
 
-  if (preSolvedIns.empty()) return 0;
-
-  //-------------------run RoundingSat----------------------
-  std::ifstream fin(preSolvedIns);
-  if (!fin) rs::quit::exit_ERROR({"Could not open ", rs::options.formulaName});
-  rs::parsing::file_read(fin, rs::run::solver, objective);  // TODO: add read from std
+  if (!rs::options.formulaName.empty()) {
+    std::ifstream fin(rs::options.formulaName);
+    if (!fin) rs::quit::exit_ERROR({"Could not open ", rs::options.formulaName});
+    rs::parsing::file_read(fin, rs::run::solver, objective);
+  } else {
+    if (rs::options.verbosity.get() > 0) std::cout << "c No filename given, reading from standard input" << std::endl;
+    rs::parsing::file_read(std::cin, rs::run::solver, objective);
+  }
 
   signal(SIGINT, SIGINT_interrupt);
   signal(SIGTERM, SIGINT_interrupt);
@@ -92,10 +111,4 @@ int main(int argc, char** argv) {
   rs::run::solver.initLP(objective);
 
   rs::run::run(objective);
-  //------------------end RoundingSat-----------------------
-  //* post solve
-  pre.MIPPostSolve(rs::run::solver);
-  pre.printSolution();
-
-  return 0;
 }

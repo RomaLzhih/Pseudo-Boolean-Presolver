@@ -16,3 +16,4 @@ simplifyineq
 colsingleton
 stuffing
 sparsify
+pureliteral
