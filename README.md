@@ -16,6 +16,7 @@ In the root directory of `Pre`:
 
 ```bash
 mkdir build 
+cp roundingsat build/
 cd build 
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make
