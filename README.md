@@ -37,6 +37,6 @@ For example:
 
 ```bash
 cd build
-./pre ../test/opt/p0033.opb ../param/defaultSAT ../param/defaultMIP 0 2
+./pre ../test/opt/p0033.opb ../param/defaultSAT.txt ../param/defaultMIP.txt 0 2
 ```
 
