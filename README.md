@@ -40,3 +40,14 @@ cd build
 ./pre ../test/opt/p0033.opb ../param/defaultSAT.txt ../param/defaultMIP.txt 0 2
 ```
 
+## Ciatation
+If you use our code, please cite our paper:
+```
+@phdthesis{menleveraging,
+  title={Leveraging cutting planes reasoning for faster Pseudo-Boolean solving and optimization},
+  author={Men, Ziyang},
+  school={Department of Computer Science, University of Copenhagen}
+}
+
+```
+
